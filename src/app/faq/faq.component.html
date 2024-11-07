@@ -1,21 +1,28 @@
 <section class="justify-content-center">
     <h2>Frequently Asked Questions:</h2>
 
-    <ol>
-        @for (faq of faqList; track $index) 
-        {
-            <li>
-                {{faq.title}}
-                <br>
-                {{faq.answer}}
-                <br>
-                {{faq.materialsId}}
-            </li>
-        } 
-        @empty 
-        {
-            <a>FAQ is empty</a>
-        }
-    </ol>
+    <div>
+        <button (click)="addFaq()">Add</button>
+        <ol>
+            @for (faq of faqList; track $index) 
+            {
+                <li>
+                    {{faq.title}}
+                    <br>
+                    {{faq.answer}}
+                    <br>
+                    {{faq.materialsId}}
+                </li>
+            } 
+            @empty 
+            {
+                <a>FAQ is empty</a>
+            }
+        </ol>
+    </div>
+    <div>
+        <app-add-faq (faqAdded)="FaqAddedInChild($event)"></app-add-faq>
+    </div>
+
     
 </section>
