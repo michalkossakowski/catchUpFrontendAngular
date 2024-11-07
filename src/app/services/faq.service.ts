@@ -23,7 +23,7 @@ export class FaqService {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    return this.http.post<FaqDto>(this.url + "Faq/Add", faq)
+    return this.http.post<FaqDto>(this.url + "Add", faq)
       .pipe(
         catchError(this.handleError<FaqDto>('add'))
       );
