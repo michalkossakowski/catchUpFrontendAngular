@@ -1,0 +1,32 @@
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.8s ease;
+}
+
+.faq-answer.expanded {
+    max-height: 600px; 
+}
+
+.faq-site-title{
+    margin: 20px;
+    text-align: center;
+}
+
+.card-title {
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.4s ease;
+}
+
+.card-title:hover {
+    color: var(--bs-primary)
+}
+
+.card-body {
+    padding-bottom: 10px;
+}
+
+#faq-list{
+    max-width: 800px;
+}

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output  } from '@angular/core';
-import { FaqDto } from '../Dtos/faq.dto';
+import { FaqDto } from '../../Dtos/faq.dto';
 import { FormsModule } from '@angular/forms';
 
 @Component({

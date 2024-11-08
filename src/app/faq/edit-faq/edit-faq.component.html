@@ -1,0 +1,21 @@
+<section class="form-box">
+    <h3>Edit Faq</h3>
+    <form>
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" class="form-control" id="title" [(ngModel)]="editedTitle" name="title"/>
+        </div>
+        <br/>
+        <div class="form-group">
+          <label for="answear">Answear:</label>
+          <textarea class="form-control" id="answear" [(ngModel)]="editedAnswear" rows="4" name="answear"></textarea>
+        </div>
+        <br/>
+        <div class="form-group">
+            <label for="materials">Materials:</label>
+            <input type="number" class="form-control" id="materials" [(ngModel)]="editedMaterials"  name="materials"/>
+        </div>  
+        <br/>
+        <button type="button" class="btn btn-success" (click)="SaveFaq()">Save Faq</button>
+      </form>
+</section>
