@@ -29,6 +29,27 @@ export class FaqService {
       );
   }
 
+  
+  edit(faq: FaqDto): Observable<FaqDto> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.post<FaqDto>(this.url + "Edit/"+faq.id, faq)
+      .pipe(
+        catchError(this.handleError<FaqDto>('edit'))
+      );
+  }
+
+  delete(faq: FaqDto): Observable<FaqDto> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.post<FaqDto>(this.url + "Delete/" + faq.id, faq)
+      .pipe(
+        catchError(this.handleError<FaqDto>('delete'))
+      );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(operation + ' failed' + error);

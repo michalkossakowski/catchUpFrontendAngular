@@ -1,28 +1,50 @@
-<section class="justify-content-center">
-    <h2>Frequently Asked Questions:</h2>
+<section class="container">
+    <h2 class="faq-site-title">Frequently Asked Questions:</h2>
 
-    <div>
-        <button (click)="addFaq()">Add</button>
-        <ol>
-            @for (faq of faqList; track $index) 
-            {
-                <li>
-                    {{faq.title}}
-                    <br>
-                    {{faq.answer}}
-                    <br>
-                    {{faq.materialsId}}
-                </li>
-            } 
-            @empty 
-            {
-                <a>FAQ is empty</a>
+    <section id="faq-list">
+            @for (faq of faqList; track $index) {
+            <div class="mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title" (click)="toggleFaq(faq); showEditFaq = false">
+                            <h5>{{ $index+1 }}. {{ faq.title }}</h5>
+                        </div>
+                        <div [class]="'faq-answer ' + (selectedFaq == faq ? 'expanded' : '' )">
+                            <p className="card-text">{{ faq.answer }}</p>
+                            @if (faq.materialsId){
+                                <h6>Materials:</h6>
+                                <img src="https://placehold.co/400x200"/>
+                                <br>
+                                <a href="#">Plik.pdf</a>
+                                <br>
+                            }
+                            @if(true){ 
+                                <button type="button" class="btn btn-primary" (click)="showEditFaq = true; showAddFaq = false">(only admin) Edit</button>
+                                <button type="button" class="btn btn-danger" (click)="deleteFaq()">(only admin) Delete</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
             }
-        </ol>
-    </div>
-    <div>
-        <app-add-faq (faqAdded)="FaqAddedInChild($event)"></app-add-faq>
-    </div>
+    </section>
+    
+    @if(true){ 
+        <section style="text-align: center;">
+            <button type="button" class="btn btn-primary" (click)="showAddFaq = !showAddFaq;  showEditFaq = false">(only admin) Add open/close</button>
+            <br>
+            @if(showAddFaq){
+                <div>
+                    <app-add-faq (faqAdded)="faqAddedInChild($event)"></app-add-faq>
+                </div>
+            }
+            @if(showEditFaq){
+                <div>
+                    <app-edit-faq [editedFaq]="selectedFaq" (faqEdited)="faqEditedInChild($event)"></app-edit-faq>
+                </div>
+            }
+        </section>
+    }
 
     
 </section>
