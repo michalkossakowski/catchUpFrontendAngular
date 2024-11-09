@@ -1,1 +1,24 @@
-<p>admin-panel works!</p>
+<section class="container">
+
+        <h1 class="title">Admin Panel</h1>
+        <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedAction" >
+            <option value="add-user">AddUser</option>
+            <option value="users">Users</option>
+            <option value="other">Other</option>
+        </select>
+
+    <div class="container">
+        @switch(selectedAction){
+            @case("add-user"){
+                <app-add-user/>
+            }
+            @case("users"){
+                <h2>place for user list</h2>
+            }
+            @case("other"){
+                <h2>other</h2>
+            }
+        }
+    </div>
+
+</section>

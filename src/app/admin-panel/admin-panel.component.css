@@ -1,0 +1,12 @@
+.container{
+    width: 500px;
+}
+
+.title{
+    text-align: center;
+}
+
+.form-select{
+    margin: auto;
+    max-width: 200px;
+}

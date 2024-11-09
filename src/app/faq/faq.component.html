@@ -40,7 +40,7 @@
                                         <br>
                                     }
                                     @if(true){ 
-                                        <button type="button" class="btn btn-primary" (click)="showEditFaq = true; showAddFaq = false">(only admin) Edit</button>
+                                        <button type="button" class="btn btn-primary" (click)="scrollToBottom(); showEditFaq = true; showAddFaq = false">(only admin) Edit</button>
                                         <button type="button" class="btn btn-danger" (click)="deleteFaq()">(only admin) Delete</button>
                                     }
                                 </div>
@@ -53,7 +53,7 @@
     </section>
     
     @if(true){ 
-        <section class="centeredBox">
+        <section id="EditBox">
             <button type="button" class="btn btn-primary" (click)="showAddFaq = !showAddFaq;  showEditFaq = false">(only admin) Add open/close</button>
             <br>
             @if(showAddFaq){
@@ -69,5 +69,6 @@
         </section>
     }
 
-    
+    <section id="EditBox1">
+    </section>
 </section>
