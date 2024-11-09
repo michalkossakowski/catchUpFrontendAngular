@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FaqComponent } from "./faq/faq.component";
-import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { routes } from './app.routes';
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FaqComponent],
+  imports: [RouterOutlet, FaqComponent, RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -13,4 +15,5 @@ import { HttpClientModule } from '@angular/common/http';
 export class AppComponent {
   title = 'catchUpFrontendAngular';
   selectedNav: string = "Home";
+  isNavbarCollapsed: boolean = true; 
 }
