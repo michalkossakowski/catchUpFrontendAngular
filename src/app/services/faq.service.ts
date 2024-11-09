@@ -20,6 +20,13 @@ export class FaqService {
       );
   }
 
+  getById(id: string): Observable<FaqDto> {
+    return this.http.get<FaqDto>(this.url+"GetById/"+id)
+      .pipe(
+        catchError(this.handleError<FaqDto>('GetById'))
+      );
+  }
+
   getByTitle(title: string): Observable<FaqDto[]> {
     return this.http.get<FaqDto[]>(this.url+"GetByTitle/"+title)
       .pipe(

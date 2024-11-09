@@ -1,30 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FaqDto } from '../Dtos/faq.dto';
 import { FaqService } from '../services/faq.service';
-import { AddFaqComponent } from "./add-faq/add-faq.component";
-import { EditFaqComponent } from "./edit-faq/edit-faq.component";
+import { AddFaqComponent } from './add-faq/add-faq.component';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-faq',
   standalone: true,
-  imports: [AddFaqComponent, EditFaqComponent,FormsModule],
+  imports: [FormsModule, AddFaqComponent],
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.css'
 })
 
-export class FaqComponent {
+export class FaqComponent implements OnInit {
   faqList: FaqDto[] = [];
-  showAddFaq: boolean = false;
-  showEditFaq: boolean = false;
   selectedFaq!: FaqDto;
   emptyFaq: FaqDto = new FaqDto('','')
   loading: boolean = true;
   errorMessage!: string;
   showError: boolean = false;
+  showAddFaq: boolean = false;
   public searchingTitle!:string;
 
-  constructor(private faqService: FaqService){}
+  constructor(private faqService: FaqService,private router: Router){}
   
   toggleFaq(faq: FaqDto): void {
     this.selectedFaq = this.selectedFaq === faq ? this.emptyFaq : faq;
@@ -81,30 +81,10 @@ export class FaqComponent {
         console.error(error);
       }
     );
-    this.scrollToBottom()
   }
 
-  faqEditedInChild(editedFaq: FaqDto){
-    this.faqService.edit(editedFaq).subscribe(
-      () => {
-        this.showEditFaq = false;
-        this.getFaqs();
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-  
-  deleteFaq(){
-    this.faqService.delete(this.selectedFaq).subscribe(
-      () => {
-        this.getFaqs(); 
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  openDetailsFaq(){
+    this.router.navigate(['/faq/details', this.selectedFaq.id]);
   }
 
   scrollToBottom(): void {
@@ -116,4 +96,5 @@ export class FaqComponent {
       });
     },50);
   }
+  
 }
