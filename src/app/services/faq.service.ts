@@ -20,10 +20,10 @@ export class FaqService {
       );
   }
 
-  getByTitle(): Observable<FaqDto[]> {
-    return this.http.get<FaqDto[]>(this.url+"GetByTitle")
+  getByTitle(title: string): Observable<FaqDto[]> {
+    return this.http.get<FaqDto[]>(this.url+"GetByTitle/"+title)
       .pipe(
-        catchError(this.handleError<FaqDto[]>('getAll', []))
+        catchError(this.handleError<FaqDto[]>('GetByTitle', []))
       );
   }
 
