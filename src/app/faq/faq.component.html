@@ -1,5 +1,14 @@
 <section class="container">
     <h2 class="faq-site-title">Frequently Asked Questions:</h2>
+    
+    <section class="centeredBox d-flex justify-content-center">
+        <div class="input-group mb-3">
+            <input [(ngModel)]="searchingTitle" (keydown.enter)="getFaqsByTitle()" type="text" class="form-control" placeholder="Enter searching question..." >
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" (click)="getFaqsByTitle()">Search</button>
+            </div>
+        </div>
+    </section>
 
     <section id="faq-list">
         @if(loading){
@@ -44,7 +53,7 @@
     </section>
     
     @if(true){ 
-        <section style="text-align: center;">
+        <section class="centeredBox">
             <button type="button" class="btn btn-primary" (click)="showAddFaq = !showAddFaq;  showEditFaq = false">(only admin) Add open/close</button>
             <br>
             @if(showAddFaq){

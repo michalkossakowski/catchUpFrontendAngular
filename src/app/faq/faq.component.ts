@@ -3,14 +3,16 @@ import { FaqDto } from '../Dtos/faq.dto';
 import { FaqService } from '../services/faq.service';
 import { AddFaqComponent } from "./add-faq/add-faq.component";
 import { EditFaqComponent } from "./edit-faq/edit-faq.component";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-faq',
   standalone: true,
-  imports: [AddFaqComponent, EditFaqComponent],
+  imports: [AddFaqComponent, EditFaqComponent,FormsModule],
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.css'
 })
+
 export class FaqComponent {
   faqList: FaqDto[] = [];
   showAddFaq: boolean = false;
@@ -20,6 +22,7 @@ export class FaqComponent {
   loading: boolean = true;
   errorMessage!: string;
   showError: boolean = false;
+  public searchingTitle!:string;
 
   constructor(private faqService: FaqService){}
   
@@ -31,9 +34,9 @@ export class FaqComponent {
     this.getFaqs();
   }
   
-  async getFaqs() {
+  getFaqs() {
     this.loading = true;
-    await this.faqService.getAll().subscribe(
+    this.faqService.getAll().subscribe(
       (faqList) => {
         this.faqList = faqList
         this.showError = false;
@@ -47,8 +50,29 @@ export class FaqComponent {
     );
   }
 
-  async faqAddedInChild(newFaq: FaqDto) {
-    await this.faqService.add(newFaq).subscribe(
+  getFaqsByTitle() {
+    if(this.searchingTitle.trim().length == 0) {
+      this.getFaqs()
+    }
+    else{
+      this.loading = true;
+      this.faqService.getByTitle(this.searchingTitle).subscribe(
+        (faqList) => {
+          this.faqList = faqList
+          this.showError = false;
+          this.loading = false
+        },
+        (error) => {
+          this.showError = true
+          this.errorMessage = error
+          this.loading = false
+        }
+      );
+    }
+  }
+
+  faqAddedInChild(newFaq: FaqDto) {
+    this.faqService.add(newFaq).subscribe(
       () => {
         this.showAddFaq = false;
         this.getFaqs();
@@ -59,8 +83,8 @@ export class FaqComponent {
     );
   }
 
-  async faqEditedInChild(editedFaq: FaqDto){
-    await this.faqService.add(editedFaq).subscribe(
+  faqEditedInChild(editedFaq: FaqDto){
+    this.faqService.edit(editedFaq).subscribe(
       () => {
         this.showEditFaq = false;
         this.getFaqs();
@@ -71,8 +95,8 @@ export class FaqComponent {
     );
   }
   
-  async deleteFaq(){
-    await this.faqService.delete(this.selectedFaq).subscribe(
+  deleteFaq(){
+    this.faqService.delete(this.selectedFaq).subscribe(
       () => {
         this.getFaqs(); 
       },
