@@ -10,8 +10,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './edit-faq.component.css'
 })
 export class EditFaqComponent {
-  public editedTitle!:string;
-  public editedAnswear!:string;
+  public editedTitle!:string | undefined ;
+  public editedAnswear!:string | undefined ;
   public editedMaterials!:number | undefined | null;
   @Output() faqEdited: EventEmitter<FaqDto> = new EventEmitter();
   
@@ -29,7 +29,7 @@ export class EditFaqComponent {
       return this._editedFaq;
   }
 
-  SaveFaq():void{
+  saveFaq():void{
     this.faqEdited.emit(this.editedFaq);
   }
 

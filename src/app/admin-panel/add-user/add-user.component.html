@@ -1,0 +1,36 @@
+<section class="form-box">
+    <h3>Add new User</h3>
+    <form>
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" class="form-control" id="name" [(ngModel)]="name"  name="name"/>
+        </div>
+        <br/>
+        <div class="form-group">
+          <label for="surname">Surname:</label>
+          <input type="text" class="form-control" id="surname" [(ngModel)]="surname" rows="8"  name="surname"/>
+        </div>
+        <br/>
+        <div class="form-group">
+            <label for="email">E-mail:</label>
+            <input type="text" class="form-control" id="email" [(ngModel)]="email" rows="8"  name="email"/>
+          </div>
+        <br/>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" [(ngModel)]="password" rows="8"  name="password"/>
+          </div>
+        <br/>
+        <div class="form-group">
+            <label for="type">Type:</label>
+            <input type="text" class="form-control" id="type" [(ngModel)]="type" rows="8"  name="type"/>
+          </div>
+        <br/>
+        <div class="form-group">
+            <label for="position">Position:</label>
+            <input type="text" class="form-control" id="position" [(ngModel)]="position" rows="8"  name="position"/>
+          </div>
+        <br/>
+        <button type="button" class="btn btn-success" (click)="addNewUser()">Add User</button>
+      </form>
+</section>

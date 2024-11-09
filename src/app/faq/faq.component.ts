@@ -81,6 +81,7 @@ export class FaqComponent {
         console.error(error);
       }
     );
+    this.scrollToBottom()
   }
 
   faqEditedInChild(editedFaq: FaqDto){
@@ -104,5 +105,15 @@ export class FaqComponent {
         console.error(error);
       }
     );
+  }
+
+  scrollToBottom(): void {
+    setTimeout(() => {
+      const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+      window.scrollTo({
+        top: scrollHeight,
+        behavior: 'smooth'
+      });
+    },50);
   }
 }

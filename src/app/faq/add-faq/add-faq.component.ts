@@ -15,7 +15,7 @@ export class AddFaqComponent {
   public materials!:number;
   @Output() faqAdded: EventEmitter<FaqDto> = new EventEmitter();
   
-  AddNewFaq():void{
+  addNewFaq():void{
     let newFaq = new FaqDto(this.title,this.answear,this.materials)
     this.faqAdded.emit(newFaq);
   }
