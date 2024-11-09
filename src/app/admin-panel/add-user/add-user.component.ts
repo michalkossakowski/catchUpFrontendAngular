@@ -1,44 +1,51 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { UserDto } from '../../Dtos/user.dto';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'; 
 import { UserService } from '../../services/user.service';
+import { UserDto } from '../../Dtos/user.dto';
 
 @Component({
   selector: 'app-add-user',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule], 
   templateUrl: './add-user.component.html',
-  styleUrl: './add-user.component.css'
+  styleUrls: ['./add-user.component.css']
 })
 export class AddUserComponent {
-  public name!:string;
-  public surname!:string;
-  public email!:string;
-  public password!:string;
-  public type!:string;
-  public position!:string;
+  public userForm: FormGroup; 
 
-  constructor(private userService: UserService){}
+  constructor(private userService: UserService, private fb: FormBuilder) {
+  
+    this.userForm = this.fb.group({
+      name: ['', Validators.required],          
+      surname: ['', Validators.required],      
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],    
+      type: ['', Validators.required],         
+      position: ['', Validators.required] 
+    });
+  }
 
   addNewUser() {
-    this.userService.add(
-      new UserDto(
-        this.name,
-        this.surname,
-        this.email,
-        this.password,
-        this.type,
-        this.position
-      )
-    ).subscribe(
-      () => {
-        console.log("dodaned");
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    if (this.userForm.valid) {
+      this.userService.add(
+        new UserDto(
+          this.userForm.value.name,
+          this.userForm.value.surname,
+          this.userForm.value.email,
+          this.userForm.value.password,
+          this.userForm.value.type,
+          this.userForm.value.position
+        )
+      ).subscribe(
+        () => {
+          console.log("User added successfully");
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    } else {
+      console.log('Form is invalid');
+    }
   }
 }
-
-

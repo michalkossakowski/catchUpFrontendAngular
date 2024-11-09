@@ -1,12 +1,12 @@
 .faq-answer {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 1s ease;
+    transition: max-height 0.7s ease;
 }
 
 .faq-answer.expanded {
-    max-height: 5000px; 
-    transition: max-height 5s ease;
+    max-height: 350px; 
+    transition: max-height 0.7s ease;
 }
 
 .faq-site-title{
