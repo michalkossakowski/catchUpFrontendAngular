@@ -9,7 +9,7 @@ import { catchError } from 'rxjs/operators';
 })
 
 export class FaqService {
-  private url = 'https://localhost:7112/api/Faq/';
+  private url = 'https://localhost:7097/api/Faq/';
 
   constructor(private http: HttpClient) { }
 
