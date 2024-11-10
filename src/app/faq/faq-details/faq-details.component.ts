@@ -41,14 +41,16 @@ export class FaqDetailsComponent implements OnInit {
   }
 
   faqEditedInChild(editedFaq: FaqDto){
-    this.faqService.edit(editedFaq).subscribe(
-      () => {
-        this.showEditFaq = false;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    if (confirm("Do you want to save changes?")) {
+      this.faqService.edit(editedFaq).subscribe(
+        () => {
+          this.showEditFaq = false;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
   }
   
   deleteFaq(){
@@ -71,7 +73,7 @@ export class FaqDetailsComponent implements OnInit {
         top: scrollHeight,
         behavior: 'smooth'
       });
-    },50);
+    },0);
   }
 
   backToFaq(){

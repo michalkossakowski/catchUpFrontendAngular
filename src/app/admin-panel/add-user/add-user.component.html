@@ -1,36 +1,83 @@
 <section class="form-box">
   <h3>Add new User</h3>
-  <form [formGroup]="userForm" (ngSubmit)="addNewUser()"> <!-- Bind form to FormGroup -->
+  <form [formGroup]="userForm" (ngSubmit)="addNewUser()"> 
     <div class="form-group">
       <label for="name">Name:</label>
       <input type="text" class="form-control" id="name" formControlName="name" />
+      @if(name?.errors?.['required']){
+        <span class="validator">Name is required</span >
+      }
+      @else if(name?.errors?.['minlength']){
+        <span class="validator">Name should have at least {{name?.errors?.['minlength']?.requiredLength}} characters</span >
+      }
     </div>
     <br/>
     <div class="form-group">
       <label for="surname">Surname:</label>
       <input type="text" class="form-control" id="surname" formControlName="surname" />
+      @if(surname?.errors?.['required']){
+        <span class="validator">Surname is required</span >
+      }
+      @else if(surname?.errors?.['minlength']){
+        <span class="validator">Surname should have at least {{surname?.errors?.['minlength']?.requiredLength}} characters</span >
+      }
     </div>
     <br/>
     <div class="form-group">
-      <label for="email">E-mail:</label>
+      <label for="email">Email:</label>
       <input type="text" class="form-control" id="email" formControlName="email" />
+      @if(email?.errors?.['required']){
+        <span class="validator">Email is required</span >
+      }
+      @else if(email?.errors?.['email']){
+        <span class="validator">Email should look like {{'example@gmail.com'}}</span >
+      }
     </div>
     <br/>
     <div class="form-group">
       <label for="password">Password:</label>
       <input type="password" class="form-control" id="password" formControlName="password" />
+      @if(password?.errors?.['required']){
+        <span class="validator">Password is required</span >
+      }
+      @else if(password?.errors?.['minlength']){
+        <span class="validator">Password should have at least {{password?.errors?.['minlength']?.requiredLength}} characters</span >
+      }
+      @else if(password?.errors?.['strongPassword']){
+        <span class="validator">Password should have special character, small letter, big letter and number</span >
+      }
+    </div>
+    <br/>
+    <div class="form-group">
+      <label for="confirmPassword">Confirm password:</label>
+      <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" />
+      @if(userForm.errors?.['equalPasswords']){
+        <span class="validator">Passwords should be equal</span >
+      }
     </div>
     <br/>
     <div class="form-group">
       <label for="type">Type:</label>
       <input type="text" class="form-control" id="type" formControlName="type" />
+      @if(type?.errors?.['required']){
+        <span class="validator">Type is required</span >
+      }
+      @else if(type?.errors?.['typeAllowed']){
+        <span class="validator">Only allowed types are: "Admin" and "Newbie"</span >
+      }
     </div>
     <br/>
     <div class="form-group">
       <label for="position">Position:</label>
       <input type="text" class="form-control" id="position" formControlName="position" />
+      @if(position?.errors?.['required']){
+        <span class="validator">Position is required</span >
+      }
+      @else if(position?.errors?.['minlength']){
+        <span class="validator">Position should have at least {{position?.errors?.['minlength']?.requiredLength}} characters</span >
+      }
     </div>
     <br/>
-    <button type="submit" class="btn btn-success" [disabled]="userForm.invalid">Add User</button> <!-- Disable button if form is invalid -->
+    <button type="submit" class="btn btn-success" [disabled]="userForm.invalid">Add User</button>
   </form>
 </section>
