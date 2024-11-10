@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { FaqDto } from '../Dtos/faq.dto';
 import { FaqService } from '../services/faq.service';
 import { AddFaqComponent } from './add-faq/add-faq.component';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-
+import { FormControl, FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FilterFaqPipe } from './faqFilter.pipe';
 
 @Component({
   selector: 'app-faq',
   standalone: true,
-  imports: [FormsModule, AddFaqComponent],
+  imports: [FormsModule, AddFaqComponent, ReactiveFormsModule, FilterFaqPipe],
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.css'
 })
+
 
 export class FaqComponent implements OnInit {
   faqList: FaqDto[] = [];
@@ -22,9 +23,16 @@ export class FaqComponent implements OnInit {
   errorMessage!: string;
   showError: boolean = false;
   showAddFaq: boolean = false;
-  public searchingTitle!:string;
+  filterValue!: string;
+  filterControl: FormControl = new FormControl();
 
-  constructor(private faqService: FaqService,private router: Router){}
+  constructor(private faqService: FaqService,private router: Router)
+  {
+    this.filterControl.valueChanges.subscribe({
+      next: val => { this.filterValue = val; },
+      error: error => console.error(error)
+    });
+  }
   
   toggleFaq(faq: FaqDto): void {
     this.selectedFaq = this.selectedFaq === faq ? this.emptyFaq : faq;
@@ -50,27 +58,6 @@ export class FaqComponent implements OnInit {
     );
   }
 
-  getFaqsByTitle() {
-    if(this.searchingTitle.trim().length == 0) {
-      this.getFaqs()
-    }
-    else{
-      this.loading = true;
-      this.faqService.getByTitle(this.searchingTitle).subscribe(
-        (faqList) => {
-          this.faqList = faqList
-          this.showError = false;
-          this.loading = false
-        },
-        (error) => {
-          this.showError = true
-          this.errorMessage = error
-          this.loading = false
-        }
-      );
-    }
-  }
-
   faqAddedInChild(newFaq: FaqDto) {
     this.faqService.add(newFaq).subscribe(
       () => {
@@ -94,7 +81,7 @@ export class FaqComponent implements OnInit {
         top: scrollHeight,
         behavior: 'smooth'
       });
-    },50);
+    },0);
   }
   
 }

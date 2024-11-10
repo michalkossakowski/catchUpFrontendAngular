@@ -20,7 +20,7 @@
         <div class="buttonBox">
             <button type="button" class="btn btn-primary" (click)="backToFaq()">Back</button>
             @if(true){ 
-                <button type="button" class="btn btn-primary" (click)="scrollToBottom(); showEditFaq = !showEditFaq">{{showEditFaq ? 'Cancel Editing' : 'Edit'}}</button>
+                <button type="button" class="btn btn-primary" (click)="showEditFaq = !showEditFaq; showEditFaq ? scrollToBottom() : true;">{{showEditFaq ? 'Cancel Editing' : 'Edit'}}</button>
                 <button type="button" class="btn btn-danger" (click)="deleteFaq()">Delete</button>
             }
         </div>

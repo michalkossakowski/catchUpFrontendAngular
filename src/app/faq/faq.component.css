@@ -56,12 +56,10 @@
     margin: 20px;
 }
 
-
 #EditBox{
     text-align: center;
 }
 
 .input-group{
-    min-width: 300px;
-    width: 50%;
+    width: 350px;
 }
