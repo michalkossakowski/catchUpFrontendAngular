@@ -10,4 +10,5 @@ import { MaterialService } from '../services/material.service';
   styleUrl: './material.component.css'
 })
 export class MaterialComponent {
+  
 }
