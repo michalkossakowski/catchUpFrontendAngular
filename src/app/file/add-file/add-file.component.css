@@ -1,0 +1,9 @@
+input{
+    display: none;
+}
+.dropzone{
+    width: 300px;
+    height: 200px;
+    border-style: dashed;
+    border-width: 1px;
+}

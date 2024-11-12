@@ -28,8 +28,22 @@
           </li>
         </ul>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </section>
+  
+  <section class="container-fluid  d-flex justify-content-center ">
+    @switch (selectedNav) {
+      @case ("Home") {
+        <h1>Welcome back John Lennon</h1>
+      }
+      @case ("FAQ") {
+        <app-faq></app-faq>
+      }
+      @case ("Schoolings") {
+        <app-schoolings></app-schoolings>
+      }
+    }
+  </section>
 </header>
 
 <main class="container-fluid  d-flex justify-content-center ">

@@ -1,0 +1,9 @@
+.hoverIcon :hover{
+    fill: greenyellow;
+}
+.deleteIcon{
+    fill: red;
+}
+.downloadIcon{
+    fill: aqua;
+}
