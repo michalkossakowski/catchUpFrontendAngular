@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output  } from '@angular/core';
+import { Component, EventEmitter, Input, output, Output  } from '@angular/core';
 import { FileService } from '../../services/file.service';
+import { FileDto } from '../../Dtos/file.dto';
 @Component({
   selector: 'app-add-file',
   standalone: true,
@@ -9,6 +10,8 @@ import { FileService } from '../../services/file.service';
 })
 
 export class AddFileComponent {
+  @Input() materialId: number = 0;
+  @Output() fileUploaded = new EventEmitter<FileDto>();
   isFileOver: boolean = false; 
 
   constructor(private fileService: FileService) {}
@@ -19,7 +22,6 @@ export class AddFileComponent {
   }
   onDragLeave(event: DragEvent) {
     event.preventDefault();
-    event.stopPropagation();
     this.isFileOver = false;
   }
   onDrop(event: DragEvent) {
@@ -38,9 +40,25 @@ export class AddFileComponent {
     }
   }
   private uploadFile(file: File) {
-    this.fileService.uploadFile(file).subscribe(
-      (response: any) => console.log('File uploaded successfully:', response),
-      (error: any) => console.error('File upload failed:', error)
-    );
+    console.log(this.materialId)
+    if (this.materialId !== 0) {
+      this.fileService.uploadFile(file, this.materialId).subscribe(
+        response => 
+          {
+          console.log('File uploaded successfully:', response)
+          this.fileUploaded.emit(response.fileDto);
+          },
+        error => console.error('File upload failed:', error)
+      );
+    } else {
+      this.fileService.uploadFile(file).subscribe(
+        response => 
+          {
+          console.log('File uploaded successfully:', response)
+          this.fileUploaded.emit(response.fileDto);
+          },
+        error => console.error('File upload failed:', error)
+      );
+    }
   }
 }

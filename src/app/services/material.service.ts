@@ -11,7 +11,12 @@ export class MaterialService {
   constructor(private http: HttpClient) {}
 
   getMaterialWithFiles(materialId: number): Observable<{ message: string, materialDto: MaterialDto }> {
-    return this.http.get<{ message: string, materialDto: MaterialDto }>(`${this.url}GetWithFiles/${materialId}`);
+    return this.http.get<{ message: string, materialDto: MaterialDto }>(`${this.url}GetWithFiles/${materialId}`)
   }
-
+  removeFile(materialId: Number, fileId: Number): Observable<any>{
+    return this.http.post(`${this.url}RemoveFile/${materialId}/${fileId}`,null)
+  }
+  createMaterial(material: { name: string }): Observable<{material: MaterialDto, message: string}> {
+    return this.http.post<{material: MaterialDto, message: string}>(`${this.url}Create`, material);
+  }
 }
