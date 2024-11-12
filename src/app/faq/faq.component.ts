@@ -1,52 +1,87 @@
-import { Component } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { FaqDto } from '../Dtos/faq.dto';
 import { FaqService } from '../services/faq.service';
-import { AddFaqComponent } from "./add-faq/add-faq.component";
-import { EditFaqComponent } from "./edit-faq/edit-faq.component";
+import { AddFaqComponent } from './add-faq/add-faq.component';
+import { Router } from '@angular/router';
+import { FormControl, FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FilterFaqPipe } from './faqFilter.pipe';
 
 @Component({
   selector: 'app-faq',
   standalone: true,
-  imports: [AddFaqComponent, EditFaqComponent],
+  imports: [FormsModule, AddFaqComponent, ReactiveFormsModule, FilterFaqPipe],
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.css'
 })
-export class FaqComponent {
-  faqList!: FaqDto[];
-  showAddFaq: boolean = false;
-  showEditFaq: boolean = false;
+
+
+export class FaqComponent implements OnInit {
+  faqList: FaqDto[] = [];
   selectedFaq!: FaqDto;
   emptyFaq: FaqDto = new FaqDto('','')
+  loading: boolean = true;
+  errorMessage!: string;
+  showError: boolean = false;
+  showAddFaq: boolean = false;
+  filterValue!: string;
+  filterControl: FormControl = new FormControl();
 
-  constructor(private faqService: FaqService){
-   this.getFaqs();
+  constructor(private faqService: FaqService,private router: Router)
+  {
+    this.filterControl.valueChanges.subscribe({
+      next: val => { this.filterValue = val; },
+      error: error => console.error(error)
+    });
   }
-
-  getFaqs(){
-    this.faqService.getAll().subscribe(faqList => this.faqList = faqList)
-  }
-
+  
   toggleFaq(faq: FaqDto): void {
     this.selectedFaq = this.selectedFaq === faq ? this.emptyFaq : faq;
   }
 
-  async faqAddedInChild(newFaq: FaqDto){
-    await this.faqService.add(newFaq).subscribe(() => {
-      this.showAddFaq = false;
-      this.getFaqs();
-    });
-  }
-
-  async faqEditedInChild(editedFaq: FaqDto){
-    await this.faqService.edit(editedFaq).subscribe(() => {
-      this.showEditFaq = false;
-      this.getFaqs();
-    });
+  ngOnInit(): void {
+    this.getFaqs();
   }
   
-  async deleteFaq(){
-    await this.faqService.delete(this.selectedFaq).subscribe(() => {
-      this.getFaqs(); 
-    });
+  getFaqs() {
+    this.loading = true;
+    this.faqService.getAll().subscribe(
+      (faqList) => {
+        this.faqList = faqList
+        this.showError = false;
+        this.loading = false
+      },
+      (error) => {
+        this.showError = true
+        this.errorMessage = error
+        this.loading = false
+      }
+    );
   }
+
+  faqAddedInChild(newFaq: FaqDto) {
+    this.faqService.add(newFaq).subscribe(
+      () => {
+        this.showAddFaq = false;
+        this.getFaqs();
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  openDetailsFaq(){
+    this.router.navigate(['/faq/details', this.selectedFaq.id]);
+  }
+
+  scrollToBottom(): void {
+    setTimeout(() => {
+      const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+      window.scrollTo({
+        top: scrollHeight,
+        behavior: 'smooth'
+      });
+    },0);
+  }
+  
 }

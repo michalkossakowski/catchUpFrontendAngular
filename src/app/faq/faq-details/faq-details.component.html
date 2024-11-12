@@ -1,0 +1,44 @@
+<section class="faqBox">
+
+    @if(faq != null){
+        <h2 class="title">{{faq.title}}</h2>
+        <div class="card">
+            <div class="card-body">
+                <div class="faq-answer">
+                    <p className="card-text">{{ faq.answer }}</p>
+                    @if (faq.materialsId){
+                        <h6>Materials:</h6>
+                        <img src="https://placehold.co/400x200"/>
+                        <br>
+                        <a href="#">Plik.pdf</a>
+                        <br>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="buttonBox">
+            <button type="button" class="btn btn-primary" (click)="backToFaq()">Back</button>
+            @if(true){ 
+                <button type="button" class="btn btn-primary" (click)="showEditFaq = !showEditFaq; showEditFaq ? scrollToBottom() : true;">{{showEditFaq ? 'Cancel Editing' : 'Edit'}}</button>
+                <button type="button" class="btn btn-danger" (click)="deleteFaq()">Delete</button>
+            }
+        </div>
+        
+            
+        @if(true){ 
+            <section id="EditBox">
+                @if(showEditFaq){
+                    <div>
+                        <app-edit-faq [editedFaq]="faq" (faqEdited)="faqEditedInChild($event)"></app-edit-faq>
+                    </div>
+                }
+            </section>
+        }
+    }
+    @else{
+        <div class="alert alert-danger" role="alert">
+            Question with id: [{{faqId}}] don't exists 
+        </div>
+    }
+</section>

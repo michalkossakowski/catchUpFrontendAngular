@@ -1,0 +1,17 @@
+.faqBox{
+    margin: 50px;
+    max-width: 1000px;
+}
+
+.title{
+    text-align: center;
+}
+
+.buttonBox{
+    margin: 10px;
+    text-align: center;
+}
+
+.buttonBox > button{
+    margin: 5px;
+}

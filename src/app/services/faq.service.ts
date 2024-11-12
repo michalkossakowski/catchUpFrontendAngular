@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FaqDto } from '../Dtos/faq.dto';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class FaqService {
-  private url = 'https://localhost:7112/api/Faq/';
+  private url = 'https://localhost:7097/api/Faq/';
 
   constructor(private http: HttpClient) { }
 
@@ -16,6 +17,20 @@ export class FaqService {
     return this.http.get<FaqDto[]>(this.url+"GetAll")
       .pipe(
         catchError(this.handleError<FaqDto[]>('getAll', []))
+      );
+  }
+
+  getById(id: string): Observable<FaqDto> {
+    return this.http.get<FaqDto>(this.url+"GetById/"+id)
+      .pipe(
+        catchError(this.handleError<FaqDto>('GetById'))
+      );
+  }
+
+  getByTitle(title: string): Observable<FaqDto[]> {
+    return this.http.get<FaqDto[]>(this.url+"GetByTitle/"+title)
+      .pipe(
+        catchError(this.handleError<FaqDto[]>('GetByTitle', []))
       );
   }
 
@@ -28,23 +43,19 @@ export class FaqService {
         catchError(this.handleError<FaqDto>('add'))
       );
   }
-
   
   edit(faq: FaqDto): Observable<FaqDto> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    return this.http.post<FaqDto>(this.url + "Edit/"+faq.id, faq)
+    return this.http.put<FaqDto>(this.url + "Edit/"+faq.id, faq)
       .pipe(
         catchError(this.handleError<FaqDto>('edit'))
       );
   }
 
   delete(faq: FaqDto): Observable<FaqDto> {
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
-    return this.http.post<FaqDto>(this.url + "Delete/" + faq.id, faq)
+    return this.http.delete<FaqDto>(this.url + "Delete/" + faq.id)
       .pipe(
         catchError(this.handleError<FaqDto>('delete'))
       );
@@ -53,7 +64,10 @@ export class FaqService {
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(operation + ' failed' + error);
-      return of(result as T);
+      if(error.status == 0){
+        return throwError(() => new Error('API is not available'));
+      }
+      return throwError(() => new Error(error.error.message));
     };
   }
 }

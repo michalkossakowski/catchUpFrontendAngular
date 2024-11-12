@@ -1,50 +1,57 @@
 <section class="container">
     <h2 class="faq-site-title">Frequently Asked Questions:</h2>
+    
+    <section class="d-flex justify-content-center">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Search :</span>
+            <input [formControl]="filterControl" name-="filter" type="text" class="form-control" placeholder="Enter searching question..." >
+        </div>
+    </section>
 
     <section id="faq-list">
-            @for (faq of faqList; track $index) {
-            <div class="mb-2">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-title" (click)="toggleFaq(faq); showEditFaq = false">
-                            <h5>{{ $index+1 }}. {{ faq.title }}</h5>
-                        </div>
-                        <div [class]="'faq-answer ' + (selectedFaq == faq ? 'expanded' : '' )">
-                            <p className="card-text">{{ faq.answer }}</p>
-                            @if (faq.materialsId){
-                                <h6>Materials:</h6>
-                                <img src="https://placehold.co/400x200"/>
-                                <br>
-                                <a href="#">Plik.pdf</a>
-                                <br>
-                            }
-                            @if(true){ 
-                                <button type="button" class="btn btn-primary" (click)="showEditFaq = true; showAddFaq = false">(only admin) Edit</button>
-                                <button type="button" class="btn btn-danger" (click)="deleteFaq()">(only admin) Delete</button>
-                            }
+        @if(loading){
+            <div class="loaderBox">
+                <span class="loader"></span>
+            </div>
+        }
+        @else{
+            @if(showError){
+                <div class="alert alert-danger" role="alert">
+                    {{errorMessage}}
+                </div>
+            }
+            @else if((faqList | faqFilter:filterValue).length == 0){
+                <div class="alert alert-warning" role="alert">
+                    There is no FAQs with '{{filterValue}}' in title
+                </div>
+            }
+            @else{
+                @for (faq of faqList | faqFilter:filterValue; track $index) {
+                    <div class="mb-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title" (click)="toggleFaq(faq)">
+                                    <h5>{{ $index+1 }}. {{ faq.title }}</h5>
+                                </div>
+                                <div [class]="'faq-answer ' + (selectedFaq == faq ? 'expanded' : '' )">
+                                    <p className="card-text">
+                                        {{(faq.answer?.slice(0,500))}} . . .
+                                    </p>
+                                    <a type="button" class="btn btn-outline-primary" (click)="openDetailsFaq()">See more...</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                }
             }
+        }
     </section>
-    
-    @if(true){ 
-        <section style="text-align: center;">
-            <button type="button" class="btn btn-primary" (click)="showAddFaq = !showAddFaq;  showEditFaq = false">(only admin) Add open/close</button>
-            <br>
-            @if(showAddFaq){
-                <div>
-                    <app-add-faq (faqAdded)="faqAddedInChild($event)"></app-add-faq>
-                </div>
-            }
-            @if(showEditFaq){
-                <div>
-                    <app-edit-faq [editedFaq]="selectedFaq" (faqEdited)="faqEditedInChild($event)"></app-edit-faq>
-                </div>
-            }
-        </section>
-    }
-
-    
+    <section id="EditBox">
+        <button type="button" class="btn btn-primary" (click)="showAddFaq = !showAddFaq; showAddFaq ? scrollToBottom() : true;">{{showAddFaq ? 'Cancel Adding' : 'Add Faq'}}</button>
+        @if(showAddFaq){
+            <div>
+                <app-add-faq (faqAdded)="faqAddedInChild($event)"></app-add-faq>
+            </div>
+        }
+    </section>
 </section>

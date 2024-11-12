@@ -1,9 +1,8 @@
 .form-box{
     text-align: left;
     margin: 10px;
-    width: 100%;
 }
 
-button{
-    margin-right: 10px;
+.validator{
+    color: red;
 }
