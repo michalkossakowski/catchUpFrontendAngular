@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
-import { CommonModule } from '@angular/common';import { FaqComponent } from "./faq/faq.component";
+import { CommonModule } from '@angular/common';
+import { FaqComponent } from "./faq/faq.component";
 import { SchoolingsComponent } from './schoolings/schoolings.component';
 import { HttpClientModule } from '@angular/common/http';
 @Component({
@@ -11,8 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     RouterOutlet, 
     FaqComponent, 
-    SchoolingsComponent
-    RouterModule
+    SchoolingsComponent,
+    RouterModule,
     CommonModule
   ],
   templateUrl: './app.component.html',
