@@ -4,11 +4,12 @@ import { FaqService } from '../../services/faq.service';
 import { FaqDto } from '../../Dtos/faq.dto';
 import { Location } from '@angular/common';
 import { EditFaqComponent } from "../edit-faq/edit-faq.component";
+import { MaterialItemComponent } from "../../material/material-item/material-item.component";
 
 @Component({
   selector: 'app-faq-details',
   standalone: true,
-  imports: [EditFaqComponent],
+  imports: [EditFaqComponent, MaterialItemComponent],
   templateUrl: './faq-details.component.html',
   styleUrl: './faq-details.component.css'
 })
@@ -17,11 +18,11 @@ export class FaqDetailsComponent implements OnInit {
   errorMessage: string = '';
   showError: boolean = false;
   showEditFaq: boolean = false;
-  faqId!: string|null;
+  faqId!: string;
   constructor(private faqService: FaqService, private route: ActivatedRoute,private location: Location) {}
 
   async ngOnInit(){
-    this.faqId = this.route.snapshot.paramMap.get('id');
+    this.faqId = this.route.snapshot.paramMap.get('id') ?? "";
     if (this.faqId) {
       this.getFaqDetails(this.faqId);  
     }
@@ -45,6 +46,7 @@ export class FaqDetailsComponent implements OnInit {
       this.faqService.edit(editedFaq).subscribe(
         () => {
           this.showEditFaq = false;
+          window.location.reload();
         },
         (error) => {
           console.error(error);
