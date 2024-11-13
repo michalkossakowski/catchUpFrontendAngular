@@ -11,7 +11,13 @@
           <textarea class="form-control" id="answear" [(ngModel)]="answear" rows="8"  name="answear" placeholder="Enter answear here ..."></textarea>
         </div>
         <br/>
-        <app-material-item (materialCreated)="onMaterialCreated($event)"></app-material-item>
+        <app-material-item 
+          (materialCreated)="onMaterialCreated($event)"
+          [showRemoveFile]="true"
+          [showDownloadFile]="true"
+          [showAddingFile]="true"
+          >
+        </app-material-item>
         <br/>
         <button type="button" class="btn btn-success" (click)="addNewFaq()">Add Faq</button>
       </form>

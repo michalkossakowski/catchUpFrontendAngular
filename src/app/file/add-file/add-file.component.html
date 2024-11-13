@@ -17,7 +17,7 @@
         <p class="text-body-tertiary fs-6 opacity-50 p-0 m-0">or</p>
     </div>
     <div class="m-3">
-        <input type="file" id="formFile">
+        <input type="file" id="formFile" (change)="onFileSelected($event)">
         <label for="formFile" class="btn btn-outline-primary">Browse for file</label>
     </div>
 </div>

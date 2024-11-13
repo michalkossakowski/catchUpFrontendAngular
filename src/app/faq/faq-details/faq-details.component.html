@@ -7,7 +7,10 @@
                 <div class="faq-answer">
                     <p className="card-text">{{ faq.answer }}</p>
                     @if (faq.materialsId){
-                        <app-material-item [materialId]='faq.materialsId'></app-material-item>
+                        <app-material-item 
+                            [materialId]='faq.materialsId' 
+                            [showDownloadFile]="true">
+                        </app-material-item>
                     }
                 </div>
             </div>

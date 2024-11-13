@@ -18,6 +18,10 @@ export class MaterialItemComponent {
   materialName!: string;
 
   @Input() materialId: number = 0;
+  @Input() showRemoveFile: boolean = false;  
+  @Input() showDownloadFile: boolean = false;  
+  @Input() showAddingFile: boolean = false;  
+
   @Output() materialCreated = new EventEmitter<number>(); // Emituje ID nowo utworzonego materiału
 
   url! :string;
@@ -25,6 +29,9 @@ export class MaterialItemComponent {
   ngOnInit (): void {
     if(this.materialId!=0)
       this.getMaterial(this.materialId);
+    console.log(this.showRemoveFile)
+    console.log(this.showDownloadFile)
+
   }
   removeFile(fileId: number) : void {
     this.materialService.removeFile(this.material.id,fileId).subscribe(()=>

@@ -13,7 +13,13 @@
         <br/>
      
         @if(editedMaterialsId){
-          <app-material-item [materialId]='editedMaterialsId'></app-material-item>
+          <app-material-item 
+            [materialId]='editedMaterialsId'
+            [showRemoveFile]="true"
+            [showDownloadFile]="true"
+            [showAddingFile]="true"
+          >
+          </app-material-item>
           <button type="button" class="btn btn-danger" (click)="removeMaterials()">Remove Materials</button>
         }
         @else{

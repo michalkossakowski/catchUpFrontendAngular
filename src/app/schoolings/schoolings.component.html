@@ -1,1 +1,8 @@
-<app-material-item [materialId]="materialId" (materialCreated)="onMaterialCreated($event)"></app-material-item>
+<app-material-item 
+    [materialId]="materialId" 
+    [showRemoveFile]="true"
+    [showDownloadFile]="true"
+    [showAddingFile]="true"
+    (materialCreated)="onMaterialCreated($event)" 
+    >
+</app-material-item>
