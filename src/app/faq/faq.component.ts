@@ -5,11 +5,12 @@ import { AddFaqComponent } from './add-faq/add-faq.component';
 import { Router } from '@angular/router';
 import { FormControl, FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { FilterFaqPipe } from './faqFilter.pipe';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-faq',
   standalone: true,
-  imports: [FormsModule, AddFaqComponent, ReactiveFormsModule, FilterFaqPipe],
+  imports: [FormsModule, AddFaqComponent, ReactiveFormsModule, FilterFaqPipe, NgbAccordionModule],
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.css'
 })

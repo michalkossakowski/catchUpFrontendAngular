@@ -7,11 +7,7 @@
                 <div class="faq-answer">
                     <p className="card-text">{{ faq.answer }}</p>
                     @if (faq.materialsId){
-                        <h6>Materials:</h6>
-                        <img src="https://placehold.co/400x200"/>
-                        <br>
-                        <a href="#">Plik.pdf</a>
-                        <br>
+                        <app-material-item [materialId]='faq.materialsId'></app-material-item>
                     }
                 </div>
             </div>

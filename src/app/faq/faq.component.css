@@ -1,31 +1,6 @@
-.faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.7s ease;
-}
-
-.faq-answer.expanded {
-    max-height: 350px; 
-    transition: max-height 0.7s ease;
-}
-
 .faq-site-title{
     margin: 20px;
     text-align: center;
-}
-
-.card-title {
-    cursor: pointer;
-    font-weight: bold;
-    transition: color 0.4s ease;
-}
-
-.card-title:hover {
-    color: var(--bs-primary)
-}
-
-.card-body {
-    padding-bottom: 10px;
 }
 
 #faq-list{
@@ -51,6 +26,7 @@
         transform: rotate(360deg);
     }
 } 
+
 .loaderBox{
     text-align: center;
     margin: 20px;

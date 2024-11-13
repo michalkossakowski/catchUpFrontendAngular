@@ -26,23 +26,25 @@
                 </div>
             }
             @else{
-                @for (faq of faqList | faqFilter:filterValue; track $index) {
-                    <div class="mb-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="card-title" (click)="toggleFaq(faq)">
-                                    <h5>{{ $index+1 }}. {{ faq.title }}</h5>
-                                </div>
-                                <div [class]="'faq-answer ' + (selectedFaq == faq ? 'expanded' : '' )">
-                                    <p className="card-text">
-                                        {{(faq.answer?.slice(0,500))}} . . .
-                                    </p>
-                                    <a type="button" class="btn btn-outline-primary" (click)="openDetailsFaq()">See more...</a>
+                <div ngbAccordion [closeOthers]="true">
+                    @for (faq of faqList | faqFilter:filterValue; track $index) {
+                        <div ngbAccordionItem (click)="toggleFaq(faq)" >
+                            <h2 ngbAccordionHeader>
+                                <button ngbAccordionButton><h5>{{$index+1}}. {{ faq.title }}</h5></button>
+                            </h2>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
+                                    <ng-template>
+                                        <p>
+                                            {{(faq.answer?.slice(0,500))}} . . .
+                                        </p>
+                                        <a type="button" class="btn btn-outline-primary" (click)="openDetailsFaq()">See more...</a>
+                                    </ng-template>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             }
         }
     </section>

@@ -11,10 +11,7 @@
           <textarea class="form-control" id="answear" [(ngModel)]="answear" rows="8"  name="answear" placeholder="Enter answear here ..."></textarea>
         </div>
         <br/>
-        <div class="form-group">
-            <label for="materials">Materials:</label>
-            <input type="number" class="form-control" id="materials" [(ngModel)]="materials" name="materials" placeholder="(optional)">
-        </div>  
+        <app-material-item (materialCreated)="onMaterialCreated($event)"></app-material-item>
         <br/>
         <button type="button" class="btn btn-success" (click)="addNewFaq()">Add Faq</button>
       </form>
