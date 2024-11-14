@@ -1,7 +1,7 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { FaqDto } from '../Dtos/faq.dto';
 import { FaqService } from '../services/faq.service';
-import { AddFaqComponent } from './add-faq/add-faq.component';
+import { AddFaqComponent } from './add-edit-faq/add-edit-faq.component';
 import { Router } from '@angular/router';
 import { FormControl, FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { FilterFaqPipe } from './faqFilter.pipe';

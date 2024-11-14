@@ -19,4 +19,7 @@ export class MaterialService {
   createMaterial(material: { name: string }): Observable<{material: MaterialDto, message: string}> {
     return this.http.post<{material: MaterialDto, message: string}>(`${this.url}Create`, material);
   }
+  deleteMaterial(materialId: Number): Observable<any>{
+    return this.http.delete(`${this.url}Delete/${materialId}`)
+  }
 }

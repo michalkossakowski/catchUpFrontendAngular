@@ -3,9 +3,6 @@
     text-align: center;
 }
 
-#faq-list{
-    max-width: 1000px;
-}
 
 .loader {
     width: 48px;
@@ -33,9 +30,18 @@
 }
 
 #EditBox{
+    margin: 20px;
     text-align: center;
 }
 
 .input-group{
     width: 350px;
+}
+
+#faq-list{
+    max-width: 1000px;
+}
+
+.accordionBody{
+    max-width: 800px
 }

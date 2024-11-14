@@ -3,13 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { FaqService } from '../../services/faq.service';
 import { FaqDto } from '../../Dtos/faq.dto';
 import { Location } from '@angular/common';
-import { EditFaqComponent } from "../edit-faq/edit-faq.component";
 import { MaterialItemComponent } from "../../material/material-item/material-item.component";
+import { AddFaqComponent } from "../add-edit-faq/add-edit-faq.component";
 
 @Component({
   selector: 'app-faq-details',
   standalone: true,
-  imports: [EditFaqComponent, MaterialItemComponent],
+  imports: [MaterialItemComponent, AddFaqComponent],
   templateUrl: './faq-details.component.html',
   styleUrl: './faq-details.component.css'
 })
