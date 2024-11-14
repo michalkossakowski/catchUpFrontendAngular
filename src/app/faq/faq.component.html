@@ -33,12 +33,13 @@
                                 <button ngbAccordionButton><h5>{{$index+1}}. {{ faq.title }}</h5></button>
                             </h2>
                             <div ngbAccordionCollapse>
-                                <div ngbAccordionBody>
+                                <div ngbAccordionBody class="accordionBody">
                                     <ng-template>
                                         <p>
-                                            {{(faq.answer?.slice(0,500))}} . . .
+                                            {{ faq.answer.length > 400 ? faq.answer.slice(0, 300) + ' . . .' : faq.answer }}
+
                                         </p>
-                                        <a type="button" class="btn btn-outline-primary" (click)="openDetailsFaq()">See more...</a>
+                                        <a type="button" class="btn btn-outline-primary" (click)="openDetailsFaq()">See details</a>
                                     </ng-template>
                                 </div>
                             </div>
@@ -52,7 +53,7 @@
         <button type="button" class="btn btn-primary" (click)="showAddFaq = !showAddFaq; showAddFaq ? scrollToBottom() : true;">{{showAddFaq ? 'Cancel Adding' : 'Add Faq'}}</button>
         @if(showAddFaq){
             <div>
-                <app-add-faq (faqAdded)="faqAddedInChild($event)"></app-add-faq>
+                <app-add-edit-faq (faqAdded)="faqAddedInChild($event)"></app-add-edit-faq>
             </div>
         }
     </section>

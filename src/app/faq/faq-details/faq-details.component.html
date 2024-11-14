@@ -4,15 +4,14 @@
         <h2 class="title">{{faq.title}}</h2>
         <div class="card">
             <div class="card-body">
-                <div class="faq-answer">
-                    <p className="card-text">{{ faq.answer }}</p>
-                    @if (faq.materialsId){
-                        <app-material-item 
-                            [materialId]='faq.materialsId' 
-                            [showDownloadFile]="true">
-                        </app-material-item>
-                    }
-                </div>
+                <div>{{ faq.answer }}</div>
+                @if (faq.materialsId){
+                    <br/>
+                    <app-material-item 
+                        [materialId]='faq.materialsId' 
+                        [showDownloadFile]="true">
+                    </app-material-item>
+                }
             </div>
         </div>
 
@@ -29,7 +28,7 @@
             <section id="EditBox">
                 @if(showEditFaq){
                     <div>
-                        <app-edit-faq [editedFaq]="faq" (faqEdited)="faqEditedInChild($event)"></app-edit-faq>
+                        <app-add-edit-faq [editedFaq]="faq" (faqEdited)="faqEditedInChild($event)"></app-add-edit-faq>
                     </div>
                 }
             </section>

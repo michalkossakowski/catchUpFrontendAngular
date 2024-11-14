@@ -1,7 +1,10 @@
 .form-box{
     text-align: left;
     margin: 10px;
-    width: 100%;
+}
+
+.validator{
+    color: red;
 }
 
 button{

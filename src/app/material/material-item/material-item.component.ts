@@ -29,9 +29,6 @@ export class MaterialItemComponent {
   ngOnInit (): void {
     if(this.materialId!=0)
       this.getMaterial(this.materialId);
-    console.log(this.showRemoveFile)
-    console.log(this.showDownloadFile)
-
   }
   removeFile(fileId: number) : void {
     this.materialService.removeFile(this.material.id,fileId).subscribe(()=>
