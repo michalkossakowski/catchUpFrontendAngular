@@ -4,18 +4,18 @@ import { FileDto } from '../../Dtos/file.dto';
 import { MaterialService } from '../../services/material.service';
 import { AddFileComponent } from '../../file/add-file/add-file.component'
 import { FileService } from '../../services/file.service';
-import {FormsModule} from '@angular/forms';
-
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 @Component({
   selector: 'app-material-item',
   standalone: true,
-  imports: [AddFileComponent, FormsModule],
+  imports: [AddFileComponent, ReactiveFormsModule],
   templateUrl: './material-item.component.html',
   styleUrl: './material-item.component.css'
 })
 export class MaterialItemComponent {
   material!: MaterialDto;
   materialName!: string;
+  materialForm: FormGroup;
 
   @Input() materialId: number = 0;
   @Input() showRemoveFile: boolean = false;  
@@ -25,7 +25,12 @@ export class MaterialItemComponent {
   @Output() materialCreated = new EventEmitter<number>(); // Emituje ID nowo utworzonego materiału
 
   url! :string;
-  constructor(private materialService: MaterialService, private fileService: FileService){}
+  constructor(private fb: FormBuilder, private materialService: MaterialService, private fileService: FileService)
+  {
+    this.materialForm = this.fb.group({
+      materialName: ['', [Validators.required]],
+    });
+  }
   ngOnInit (): void {
     if(this.materialId!=0)
       this.getMaterial(this.materialId);
@@ -61,15 +66,17 @@ export class MaterialItemComponent {
     );
   }
   createMaterial(): void {
-    if(this.materialName)
-      this.materialService.createMaterial({name: this.materialName}).subscribe({
-        next: response => {
-          console.log('Material created:', response)
-          this.materialCreated.emit(response.material.id)
-          this.materialId = response.material.id
-          this.getMaterial(this.materialId)
+    if (this.materialForm.valid) {
+      const materialName = this.materialForm.get('materialName')?.value;
+      this.materialService.createMaterial({ name: materialName }).subscribe({
+        next: (response) => {
+          console.log('Material created:', response);
+          this.materialCreated.emit(response.material.id);
+          this.materialId = response.material.id;
+          this.getMaterial(this.materialId);
         },
-        error: error => console.error('Error creating material:', error)
+        error: (error) => console.error('Error creating material:', error),
       });
+    }
   }
 }

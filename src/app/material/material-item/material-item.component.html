@@ -40,8 +40,13 @@
 }
 @else
 {
-    <div class="input-group mb-3 ">
-        <input type="text" class="form-control" placeholder="Material's name" [(ngModel)]="materialName">
-        <button class="btn btn-outline-secondary" type="button" (click)="createMaterial()">Create</button>
+    <div class="p-3">
+        <form [formGroup]="materialForm" class="input-group mb-1" (ngSubmit)="createMaterial()" >
+            <input type="text" class="form-control" formControlName="materialName" placeholder="Material's name">
+            <button class="btn btn-outline-secondary"  type="submit">Create</button>
+        </form>
+        @if(materialForm.get('materialName')?.errors?.['required']){
+            <span class="validator">Material name cannot be null</span >
+        }
     </div>
 }
