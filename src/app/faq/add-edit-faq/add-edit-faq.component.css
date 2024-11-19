@@ -5,6 +5,7 @@
 
 .validator{
     color: red;
+    display: inline-block;
 }
 
 button{

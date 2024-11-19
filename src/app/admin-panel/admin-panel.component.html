@@ -1,11 +1,19 @@
 <section class="container">
 
-        <h1 class="title">Admin Panel</h1>
-        <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedAction" >
-            <option value="add-user">AddUser</option>
-            <option value="users">Users</option>
-            <option value="other">Other</option>
-        </select>
+    <h1 class="title">Admin Panel</h1>
+        <div class="menuBox">
+            <div ngbDropdown class="d-inline-block" >
+                <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                    Select Action
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem (click)="selectedAction = 'add-user'">Add User</button>
+                    <button ngbDropdownItem (click)="selectedAction = 'manage-users'">Manage Users</button>
+                    <button ngbDropdownItem (click)="selectedAction = 'other'">Other</button>
+                </div>
+            </div>
+        </div>
+
 
     <div class="container">
         @switch(selectedAction){

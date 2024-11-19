@@ -4,26 +4,30 @@
       <div class="form-group">
         <label for="name">Title:</label>
         <input type="text" class="form-control" id="title" formControlName="title" placeholder="Enter title ..." />
+        <span class="validator">
         @if(title?.errors?.['required']){
-          <span class="validator">Title cannot be null</span >
+          Title cannot be null
         }
         @else if(title?.errors?.['minlength']){
-          <span class="validator">Title should have at least {{title?.errors?.['minlength']?.requiredLength}} characters</span >
+          Title should have at least {{title?.errors?.['minlength']?.requiredLength}} characters
         }
+      </span >
       </div>
       <br>
       <div class="form-group">
         <label for="name">Answer:</label>
         <textarea type="textarea" class="form-control" id="answer" formControlName="answer" rows="10" placeholder="Enter answer ..."></textarea> 
+        <span class="validator">
         @if(answer?.errors?.['required']){
-          <span class="validator">Answer cannot be null</span >
+          Answer cannot be null
         }
         @else if(answer?.errors?.['minlength']){
-          <span class="validator">Answer should have at least {{answer?.errors?.['minlength']?.requiredLength}} characters</span >
+          Answer should have at least {{answer?.errors?.['minlength']?.requiredLength}} characters
         }
+      </span >
       </div>
       <br/>
-      <label>Additional materials:</label>
+      <label>(Optional) Additional materials:</label>
       @if(this.faqForm.value.materialsId){
         <div class="materialBox">
           <app-material-item 
@@ -36,10 +40,10 @@
         </div>
       }
       @else{
-       
         <app-material-item (materialCreated)="onMaterialCreated($event)"/>
       }
 
+      <br/>
       <button type="submit" class="btn btn-success" [disabled]="faqForm.invalid">Save Faq</button>
       @if(this.faqForm.value.materialsId){
         <button type="button" class="btn btn-danger" (click)="removeMaterials()">Remove materials</button>

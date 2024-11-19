@@ -13,7 +13,6 @@ import { MaterialService } from '../../services/material.service';
 })
 export class AddFaqComponent {
   @Output() faqAdded: EventEmitter<FaqDto> = new EventEmitter();
-
   @Input() editedFaq?: FaqDto;
   @Output() faqEdited: EventEmitter<FaqDto> = new EventEmitter(); 
 

@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import { FormControl, FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { FilterFaqPipe } from './faqFilter.pipe';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { MaterialItemComponent } from "../material/material-item/material-item.component";
 
 @Component({
   selector: 'app-faq',
   standalone: true,
-  imports: [FormsModule, AddFaqComponent, ReactiveFormsModule, FilterFaqPipe, NgbAccordionModule],
+  imports: [FormsModule, AddFaqComponent, ReactiveFormsModule, FilterFaqPipe, NgbAccordionModule, MaterialItemComponent],
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.css'
 })

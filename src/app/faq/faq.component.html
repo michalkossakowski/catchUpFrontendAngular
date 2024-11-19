@@ -35,10 +35,15 @@
                             <div ngbAccordionCollapse>
                                 <div ngbAccordionBody class="accordionBody">
                                     <ng-template>
-                                        <p>
-                                            {{ faq.answer.length > 400 ? faq.answer.slice(0, 300) + ' . . .' : faq.answer }}
-
-                                        </p>
+                                        <p>{{faq.answer}}</p>
+                                        <div class="materialBox">
+                                            @if (faq.materialsId){
+                                                <app-material-item 
+                                                    [materialId]='faq.materialsId' 
+                                                    [showDownloadFile]="true">
+                                                </app-material-item>
+                                            }
+                                        </div>
                                         <a type="button" class="btn btn-outline-primary" (click)="openDetailsFaq()">See details</a>
                                     </ng-template>
                                 </div>
