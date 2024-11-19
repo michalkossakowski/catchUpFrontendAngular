@@ -13,7 +13,6 @@
         }
       </span >
       </div>
-      <br>
       <div class="form-group">
         <label for="name">Answer:</label>
         <textarea type="textarea" class="form-control" id="answer" formControlName="answer" rows="10" placeholder="Enter answer ..."></textarea> 
@@ -26,7 +25,6 @@
         }
       </span >
       </div>
-      <br/>
       <label>(Optional) Additional materials:</label>
       @if(this.faqForm.value.materialsId){
         <div class="materialBox">
@@ -42,8 +40,6 @@
       @else{
         <app-material-item (materialCreated)="onMaterialCreated($event)"/>
       }
-
-      <br/>
       <button type="submit" class="btn btn-success" [disabled]="faqForm.invalid">Save Faq</button>
       @if(this.faqForm.value.materialsId){
         <button type="button" class="btn btn-danger" (click)="removeMaterials()">Remove materials</button>
