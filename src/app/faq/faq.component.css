@@ -45,3 +45,7 @@
 .accordionBody{
     max-width: 800px
 }
+
+.materialBox{
+    max-width: 300px;
+}
