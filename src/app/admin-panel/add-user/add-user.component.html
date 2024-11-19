@@ -59,7 +59,7 @@
       @if(password?.errors?.['required']){
         Password confirmation is required
       }
-      @if(userForm.errors?.['equalPasswords']){
+      @else if(userForm.errors?.['equalPasswords']){
         Passwords should be equal
       }
       </span>
