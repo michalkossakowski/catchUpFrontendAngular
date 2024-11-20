@@ -1,0 +1,43 @@
+<section class="container">
+  <div class="m-5 row">
+    <button 
+      type="button" 
+      class="btn btn-primary btn-lg btn-success"
+      (click)="toggleAddFeedback()">
+      Add feedback
+    </button>
+  </div>
+
+  @if(showAddFeedback){
+    <app-add-feedback 
+      (feedbackAdded)="onFeedbackAdded($event)"
+      (cancel)="toggleAddFeedback()">
+    </app-add-feedback>
+  }
+
+  <div class="row">
+    <div class="m-3 col">
+      <h2>Received Feedbacks</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Sender</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Origin</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(feedback of feedbackList; track feedback){
+            <tr>
+              <td>{{ feedback.senderId }}</td>
+              <td>{{ feedback.title }}</td>
+              <td>{{ feedback.description }}</td>
+              <td>{{ feedback.origin }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

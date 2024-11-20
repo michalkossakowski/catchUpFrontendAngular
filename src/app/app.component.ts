@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { CommonModule } from '@angular/common';
 import { FaqComponent } from "./faq/faq.component";
 import { SchoolingsComponent } from './schoolings/schoolings.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 import { HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
     RouterOutlet, 
     FaqComponent, 
     SchoolingsComponent,
+    FeedbackComponent,
     RouterModule,
     CommonModule
   ],
