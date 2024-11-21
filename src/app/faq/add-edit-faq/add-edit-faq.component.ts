@@ -3,6 +3,7 @@ import { FaqDto } from '../../Dtos/faq.dto';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaterialItemComponent } from "../../material/material-item/material-item.component";
 import { MaterialService } from '../../services/material.service';
+import { FaqTitleExistsValidator } from './faqTitleExistsValidator';
 
 @Component({
   selector: 'app-add-edit-faq',
@@ -15,12 +16,13 @@ export class AddFaqComponent {
   @Output() faqAdded: EventEmitter<FaqDto> = new EventEmitter();
   @Input() editedFaq?: FaqDto;
   @Output() faqEdited: EventEmitter<FaqDto> = new EventEmitter(); 
+  @Input() faqs!: FaqDto[];
 
   public faqForm: FormGroup; 
 
   constructor(private fb: FormBuilder, private materialService: MaterialService){
     this.faqForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],          
+      title: ['', [Validators.required, Validators.minLength(3), FaqTitleExistsValidator(this.faqs)]],          
       answer: ['', [Validators.required, Validators.minLength(3)]],      
       materialsId: [''],
     });

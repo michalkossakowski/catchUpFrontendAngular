@@ -11,6 +11,9 @@
         @else if(title?.errors?.['minlength']){
           Title should have at least {{title?.errors?.['minlength']?.requiredLength}} characters
         }
+        @else if(title?.errors?.['titleExists']){
+          Title already exists
+        }
       </span >
       </div>
       <div class="form-group">
