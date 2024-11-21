@@ -27,6 +27,7 @@ export class FaqComponent implements OnInit {
   showAddFaq: boolean = false;
   filterValue!: string;
   filterControl: FormControl = new FormControl();
+  faqTitles: string[] = [];
 
   constructor(private faqService: FaqService,private router: Router)
   {
@@ -51,6 +52,7 @@ export class FaqComponent implements OnInit {
         this.faqList = faqList
         this.showError = false;
         this.loading = false
+        this.faqTitles = this.faqList.map(faq => faq.title ?? "");
       },
       (error) => {
         this.showError = true
@@ -58,6 +60,7 @@ export class FaqComponent implements OnInit {
         this.loading = false
       }
     );
+   
   }
 
   faqAddedInChild(newFaq: FaqDto) {

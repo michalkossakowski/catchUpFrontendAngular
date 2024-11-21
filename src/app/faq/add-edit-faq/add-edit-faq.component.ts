@@ -16,13 +16,13 @@ export class AddFaqComponent {
   @Output() faqAdded: EventEmitter<FaqDto> = new EventEmitter();
   @Input() editedFaq?: FaqDto;
   @Output() faqEdited: EventEmitter<FaqDto> = new EventEmitter(); 
-  @Input() faqs!: FaqDto[];
+  @Input() faqTitles: string[] = [];
 
   public faqForm: FormGroup; 
 
   constructor(private fb: FormBuilder, private materialService: MaterialService){
     this.faqForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3), FaqTitleExistsValidator(this.faqs)]],          
+      title: ['', [Validators.required, Validators.minLength(3)]],          
       answer: ['', [Validators.required, Validators.minLength(3)]],      
       materialsId: [''],
     });
@@ -35,7 +35,10 @@ export class AddFaqComponent {
         answer: this.editedFaq.answer,
         materialsId: this.editedFaq.materialsId
       });
+      this.faqTitles.filter(t => t !== this.editedFaq?.title)
     }
+    this.faqForm.get('title')?.setValidators([Validators.required, Validators.minLength(3), FaqTitleExistsValidator(this.faqTitles)]);
+    this.faqForm.get('title')?.updateValueAndValidity(); 
   }
 
   get title() { 

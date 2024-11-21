@@ -58,7 +58,7 @@
         <button type="button" class="btn btn-primary" (click)="showAddFaq = !showAddFaq; showAddFaq ? scrollToBottom() : true;">{{showAddFaq ? 'Cancel Adding' : 'Add Faq'}}</button>
         @if(showAddFaq){
             <div>
-                <app-add-edit-faq [faqs]="faqList" (faqAdded)="faqAddedInChild($event)"></app-add-edit-faq>
+                <app-add-edit-faq [faqTitles]="faqTitles" (faqAdded)="faqAddedInChild($event)"></app-add-edit-faq>
             </div>
         }
     </section>
