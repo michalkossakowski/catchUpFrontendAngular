@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FaqService } from '../../services/faq.service';
 import { FaqDto } from '../../Dtos/faq.dto';
-import { Location } from '@angular/common';
 import { MaterialItemComponent } from "../../material/material-item/material-item.component";
 import { AddFaqComponent } from "../add-edit-faq/add-edit-faq.component";
 
@@ -19,7 +18,7 @@ export class FaqDetailsComponent implements OnInit {
   showError: boolean = false;
   showEditFaq: boolean = false;
   faqId!: string;
-  constructor(private faqService: FaqService, private route: ActivatedRoute,private location: Location) {}
+  constructor(private faqService: FaqService, private route: ActivatedRoute, private router: Router) {}
 
   async ngOnInit(){
     this.faqId = this.route.snapshot.paramMap.get('id') ?? "";
@@ -59,7 +58,7 @@ export class FaqDetailsComponent implements OnInit {
     if (confirm("Are you sure?")) {
       this.faqService.delete(this.faq).subscribe(
         () => {
-          this.location.back();
+          this.backToFaq();
         },
         (error) => {
           console.error(error);
@@ -79,6 +78,6 @@ export class FaqDetailsComponent implements OnInit {
   }
 
   backToFaq(){
-    this.location.back();
+    this.router.navigate(['faq']);
   }
 }
