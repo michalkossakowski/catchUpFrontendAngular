@@ -25,6 +25,11 @@ export class AuthService {
                 localStorage.setItem('accessToken', response.accessToken);
                 localStorage.setItem('refreshToken', response.refreshToken);
 
+                const userId = this.extractUserIdFromToken(response.accessToken);
+                if (userId) {
+                    localStorage.setItem('userId', userId);
+                }
+
                 this.isLoggedInSubject.next(true);
                 return true;
             }),
@@ -34,6 +39,17 @@ export class AuthService {
                 return of(false);
             })
         );
+    }
+
+    // Method to extract user ID from JWT token
+    extractUserIdFromToken(token: string): string | null {
+        try {
+            const decodedToken: any = jwtDecode(token);
+            return decodedToken.nameid;
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            return null;
+        }
     }
 
     // Check if user is logged in
