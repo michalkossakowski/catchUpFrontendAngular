@@ -21,14 +21,40 @@ export class UserService {
         catchError(this.handleError<UserDto>('add'))
       );
   }
-  
+
+  getById(userId: string): Observable<UserDto> {
+    return this.http.get<UserDto>(`${this.url}GetById/${userId}`)
+      .pipe(
+          catchError(this.handleError<UserDto>('getById'))
+      );
+  }
+
+  getLoggedInUser(){
+    try {
+      const userString = localStorage.getItem('user');
+      const user = userString ? JSON.parse(userString) : null;
+      if (user) {
+        return user;
+      }
+    } catch (error) {
+      console.error('Error parsing user from localStorage', error);
+    }
+  }
+
+  getRole(userId: string): Observable<string> {
+    return this.http.get(`${this.url}GetRole/${userId}`, { responseType: 'text' })
+        .pipe(
+            catchError(this.handleError<string>('getRole'))
+        );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(operation + ' failed' + error);
-      if(error.status == 0){
+      console.error(`${operation} failed:`, error);
+      if (error.status === 0) {
         return throwError(() => new Error('API is not available'));
       }
-      return throwError(() => new Error(error.error.message));
+      return throwError(() => new Error(error.error?.message || 'Unknown error occurred'));
     };
   }
 }

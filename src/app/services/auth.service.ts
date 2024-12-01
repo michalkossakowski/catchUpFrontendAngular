@@ -5,6 +5,7 @@ import { loginResponse } from '../Dtos/loginResponse.dto';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
+import {UserService} from "./user.service";
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,10 @@ export class AuthService {
     private apiUrl = 'https://localhost:7097/api/Auth/';
     private isLoggedInSubject = new BehaviorSubject<boolean>(false);
     isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
-    constructor(private http: HttpClient) { }
+    constructor(
+        private http: HttpClient,
+        private userService: UserService
+    ) {}
 
     // login method for testing
     login(email: string, password: string): Observable<boolean> {
@@ -27,7 +31,14 @@ export class AuthService {
 
                 const userId = this.extractUserIdFromToken(response.accessToken);
                 if (userId) {
-                    localStorage.setItem('userId', userId);
+                    this.userService.getById(userId).subscribe({
+                        next: (user) => {
+                            localStorage.setItem('user', JSON.stringify(user));
+                        },
+                        error: (error) => {
+                            console.error('Error fetching user', error);
+                        }
+                    });
                 }
 
                 this.isLoggedInSubject.next(true);
