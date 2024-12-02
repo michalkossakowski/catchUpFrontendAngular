@@ -13,7 +13,6 @@ import { FullSchoolingDto } from '../../Dtos/fullSchooling.dto';
 })
 export class SchoolingsListComponent implements OnInit {
   fullschoolings: FullSchoolingDto[] = [];
-  loading: boolean = true;
   error: string | null = null;
 
   constructor(private schoolingService: SchoolingService) {}
@@ -26,11 +25,9 @@ export class SchoolingsListComponent implements OnInit {
     this.schoolingService.getAllSchoolings().subscribe(
       (response) => {
         this.fullschoolings = response.data;
-        this.loading = false;
       },
       (error) => {
         this.error = 'Failed to load schoolings';
-        this.loading = false;
       }
     );
   }

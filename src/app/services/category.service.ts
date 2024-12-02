@@ -11,7 +11,7 @@ export class CategoryService {
   private readonly url = 'https://localhost:7097/api/Category/';
 
   constructor(private http: HttpClient) {}
-  getCategories(): Observable<{data: CategoryDto[] }> {
-    return this.http.get<{data: CategoryDto[] }>(`${this.url}GetAll`);
+  getCategories(): Observable<CategoryDto[]> {
+    return this.http.get<CategoryDto[]>(`${this.url}GetAll`);
   }
 }
