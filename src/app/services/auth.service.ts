@@ -92,7 +92,7 @@ export class AuthService {
                 }
 
                 this.refreshTokens();
-                return false;
+                return true;
             }
 
             // Access token is valid
