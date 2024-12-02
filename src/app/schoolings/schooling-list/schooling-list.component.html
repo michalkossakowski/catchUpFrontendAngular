@@ -1,0 +1,40 @@
+@if (error) {
+<div class="error col">{{ error }}</div>
+} @else {
+<h1>List of Schoolings</h1>
+@for (fullschooling of fullschoolings; track fullschooling.schooling.id) {
+    <div class="card m-3 shadow bg-body-tertiary rounded">
+        <div class="card-body">
+            <h2 class="card-title fw-bold">{{ fullschooling.schooling.title }}</h2>
+            <hr />
+            <p class="card-text">{{ fullschooling.schooling.description }}</p>
+            <p><strong>Category:</strong> {{ fullschooling.category?.name }}</p>
+            <p class="fs-5"><span class="badge rounded-pill text-bg-secondary">Priority {{ fullschooling.schooling.priority }}</span></p>
+            <hr />
+            <h3 class="fw-bolder mb-3 fw-bolder">Etapy:</h3>
+            <ul class="list-group">
+                @for (part of fullschooling.parts; track part.id) {
+                <li class="list-group-item bg-body-secondary ">
+                    <h4 class="w-semibold">{{ part.name }}</h4>
+                    <p>{{ part.content }}</p>
+                    <ul>
+                        @for (material of part.materials; track material.id) {
+                        <li>
+                            <p class="fw-medium">{{ material.name }}</p>
+                            <ul>
+                                @for (file of material.files; track file.id) {
+                                <li>
+                                    <p>{{ file.name }} ({{ file.type }})</p>
+                                </li>
+                                }
+                            </ul>
+                        </li>
+                        }
+                    </ul>
+                </li>
+                }
+            </ul>
+        </div>
+    </div>
+    }
+}

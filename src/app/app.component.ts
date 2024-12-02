@@ -17,7 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
     SchoolingsComponent,
     FeedbackComponent,
     RouterModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
