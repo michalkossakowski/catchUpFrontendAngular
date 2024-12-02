@@ -8,7 +8,14 @@
 </app-material-item> -->
 <!-- <app-schooling-list></app-schooling-list>
 <app-schooling-create></app-schooling-create> -->
-<div class="row row-cols-2">
-  <app-schooling-list></app-schooling-list>
-    <app-schooling-create></app-schooling-create>
+<div class="row">
+  @if (userRole === "Newbie") 
+  {
+    <app-schooling-list class="col "></app-schooling-list>
+  }
+  @else if (userRole === "Mentor") 
+  {
+    <app-schooling-list class="col "></app-schooling-list>
+    <app-schooling-create class="col"></app-schooling-create>
+  }
 </div>

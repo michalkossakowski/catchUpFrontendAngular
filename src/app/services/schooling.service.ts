@@ -17,7 +17,7 @@ export class SchoolingService {
   }
 
   createSchooling(schoolingDto: SchoolingDto): Observable<any> {
-    return this.http.post<any>(`${this.url}/Create`, schoolingDto);
+    return this.http.post<any>(`${this.url}Create`, schoolingDto);
   }
 
 }

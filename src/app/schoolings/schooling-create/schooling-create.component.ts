@@ -1,9 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CategoryDto } from '../../Dtos/Category.dto';
 import { SchoolingService } from '../../services/schooling.service';
 import { CategoryService } from '../../services/category.service';
+import { UserService } from '../../services/user.service'
+import { SchoolingDto } from '../../Dtos/schooling.dto';
 
 @Component({
   selector: 'app-schooling-create',
@@ -12,36 +14,48 @@ import { CategoryService } from '../../services/category.service';
   templateUrl: './schooling-create.component.html',
   styleUrls: ['./schooling-create.component.css'],
 })
-export class SchoolingCreateComponent{
-  public schoolingCreateForm: FormGroup; 
-  public categories: CategoryDto[] = []; 
+export class SchoolingCreateComponent {
+  public schoolingCreateForm: FormGroup;
+  public categories: CategoryDto[] = [];
 
   constructor(
     private fb: FormBuilder,
     private schoolingService: SchoolingService,
-    private categoryService: CategoryService
-  )
-  {
+    private categoryService: CategoryService,
+    private userService: UserService
+  ) {
     this.loadCategories();
     this.schoolingCreateForm = this.fb.group({
-      title: ['', [Validators.required]],          
-      description: ['', [Validators.required]],      
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required]],
       categoryId: [null, [Validators.required]],
-      priority: [0],
+      priority: [0, [Validators.required]],
     });
   }
 
   private loadCategories(): void {
-      this.categoryService.getCategories().subscribe(response => {
+    this.categoryService.getCategories().subscribe(response => {
       this.categories = response;
-      console.log(response)
     });
   }
   public submitForm(): void {
-    if (this.schoolingCreateForm.valid) {
-      this.schoolingService.createSchooling(this.schoolingCreateForm.value).subscribe(() => {
-        console.log('Schooling created successfully');
-      });
+    const userId = this.userService.getLoggedInUser().id
+    if (userId) {
+      const values = this.schoolingCreateForm.value
+      const schoolingDto: SchoolingDto = {
+        categoryId: values.categoryId,
+        creatorId: userId,
+        title: values.title,
+        description: values.description,
+        priority: values.priority
+      }
+
+      if (this.schoolingCreateForm.valid) {
+        this.schoolingService.createSchooling(schoolingDto).subscribe(() => {
+        });
+      }
+    } else {
+      console.warn('No logged user.');
     }
   }
   // categories: CategoryDto[] = [];
