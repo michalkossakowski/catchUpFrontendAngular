@@ -7,6 +7,8 @@ import { FormControl, FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { FilterFaqPipe } from './faqFilter.pipe';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialItemComponent } from "../material/material-item/material-item.component";
+import { UserService } from '../services/user.service';
+import { UserDto } from '../Dtos/user.dto';
 
 @Component({
   selector: 'app-faq',
@@ -28,13 +30,16 @@ export class FaqComponent implements OnInit {
   filterValue!: string;
   filterControl: FormControl = new FormControl();
   faqTitles: string[] = [];
+  user: UserDto | undefined;
 
-  constructor(private faqService: FaqService,private router: Router)
+  constructor(private faqService: FaqService,private router: Router, private userService: UserService)
   {
     this.filterControl.valueChanges.subscribe({
       next: val => { this.filterValue = val; },
       error: error => console.error(error)
     });
+
+    this.user = userService.getLoggedInUser();
   }
   
   toggleFaq(faq: FaqDto): void {

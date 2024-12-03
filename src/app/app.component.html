@@ -7,7 +7,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div [class]="{ 'collapse': isNavbarCollapsed, 'navbar-collapse': true }" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav w-100">
           <li class="nav-item">
             <a [class]='selectedNav == "Tasks" ? "nav-link active" : "nav-link"' aria-current="page" href="#" (click)='selectedNav = "Tasks"'>Tasks</a>
           </li>
@@ -26,10 +26,14 @@
           <li class="nav-item">
             <a routerLink="/admin-panel" [class]='selectedNav == "Admin" ? "nav-link active" : "nav-link"' aria-current="page" href="#" (click)='selectedNav = "Admin"'>Admin</a>
           </li>
+          <li class="nav-item ms-auto">
+            <a routerLink="/" [class]='selectedNav == "Account" ? "nav-link active" : "nav-link"' aria-current="page" href="#" (click)='selectedNav = "Account"'>{{user?.name}} {{user?.surname}}</a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
+  
 </header>
 
 <main class="container-fluid  d-flex justify-content-center ">
