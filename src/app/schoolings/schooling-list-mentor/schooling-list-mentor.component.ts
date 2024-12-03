@@ -30,14 +30,32 @@ export class SchoolingListMentorComponent implements OnInit {
   selectedCategory!: string;
   minPriority!: number;
   categories: CategoryDto[] = [];
+  userSchoolingsId: number[] = []
+  isUserChoosen: boolean = false
+  userId: string | null = null
 
-  @Input() set addSchoolings(schooling: FullSchoolingDto | undefined){
+  @Input() set addSchoolings(schooling: FullSchoolingDto | undefined) {
     if (schooling) {
       this.addToFullSchoolings(schooling)
     }
   }
 
-  
+  @Input() set getUserSchoolings(userId: string | undefined) {
+    if (userId) {
+      this.userId = userId
+      this.schoolingService.getUserSchoolingsID(userId).subscribe((response) =>
+        this.userSchoolingsId = response.data
+      )
+      this.isUserChoosen = true
+    }
+    else {
+      this.userId = null
+      this.isUserChoosen = false
+      this.userSchoolingsId = []
+    }
+  }
+
+
   constructor(
     private schoolingService: SchoolingService,
     private fileService: FileService,
@@ -60,7 +78,7 @@ export class SchoolingListMentorComponent implements OnInit {
     });
   }
 
-  loadSchoolings(): void {
+  private loadSchoolings(): void {
     this.schoolingService.getAllSchoolings().subscribe(
       (response) => {
         this.fullschoolings = response.data;
@@ -70,7 +88,8 @@ export class SchoolingListMentorComponent implements OnInit {
       }
     )
   }
-  downloadFile(fileId: number): void {
+
+  public downloadFile(fileId: number): void {
     this.fileService.downloadFile(fileId).subscribe(blob => {
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
@@ -80,10 +99,38 @@ export class SchoolingListMentorComponent implements OnInit {
       window.URL.revokeObjectURL(url)
     })
   }
-  addToFullSchoolings(schooling: FullSchoolingDto): void {
+
+  private addToFullSchoolings(schooling: FullSchoolingDto): void {
     if (schooling) {
       this.fullschoolings = [...this.fullschoolings, schooling]
     }
   }
-}
 
+  public isSchoolingChosen(schoolingId: number): boolean {
+    return this.userSchoolingsId.includes(schoolingId);
+  }
+
+  public unassignSchooling(schoolingId: number) {
+    if (this.userId) {
+      this.schoolingService.archiveUserSchooling(this.userId, schoolingId).subscribe({
+        next: () => {
+          this.userSchoolingsId = this.userSchoolingsId.filter(id => id !== schoolingId);
+        }
+      })
+    }
+    else
+      console.error("User not found")
+  }
+
+  public assignSchooling(schoolingId: number) {
+    if (this.userId) {
+      this.schoolingService.addSchoolingToUser(this.userId, schoolingId).subscribe({
+        next: () => {
+          this.userSchoolingsId.push(schoolingId)
+        }
+      })
+    }
+    else
+      console.error("User not found")
+  }
+}

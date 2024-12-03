@@ -1,4 +1,5 @@
-<form [formGroup]="schoolingCreateForm" (ngSubmit)="submitForm()">
+<form [formGroup]="schoolingCreateForm" (ngSubmit)="submitForm()" class="mt-2 p-3 shadow bg-body-tertiary rounded">
+    <h1>Create new Schooling</h1>
     <div class="mb-3">
         <label class="form-label">Name</label>
         <input type="text" formControlName="title" class="form-control" />

@@ -6,7 +6,6 @@ import { AppComponent } from './app/app.component';
 import { RouterModule } from '@angular/router';  
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes'; 
-
 bootstrapApplication(AppComponent, {
   ...appConfig,
   providers: [

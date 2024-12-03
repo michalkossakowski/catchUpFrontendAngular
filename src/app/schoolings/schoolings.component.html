@@ -9,13 +9,17 @@
 <!-- <app-schooling-list></app-schooling-list>
 <app-schooling-create></app-schooling-create> -->
 <div class="row">
-  @if (userRole === "Newbie") 
+  @if (userRole === "Newbie")
   {
-    <app-schooling-list class="col"></app-schooling-list>
+  <app-schooling-list class="col"></app-schooling-list>
   }
-  @else if (userRole === "Mentor") 
+  @else if (userRole === "Mentor")
   {
-    <app-schooling-list-mentor [addSchoolings]="schoolingData" class="col"></app-schooling-list-mentor>
-    <app-schooling-create (schoolingCreated)="onSchoolingCreated($event)" class="col"></app-schooling-create>
+  <app-schooling-list-mentor [addSchoolings]="schoolingData" [getUserSchoolings]="choosenUser" class="col"></app-schooling-list-mentor>
+  <div class="col">
+    <app-schooling-create (schoolingCreated)="onSchoolingCreated($event)"></app-schooling-create>
+    <h1 class="mb-3 mt-3">List of Newbies</h1>
+    <app-mentor-newbie (userChanged)="onEditSchoolings($event)"></app-mentor-newbie>
+  </div>
   }
 </div>
