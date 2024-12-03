@@ -40,12 +40,10 @@ export class AddFileComponent {
     }
   }
   private uploadFile(file: File) {
-    console.log(this.materialId)
     if (this.materialId !== 0) {
       this.fileService.uploadFile(file, this.materialId).subscribe(
         response => 
           {
-          console.log('File uploaded successfully:', response)
           this.fileUploaded.emit(response.fileDto);
           },
         error => console.error('File upload failed:', error)
@@ -54,7 +52,6 @@ export class AddFileComponent {
       this.fileService.uploadFile(file).subscribe(
         response => 
           {
-          console.log('File uploaded successfully:', response)
           this.fileUploaded.emit(response.fileDto);
           },
         error => console.error('File upload failed:', error)

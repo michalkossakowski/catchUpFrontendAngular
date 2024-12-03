@@ -141,4 +141,7 @@ export class SchoolingListMentorComponent implements OnInit {
       }
     })
   }
+  editSchooling(arg0: any) {
+    throw new Error('Method not implemented.');
+  }
 }
