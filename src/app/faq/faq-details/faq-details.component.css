@@ -1,6 +1,5 @@
 .faqBox{
-    margin: 50px;
-    max-width: 1000px;
+    margin: 20px 100px;
 }
 
 .title{
@@ -14,4 +13,8 @@
 
 .buttonBox > button{
     margin: 5px;
+}
+
+.material{
+    margin-top: 10px;
 }

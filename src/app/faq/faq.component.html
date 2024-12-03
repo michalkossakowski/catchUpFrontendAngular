@@ -8,7 +8,7 @@
         </div>
     </section>
 
-    <section id="faq-list">
+    <section>
         @if(loading){
             <div class="loaderBox">
                 <span class="loader"></span>
@@ -33,7 +33,7 @@
                                 <button ngbAccordionButton><h5>{{$index+1}}. {{ faq.title }}</h5></button>
                             </h2>
                             <div ngbAccordionCollapse>
-                                <div ngbAccordionBody class="accordionBody">
+                                <div ngbAccordionBody>
                                     <ng-template>
                                         <p>{{faq.answer}}</p>
                                         <div>
