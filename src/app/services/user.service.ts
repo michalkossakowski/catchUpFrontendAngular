@@ -29,16 +29,25 @@ export class UserService {
       );
   }
 
-  getLoggedInUser(){
+  getLoggedInUser(): UserDto | undefined{ 
     try {
       const userString = localStorage.getItem('user');
-      const user = userString ? JSON.parse(userString) : null;
-      if (user) {
-        return user;
+      if(userString){
+        const parsedUser = JSON.parse(userString);
+        const userDto = new UserDto(
+          parsedUser.name,
+          parsedUser.surname,
+          parsedUser.email,
+          parsedUser.password,
+          parsedUser.type,
+          parsedUser.position
+        )
+        return userDto;
       }
     } catch (error) {
       console.error('Error parsing user from localStorage', error);
     }
+    return undefined
   }
 
   getRole(userId: string): Observable<string> {
