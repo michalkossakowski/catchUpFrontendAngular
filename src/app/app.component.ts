@@ -22,9 +22,16 @@ export class AppComponent {
   selectedNav: string = "Home";
   isNavbarCollapsed: boolean = true;
   user: UserDto | undefined;
+  isAdmin: boolean | undefined;
 
   constructor(private userService: UserService){
     this.userService.getLoggedInUser().subscribe((user) => this.user = user);
+    
+    if (this.user?.id) {
+      this.userService.getRole(this.user.id).subscribe((role) => {
+        this.isAdmin = role.toUpperCase() === "ADMIN";
+      });
+    }
   }
   
 }

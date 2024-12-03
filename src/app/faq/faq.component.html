@@ -1,8 +1,5 @@
 <section class="container">
     <h2 class="faq-site-title">Frequently Asked Questions:</h2>
-    @if(isAdmin){
-        <h1>{{user?.name}}</h1>
-    }
 
     <section class="d-flex justify-content-center">
         <div class="input-group mb-3">
@@ -57,12 +54,14 @@
             }
         }
     </section>
-    <section id="EditBox">
-        <button type="button" class="btn btn-primary" (click)="showAddFaq = !showAddFaq; showAddFaq ? scrollToBottom() : true;">{{showAddFaq ? 'Cancel Adding' : 'Add Faq'}}</button>
-        @if(showAddFaq){
-            <div>
-                <app-add-edit-faq [faqTitles]="faqTitles" (faqAdded)="faqAddedInChild($event)"></app-add-edit-faq>
-            </div>
-        }
-    </section>
+    @if(isAdmin){
+        <section id="EditBox">
+            <button type="button" class="btn btn-primary" (click)="showAddFaq = !showAddFaq; showAddFaq ? scrollToBottom() : true;">{{showAddFaq ? 'Cancel Adding' : 'Add Faq'}}</button>
+            @if(showAddFaq){
+                <div>
+                    <app-add-edit-faq (faqAdded)="faqAddedInChild($event)"></app-add-edit-faq>
+                </div>
+            }
+        </section>
+    }
 </section>

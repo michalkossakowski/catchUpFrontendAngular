@@ -23,9 +23,11 @@
           <li class="nav-item">
             <a [class]='selectedNav == "Login" ? "nav-link active" : "nav-link"' aria-current="page" href="#" (click)='selectedNav = "Login"'>Login</a>
           </li>
-          <li class="nav-item">
-            <a routerLink="/admin-panel" [class]='selectedNav == "Admin" ? "nav-link active" : "nav-link"' aria-current="page" href="#" (click)='selectedNav = "Admin"'>Admin</a>
-          </li>
+          @if(isAdmin){
+            <li class="nav-item">
+              <a routerLink="/admin-panel" [class]='selectedNav == "Admin" ? "nav-link active" : "nav-link"' aria-current="page" href="#" (click)='selectedNav = "Admin"'>Admin Panel</a>
+            </li>
+          }
           <li class="nav-item ms-auto">
             <a routerLink="/" [class]='selectedNav == "Account" ? "nav-link active" : "nav-link"' aria-current="page" href="#" (click)='selectedNav = "Account"'>{{user?.name}} {{user?.surname}}</a>
           </li>

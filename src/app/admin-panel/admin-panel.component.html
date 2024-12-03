@@ -1,32 +1,40 @@
 <section class="container">
 
-    <h1 class="title">Admin Panel</h1>
-        <div class="menuBox">
-            <div ngbDropdown class="d-inline-block" >
-                <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-                    Select Action
-                </button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button ngbDropdownItem (click)="selectedAction = 'add-user'">Add User</button>
-                    <button ngbDropdownItem (click)="selectedAction = 'manage-users'">Manage Users</button>
-                    <button ngbDropdownItem (click)="selectedAction = 'other'">Other</button>
+    @if(isAdmin){
+        <h1 class="title">Admin Panel</h1>
+            <div class="menuBox">
+                <div ngbDropdown class="d-inline-block" >
+                    <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                        Select Action
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button ngbDropdownItem (click)="selectedAction = 'add-user'">Add User</button>
+                        <button ngbDropdownItem (click)="selectedAction = 'feedbacks'">Explore Feedbacks</button>
+                        <button ngbDropdownItem (click)="selectedAction = 'add-task'">Add Task</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-
-    <div class="container">
-        @switch(selectedAction){
-            @case("add-user"){
-                <app-add-user/>
-            }
-            @case("users"){
-                <h2>place for user list</h2>
-            }
-            @case("other"){
-                <h2>other</h2>
-            }
-        }
-    </div>
+            <div class="actionsBox">
+                @switch(selectedAction){
+                    @case("add-user"){
+                        <app-add-user/>
+                    }
+                    @case("feedbacks"){
+                        <h2>place for feedbacks</h2>
+                    }
+                    @case("add-task"){
+                        <h2>place for add task</h2>
+                    }
+                    @default {
+                        <h2>Welcome {{user?.name}} {{user?.surname}}
+                        </h2>
+                    }
+                }
+            </div>
+    }
+    @else{
+        <h1 class="title">You are not admin!</h1>
+    }
 
 </section>
