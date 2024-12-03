@@ -133,4 +133,12 @@ export class SchoolingListMentorComponent implements OnInit {
     else
       console.error("User not found")
   }
+
+  public archiveSchooling(schoolingId: number) {
+    this.schoolingService.archiveSchooling(schoolingId).subscribe({
+      next: () =>{
+        this.fullschoolings = this.fullschoolings.filter(fs => fs.schooling.id !== schoolingId)
+      }
+    })
+  }
 }
