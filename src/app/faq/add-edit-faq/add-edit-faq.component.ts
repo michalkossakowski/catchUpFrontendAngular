@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MaterialItemComponent } from "../../material/material-item/material-item.component";
 import { MaterialService } from '../../services/material.service';
 import { FaqTitleExistsValidator } from './faqTitleExistsValidator';
+import { FaqService } from '../../services/faq.service';
 
 @Component({
   selector: 'app-add-edit-faq',
@@ -16,16 +17,17 @@ export class AddFaqComponent {
   @Output() faqAdded: EventEmitter<FaqDto> = new EventEmitter();
   @Input() editedFaq?: FaqDto;
   @Output() faqEdited: EventEmitter<FaqDto> = new EventEmitter(); 
-  @Input() faqTitles: string[] = [];
 
   public faqForm: FormGroup; 
-
-  constructor(private fb: FormBuilder, private materialService: MaterialService){
+  faqTitles: string[] = [];
+  
+  constructor(private fb: FormBuilder, private materialService: MaterialService,private faqService: FaqService){
     this.faqForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],          
       answer: ['', [Validators.required, Validators.minLength(3)]],      
       materialsId: [''],
     });
+
   }
 
   ngOnInit(): void {
@@ -35,10 +37,17 @@ export class AddFaqComponent {
         answer: this.editedFaq.answer,
         materialsId: this.editedFaq.materialsId
       });
-      this.faqTitles.filter(t => t !== this.editedFaq?.title)
     }
-    this.faqForm.get('title')?.setValidators([Validators.required, Validators.minLength(3), FaqTitleExistsValidator(this.faqTitles)]);
-    this.faqForm.get('title')?.updateValueAndValidity(); 
+    else{
+      this.faqService.getAll().subscribe(
+        (faqList) => {
+          let allFaqTitles = faqList.map(faq => faq.title ?? "");
+          this.faqTitles = allFaqTitles.filter(t => t !== this.editedFaq?.title) 
+          this.faqForm.get('title')?.setValidators([Validators.required, Validators.minLength(3), FaqTitleExistsValidator(this.faqTitles)]);
+          this.faqForm.get('title')?.updateValueAndValidity(); 
+        }
+      );
+    }
   }
 
   get title() { 
@@ -64,6 +73,7 @@ export class AddFaqComponent {
       this.faqEdited.emit(this.editedFaq);
     } else {
       const newFaq = new FaqDto(
+        undefined,
         formValue.title,
         formValue.answer,
         formValue.materialsId ? formValue.materialsId : null

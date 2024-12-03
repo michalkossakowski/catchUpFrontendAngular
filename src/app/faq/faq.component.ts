@@ -22,14 +22,13 @@ import { UserDto } from '../Dtos/user.dto';
 export class FaqComponent implements OnInit {
   faqList: FaqDto[] = [];
   selectedFaq!: FaqDto;
-  emptyFaq: FaqDto = new FaqDto('','')
+  emptyFaq: FaqDto = new FaqDto()
   loading: boolean = true;
   errorMessage!: string;
   showError: boolean = false;
   showAddFaq: boolean = false;
   filterValue!: string;
   filterControl: FormControl = new FormControl();
-  faqTitles: string[] = [];
   user: UserDto | undefined;
   isAdmin: boolean | undefined;
 
@@ -66,7 +65,7 @@ export class FaqComponent implements OnInit {
         this.faqList = faqList
         this.showError = false;
         this.loading = false
-        this.faqTitles = this.faqList.map(faq => faq.title ?? "");
+
       },
       (error) => {
         this.showError = true
@@ -78,18 +77,22 @@ export class FaqComponent implements OnInit {
   }
 
   faqAddedInChild(newFaq: FaqDto) {
-    this.faqService.add(newFaq).subscribe(
-      () => {
-        this.showAddFaq = false;
-        this.getFaqs();
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    if (confirm("Do you want to save changes?")) {
+      this.faqService.add(newFaq).subscribe(
+        (response: { message: string; faq: FaqDto }) => {
+          this.showAddFaq = false;
+            this.faqList.push(response.faq)
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+      this.scrollToBottom()
+    }
   }
 
   openDetailsFaq(){
+    console.log( this.selectedFaq.id)
     this.router.navigate(['/faq/details', this.selectedFaq.id]);
   }
 
@@ -100,7 +103,7 @@ export class FaqComponent implements OnInit {
         top: scrollHeight,
         behavior: 'smooth'
       });
-    },0);
+    },50);
   }
   
 }

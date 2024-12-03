@@ -4,6 +4,8 @@ import { FaqService } from '../../services/faq.service';
 import { FaqDto } from '../../Dtos/faq.dto';
 import { MaterialItemComponent } from "../../material/material-item/material-item.component";
 import { AddFaqComponent } from "../add-edit-faq/add-edit-faq.component";
+import { UserDto } from '../../Dtos/user.dto';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-faq-details',
@@ -18,7 +20,19 @@ export class FaqDetailsComponent implements OnInit {
   showError: boolean = false;
   showEditFaq: boolean = false;
   faqId!: string;
-  constructor(private faqService: FaqService, private route: ActivatedRoute, private router: Router) {}
+  user: UserDto | undefined;
+  isAdmin: boolean | undefined;
+  constructor(private faqService: FaqService, private route: ActivatedRoute, private router: Router,private userService: UserService) {
+    this.userService.getLoggedInUser().subscribe((user) => {
+      this.user = user;
+    });
+
+    if (this.user?.id) {
+      this.userService.getRole(this.user.id).subscribe((role) => {
+        this.isAdmin = role.toUpperCase() === "ADMIN";
+      });
+    }
+  }
 
   async ngOnInit(){
     this.faqId = this.route.snapshot.paramMap.get('id') ?? "";
@@ -45,7 +59,11 @@ export class FaqDetailsComponent implements OnInit {
       this.faqService.edit(editedFaq).subscribe(
         () => {
           this.showEditFaq = false;
-          window.location.reload();
+          let temp = this.faq.materialsId;
+          this.faq.materialsId = null;
+          setTimeout(() => {
+            this.faq.materialsId = temp;
+          }, 1);
         },
         (error) => {
           console.error(error);
@@ -74,7 +92,7 @@ export class FaqDetailsComponent implements OnInit {
         top: scrollHeight,
         behavior: 'smooth'
       });
-    },0);
+    },50);
   }
 
   backToFaq(){
