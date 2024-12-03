@@ -1,4 +1,4 @@
-import { CategoryDto } from "./Category.dto";
+import { CategoryDto } from "./category.dto";
 import { SchoolingDto } from "./schooling.dto";
 import { SchoolingPartDto } from "./schoolingPart.dto";
 
@@ -10,7 +10,7 @@ export class FullSchoolingDto {
     constructor(
         schooling: SchoolingDto,
         category: CategoryDto,
-        parts?: SchoolingPartDto[]
+        parts: SchoolingPartDto[]
     ){
         this.schooling = schooling
         this.category = category

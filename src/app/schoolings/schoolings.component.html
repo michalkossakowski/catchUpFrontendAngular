@@ -11,11 +11,11 @@
 <div class="row">
   @if (userRole === "Newbie") 
   {
-    <app-schooling-list class="col "></app-schooling-list>
+    <app-schooling-list class="col"></app-schooling-list>
   }
   @else if (userRole === "Mentor") 
   {
-    <app-schooling-list class="col "></app-schooling-list>
-    <app-schooling-create class="col"></app-schooling-create>
+    <app-schooling-list-mentor [addSchoolings]="schoolingData" class="col"></app-schooling-list-mentor>
+    <app-schooling-create (schoolingCreated)="onSchoolingCreated($event)" class="col"></app-schooling-create>
   }
 </div>

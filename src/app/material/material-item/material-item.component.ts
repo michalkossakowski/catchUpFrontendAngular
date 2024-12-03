@@ -70,7 +70,6 @@ export class MaterialItemComponent {
       const materialName = this.materialForm.get('materialName')?.value;
       this.materialService.createMaterial({ name: materialName }).subscribe({
         next: (response) => {
-          console.log('Material created:', response);
           this.materialCreated.emit(response.material.id);
           this.materialId = response.material.id;
           this.getMaterial(this.materialId);

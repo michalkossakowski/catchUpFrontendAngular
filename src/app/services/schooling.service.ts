@@ -16,8 +16,12 @@ export class SchoolingService {
     return this.http.get<{ message: string; data: FullSchoolingDto[] }>(`${this.url}GetAllFull`);
   }
 
-  createSchooling(schoolingDto: SchoolingDto): Observable<any> {
-    return this.http.post<any>(`${this.url}Create`, schoolingDto);
+  getAllUserSchoolings(userId: string): Observable<{ message: string; data: FullSchoolingDto[] }> {
+    return this.http.get<{ message: string; data: FullSchoolingDto[] }>(`${this.url}GetAllFull/${userId}`);
+  }
+
+  createSchooling(schoolingDto: SchoolingDto): Observable<{ message: string; data: FullSchoolingDto}> {
+    return this.http.post<{ message: string; data: FullSchoolingDto}>(`${this.url}Create`, schoolingDto) ;
   }
 
 }

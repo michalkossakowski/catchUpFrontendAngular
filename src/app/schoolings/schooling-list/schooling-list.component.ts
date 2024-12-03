@@ -4,9 +4,10 @@ import { FullSchoolingDto } from '../../Dtos/fullSchooling.dto';
 import { FileService } from '../../services/file.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CategoryFilterPipe, FilterSchoolingPipe, PriorityFilterPipe } from '../schoolingFilter.pipe';
-import { CategoryDto } from '../../Dtos/Category.dto';
+import { CategoryDto } from '../../Dtos/category.dto';
 import { CategoryService } from '../../services/category.service';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-schooling-list',
@@ -35,6 +36,7 @@ export class SchoolingsListComponent implements OnInit {
     private schoolingService: SchoolingService,
     private fileService: FileService,
     private categoryService: CategoryService,
+    private userService: UserService
   ) {
     this.loadCategories()
     this.filterControl.valueChanges.subscribe({
@@ -54,7 +56,8 @@ export class SchoolingsListComponent implements OnInit {
   }
 
   loadSchoolings(): void {
-    this.schoolingService.getAllSchoolings().subscribe(
+    const userId = this.userService.getLoggedInUser().id
+    this.schoolingService.getAllUserSchoolings(userId).subscribe(
       (response) => {
         this.fullschoolings = response.data;
       },

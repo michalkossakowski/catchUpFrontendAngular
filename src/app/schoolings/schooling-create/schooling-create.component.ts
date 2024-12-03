@@ -1,11 +1,12 @@
-import { Component} from '@angular/core';
+import { Component, EventEmitter, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CategoryDto } from '../../Dtos/Category.dto';
+import { CategoryDto } from '../../Dtos/category.dto';
 import { SchoolingService } from '../../services/schooling.service';
 import { CategoryService } from '../../services/category.service';
 import { UserService } from '../../services/user.service'
 import { SchoolingDto } from '../../Dtos/schooling.dto';
+import { FullSchoolingDto } from '../../Dtos/fullSchooling.dto';
 
 @Component({
   selector: 'app-schooling-create',
@@ -17,6 +18,7 @@ import { SchoolingDto } from '../../Dtos/schooling.dto';
 export class SchoolingCreateComponent {
   public schoolingCreateForm: FormGroup;
   public categories: CategoryDto[] = [];
+  @Output() schoolingCreated = new EventEmitter<FullSchoolingDto>();
 
   constructor(
     private fb: FormBuilder,
@@ -31,6 +33,19 @@ export class SchoolingCreateComponent {
       categoryId: [null, [Validators.required]],
       priority: [0, [Validators.required]],
     });
+  }
+
+  get title() { 
+    return this.schoolingCreateForm.get('title');
+  }
+  get description() { 
+    return this.schoolingCreateForm.get('description');
+  }
+  get categoryId() { 
+    return this.schoolingCreateForm.get('categoryId');
+  }
+  get priority() { 
+    return this.schoolingCreateForm.get('priority');
   }
 
   private loadCategories(): void {
@@ -51,7 +66,8 @@ export class SchoolingCreateComponent {
       }
 
       if (this.schoolingCreateForm.valid) {
-        this.schoolingService.createSchooling(schoolingDto).subscribe(() => {
+        this.schoolingService.createSchooling(schoolingDto).subscribe((response) => {
+          this.schoolingCreated.emit(response.data);
         });
       }
     } else {
