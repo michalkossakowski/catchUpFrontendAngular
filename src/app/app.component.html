@@ -9,7 +9,7 @@
       <div [class]="{ 'collapse': isNavbarCollapsed, 'navbar-collapse': true }" id="navbarNav">
         <ul class="navbar-nav w-100">
           <li class="nav-item">
-            <a [class]='selectedNav == "Tasks" ? "nav-link active" : "nav-link"' aria-current="page" href="#" (click)='selectedNav = "Tasks"'>Tasks</a>
+            <a routerLink="/tasks" [class]='selectedNav == "Tasks" ? "nav-link active" : "nav-link"' aria-current="page" href="#" (click)='selectedNav = "Tasks"'>Tasks</a>
           </li>
           <li class="nav-item">
             <a routerLink="/schoolings" [class]='selectedNav == "Schoolings" ? "nav-link active" : "nav-link"' aria-current="page" href="#" (click)='selectedNav = "Schoolings"'>Schoolings</a>

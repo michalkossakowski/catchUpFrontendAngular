@@ -26,5 +26,5 @@ export class AppComponent {
   constructor(private userService: UserService){
     this.userService.getLoggedInUser().subscribe((user) => this.user = user);
   }
-  
+
 }

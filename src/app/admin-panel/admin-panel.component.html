@@ -9,6 +9,8 @@
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <button ngbDropdownItem (click)="selectedAction = 'add-user'">Add User</button>
                     <button ngbDropdownItem (click)="selectedAction = 'manage-users'">Manage Users</button>
+                    <button ngbDropdownItem (click)="selectedAction = 'add-task'">Add Task</button>
+                    <button ngbDropdownItem (click)="selectedAction = 'assign-task'">Assign Task</button>
                     <button ngbDropdownItem (click)="selectedAction = 'other'">Other</button>
                 </div>
             </div>
@@ -22,6 +24,12 @@
             }
             @case("users"){
                 <h2>place for user list</h2>
+            }
+            @case("add-task"){
+                <add-task/>
+            }
+            @case("assign-task"){
+                <give-task/>
             }
             @case("other"){
                 <h2>other</h2>
