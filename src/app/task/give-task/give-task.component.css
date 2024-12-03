@@ -1,0 +1,22 @@
+.validator {
+    color: #dc3545;
+    font-size: 16px;
+    margin-top: 3px;
+}
+
+.form-group{
+    margin-top: 18px;
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.toast.show {
+    opacity: 1;
+}

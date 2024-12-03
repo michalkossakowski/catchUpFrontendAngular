@@ -1,0 +1,7 @@
+<!-- task.component.html -->
+<p>task works!</p>
+<button (click)="toggleEditTask()">Edit Task</button>
+
+<div *ngIf="showEditTask">
+    <app-edit-task [id]="17"></app-edit-task>
+</div>
