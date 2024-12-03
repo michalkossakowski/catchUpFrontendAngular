@@ -29,12 +29,13 @@ export class UserService {
       );
   }
 
-  getLoggedInUser(): UserDto | undefined{ 
+  getLoggedInUser(): Observable<UserDto | undefined>{ 
     try {
       const userString = localStorage.getItem('user');
       if(userString){
         const parsedUser = JSON.parse(userString);
         const userDto = new UserDto(
+          parsedUser.id,
           parsedUser.name,
           parsedUser.surname,
           parsedUser.email,
@@ -42,12 +43,12 @@ export class UserService {
           parsedUser.type,
           parsedUser.position
         )
-        return userDto;
+        return of(userDto);
       }
     } catch (error) {
       console.error('Error parsing user from localStorage', error);
     }
-    return undefined
+    return of(undefined)
   }
 
   getRole(userId: string): Observable<string> {
