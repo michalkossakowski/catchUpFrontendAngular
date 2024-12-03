@@ -34,13 +34,13 @@ export class FaqService {
       );
   }
 
-  add(faq: FaqDto): Observable<FaqDto> {
+  add(faq: FaqDto): Observable<{ message: string; faq: FaqDto }> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    return this.http.post<FaqDto>(this.url + "Add", faq)
+    return this.http.post<{ message: string; faq: FaqDto }>(this.url + "Add", faq)
       .pipe(
-        catchError(this.handleError<FaqDto>('add'))
+        catchError(this.handleError<{ message: string; faq: FaqDto }>('add'))
       );
   }
   

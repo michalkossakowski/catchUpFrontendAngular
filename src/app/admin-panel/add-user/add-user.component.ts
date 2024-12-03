@@ -55,24 +55,35 @@ export class AddUserComponent {
   
   addNewUser() {
     if (this.userForm.valid) {
-      this.userService.add(
-        new UserDto(
-          undefined,
-          this.userForm.value.name,
-          this.userForm.value.surname,
-          this.userForm.value.email,
-          this.userForm.value.password,
-          this.userForm.value.type,
-          this.userForm.value.position
-        )
-      ).subscribe(
-        () => {
-          console.log("User added");
-        },
-        (error) => {
-          console.error(error);
+       if (confirm("Are you sure?")) {
+          this.userService.add(
+            new UserDto(
+              undefined,
+              this.userForm.value.name,
+              this.userForm.value.surname,
+              this.userForm.value.email,
+              this.userForm.value.password,
+              this.userForm.value.type,
+              this.userForm.value.position
+            )
+          ).subscribe(
+            () => {
+              console.log("User added");
+              (confirm(`User succesfully added ! 
+                \n Name: ${this.userForm.value.name}  
+                \n Surname: ${this.userForm.value.surname}  
+                \n Email: ${this.userForm.value.email}  
+                \n Password: ${this.userForm.value.password}  
+                \n Type: ${this.userForm.value.type}  
+                \n Position: ${this.userForm.value.position}  
+              `))
+              this.userForm.reset();
+            },
+            (error) => {
+              console.error(error);
+            }
+          )
         }
-      );
     } else {
       console.log('Form is invalid');
     }
