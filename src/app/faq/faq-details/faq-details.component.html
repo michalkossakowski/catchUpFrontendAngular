@@ -6,11 +6,12 @@
             <div class="card-body">
                 <div>{{ faq.answer }}</div>
                 @if (faq.materialsId){
-                    <br/>
-                    <app-material-item 
-                        [materialId]='faq.materialsId' 
-                        [showDownloadFile]="true">
-                    </app-material-item>
+                    <div class="material" >
+                        <app-material-item
+                            [materialId]='faq.materialsId' 
+                            [showDownloadFile]="true">
+                        </app-material-item>
+                    </div>
                 }
             </div>
         </div>
