@@ -57,6 +57,7 @@ export class AddUserComponent {
     if (this.userForm.valid) {
       this.userService.add(
         new UserDto(
+          undefined,
           this.userForm.value.name,
           this.userForm.value.surname,
           this.userForm.value.email,

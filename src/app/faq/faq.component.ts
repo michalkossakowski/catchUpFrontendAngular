@@ -31,6 +31,7 @@ export class FaqComponent implements OnInit {
   filterControl: FormControl = new FormControl();
   faqTitles: string[] = [];
   user: UserDto | undefined;
+  isAdmin: boolean | undefined;
 
   constructor(private faqService: FaqService,private router: Router, private userService: UserService)
   {
@@ -39,7 +40,15 @@ export class FaqComponent implements OnInit {
       error: error => console.error(error)
     });
 
-    this.user = userService.getLoggedInUser();
+    this.userService.getLoggedInUser().subscribe((user) => {
+      this.user = user;
+    });
+
+    if (this.user?.id) {
+      this.userService.getRole(this.user.id).subscribe((role) => {
+        this.isAdmin = role.toUpperCase() === "ADMIN";
+      });
+    }
   }
   
   toggleFaq(faq: FaqDto): void {
