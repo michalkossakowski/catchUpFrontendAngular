@@ -1,0 +1,21 @@
+.hoverIcon :hover{
+    fill: greenyellow;
+}
+.deleteIcon{
+    fill: red;
+}
+.downloadIcon{
+    fill: aqua;
+}
+.validator{
+    color: red;
+    display: inline-block;
+}
+.bi-x-square:hover {
+    color: var(--bs-danger) !important;
+    opacity: 0.7;
+}
+.bi-plus-square:hover{
+    color: var(--bs-success) !important;
+    opacity: 0.7;
+}

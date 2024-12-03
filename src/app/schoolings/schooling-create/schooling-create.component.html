@@ -1,0 +1,47 @@
+<form [formGroup]="schoolingCreateForm" (ngSubmit)="submitForm()" class="mt-2 p-3 shadow bg-body-tertiary rounded">
+    <h1>Create new Schooling</h1>
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" formControlName="title" class="form-control" />
+        <span class="text-danger">
+            @if(title?.errors?.['required']){
+                Title cannot be null
+              }
+        </span >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <input type="text" formControlName="description" class="form-control" />
+        <span class="text-danger">
+            @if(description?.errors?.['required']){
+                Description cannot be null
+              }
+        </span >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select formControlName="categoryId" class="form-control">
+            <option value="" disabled>Select a category</option>
+            <option *ngFor="let category of categories" [value]="category.id">
+                {{ category.name }}
+            </option>
+        </select>
+        <span class="text-danger">
+            @if(categoryId?.errors?.['required']){
+                Category is required
+              }
+        </span >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Priority</label>
+        <input type="number" formControlName="priority" class="form-control" />
+        <span class="text-danger">
+            @if(priority?.errors?.['required']){
+                Priority is required
+            }
+        </span >
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

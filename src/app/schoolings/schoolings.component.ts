@@ -1,21 +1,50 @@
-import { Component } from '@angular/core';
-import { MaterialItemComponent } from "../material/material-item/material-item.component";
-import { AddFileComponent } from "../file/add-file/add-file.component";
+import { Component, OnInit } from '@angular/core';
+import { SchoolingsListComponent } from "./schooling-list/schooling-list.component";
+import { SchoolingCreateComponent } from "./schooling-create/schooling-create.component";
+import { UserService } from '../services/user.service';
+import { SchoolingListMentorComponent } from "./schooling-list-mentor/schooling-list-mentor.component";
+import { FullSchoolingDto } from '../Dtos/fullSchooling.dto';
+import { MentorNewbieComponent } from '../mentor-newbie/mentor-newbie.component';
+import { UserDto } from '../Dtos/user.dto';
+// import { MaterialItemComponent } from "../material/material-item/material-item.component";
+// import { AddFileComponent } from "../file/add-file/add-file.component";
 @Component({
   selector: 'app-schoolings',
   standalone: true,
   imports: [
-    MaterialItemComponent,
-    AddFileComponent
-],
+    MentorNewbieComponent,
+    SchoolingsListComponent,
+    SchoolingCreateComponent,
+    SchoolingListMentorComponent
+  ],
   templateUrl: './schoolings.component.html',
   styleUrl: './schoolings.component.css'
 })
 export class SchoolingsComponent {
-  materialId : number = 0;
+  public userRole?: string;
+  schoolingData?: FullSchoolingDto;
+  choosenUser?: string;
 
-  onMaterialCreated(id: number): void {
-    this.materialId = id;
+  constructor(private userService: UserService) {
+    let userId: string | undefined
+    this.userService.getLoggedInUser().subscribe((user) => {
+      userId = user?.id
+    })
+    if (userId)
+      userService.getRole(userId).subscribe((role) => {
+        this.userRole = role
+      })
   }
+
+  public onSchoolingCreated(schooling: FullSchoolingDto): void {
+    this.schoolingData = schooling;
+  }
+  public onEditSchoolings(userId: string | null): void {
+    if (userId)
+      this.choosenUser = userId
+    else
+      this.choosenUser = undefined
+  }
+
 }
 

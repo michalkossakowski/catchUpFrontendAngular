@@ -1,0 +1,22 @@
+<div ngbAccordion [closeOthers]="true">
+    <div *ngFor="let newbie of newBies; let i = index" ngbAccordionItem>
+        <h2 ngbAccordionHeader (click)="selectUser(newbie.id)">
+            <button ngbAccordionButton (click)="closeDetails()">
+                <h5>{{ i + 1 }}. {{ newbie.name }} {{ newbie.surname }}</h5>
+            </button>
+        </h2>
+        <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+                <ng-template>
+                    <p><strong>Type:</strong> {{ newbie.type }}</p>
+                    <div *ngIf="newbie.id">
+                        <app-newbie-details [user]="selectedUserDetails"></app-newbie-details>
+                    </div>
+                    <button type="button" class="btn btn-outline-primary me-2" (click)="openDetails(newbie.id)">
+                        {{ selectedUserDetails?.id === newbie.id ? 'Close details' : 'See details' }}
+                    </button>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

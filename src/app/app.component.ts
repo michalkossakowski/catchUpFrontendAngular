@@ -11,7 +11,7 @@ import { UserService } from './services/user.service';
   imports: [
     RouterOutlet,
     RouterModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
