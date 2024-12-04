@@ -8,37 +8,8 @@ import {AuthService} from '../services/auth.service';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  template: `
-    <div class="login-container">
-      <form (ngSubmit)="onLogin()">
-        <input
-          type="text"
-          [(ngModel)]="username"
-          name="username"
-          placeholder="Username"
-          required
-        >
-        <input
-          type="password"
-          [(ngModel)]="password"
-          name="password"
-          placeholder="Password"
-          required
-        >
-        <button type="submit">Login</button>
-        <p *ngIf="loginError" class="error">Invalid credentials</p>
-      </form>
-    </div>
-  `,
-  styles: [`
-    .login-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .error { color: red; }
-  `]
+  templateUrl: `./login.component.html`,
+  styleUrl: `./login.component.css`
 })
 export class LoginComponent {
   username: string = '';
@@ -60,7 +31,6 @@ export class LoginComponent {
         }
       },
       error: (error) => {
-        // Handle any unexpected errors
         this.loginError = true;
         console.error('Login error', error);
       }

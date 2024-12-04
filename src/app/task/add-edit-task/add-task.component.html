@@ -1,5 +1,5 @@
 <section class="form-box">
-    <h3>Edit Task</h3>
+    <h3>Add Task</h3>
     <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
 
         <!-- Category ID -->
@@ -8,8 +8,7 @@
             <select
                     class="form-control"
                     id="categoryId"
-                    formControlName="categoryId"
-            >
+                    formControlName="categoryId">
                 <option *ngFor="let category of categories" [value]="category.id">
                     {{ category.name }}
                 </option>
@@ -29,8 +28,7 @@
                     class="form-control"
                     id="title"
                     formControlName="title"
-                    placeholder="Enter Title"
-            />
+                    placeholder="Enter Title"/>
             <span class="validator">
                 @if(taskForm.get('title')?.errors?.['required']) {
                     Title cannot be null
@@ -49,8 +47,7 @@
                     id="description"
                     formControlName="description"
                     rows="5"
-                    placeholder="Enter Description"
-            ></textarea>
+                    placeholder="Enter Description"></textarea>
             <span class="validator">
                 @if(taskForm.get('description')?.errors?.['required']) {
                     Description cannot be null
@@ -73,13 +70,7 @@
                             [showAddingFile]="true"
                     ></app-material-item>
                 </div>
-                <button
-                        type="button"
-                        class="btn btn-danger mt-2"
-                        (click)="removeMaterials()"
-                >
-                    Remove Materials
-                </button>
+                <button type="button" class="btn btn-danger mt-2" (click)="removeMaterials()">Remove Materials</button>
             </ng-container>
             <ng-template #noMaterials>
                 <app-material-item (materialCreated)="onMaterialCreated($event)"></app-material-item>

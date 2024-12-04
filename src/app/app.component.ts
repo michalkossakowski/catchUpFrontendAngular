@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { UserDto } from './Dtos/user.dto';
-import { UserService } from './services/user.service';
+import {Component} from '@angular/core';
+import {RouterModule, RouterOutlet} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {UserDto} from './Dtos/user.dto';
+import {UserService} from './services/user.service';
+import {AuthService} from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -23,15 +23,31 @@ export class AppComponent {
   isNavbarCollapsed: boolean = true;
   user: UserDto | undefined;
   isAdmin: boolean | undefined;
+  isAuthenticated: boolean = false;
 
-  constructor(private userService: UserService){
-    this.userService.getLoggedInUser().subscribe((user) => this.user = user);
-    
-    if (this.user?.id) {
-      this.userService.getRole(this.user.id).subscribe((role) => {
-        this.isAdmin = role.toUpperCase() === "ADMIN";
-      });
-    }
+  constructor(private authService: AuthService, private userService: UserService) {
+    this.authService.isLoggedIn$.subscribe(isAuthenticated => {
+      this.isAuthenticated = isAuthenticated;
+
+      if (isAuthenticated) {
+        this.user = JSON.parse(localStorage.getItem('user') || '{}');
+
+        if (this.user?.id) {
+          this.userService.getRole(this.user.id).subscribe((role) => {
+            this.isAdmin = role.toUpperCase() === "ADMIN";
+          });
+        }
+      } else {
+        this.user = undefined;
+        this.isAdmin = undefined;
+      }
+    });
+    this.authService.checkLoginStatus();
   }
 
+
+  logout(): void {
+    this.isAuthenticated = false;
+    localStorage.clear();
+  }
 }

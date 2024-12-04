@@ -1,25 +1,38 @@
 <section class="form-box">
     <h3>Give Task</h3>
     <form [formGroup]="taskForm" (ngSubmit)="giveTask()">
+
+        <!-- Category ID -->
         <div class="form-group">
-            <label for="newbieId">Newbie ID:</label>
-            <input type="text" class="form-control" id="newbieId" formControlName="newbieId" placeholder="Enter Newbie ID"/>
+            <label for="newbieId">Choose a newbie:</label>
+            <select
+                    class="form-control"
+                    id="newbieId"
+                    formControlName="newbieId">
+                <option *ngFor="let newbie of newbies" [value]="newbie.id">
+                    {{ newbie.name }} {{newbie.surname}}
+                </option>
+            </select>
             <span class="validator">
                 @if(taskForm.get('newbieId')?.errors?.['required']) {
-                    Newbie ID cannot be null
+                    Please select a newbie.
                 }
             </span>
         </div>
 
         <div class="form-group">
-            <label for="taskContentId">Task Content ID:</label>
-            <input type="number" class="form-control" id="taskContentId" formControlName="taskContentId" placeholder="Enter Task Content ID" />
+            <label for="taskContentId">Choose a task:</label>
+            <select
+                    class="form-control"
+                    id="taskContentId"
+                    formControlName="taskContentId">
+                <option *ngFor="let task of tasks" [value]="task.id">
+                    {{ task.title }}
+                </option>
+            </select>
             <span class="validator">
                 @if(taskForm.get('taskContentId')?.errors?.['required']) {
-                    Task Content ID cannot be null
-                }
-                @else if(taskForm.get('taskContentId')?.errors?.['min']) {
-                    Task Content ID must be at least 1
+                    Please select a task.
                 }
             </span>
         </div>
