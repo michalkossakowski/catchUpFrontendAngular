@@ -1,61 +1,95 @@
 <section class="form-box">
-    <h3>Add/Edit Task</h3>
+    <h3>Edit Task</h3>
     <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
 
+        <!-- Category ID -->
         <div class="form-group">
-            <label for="categoryId">Category ID:</label>
-            <input type="number" class="form-control" id="categoryId" formControlName="categoryId" placeholder="Enter Category ID" />
+            <label for="categoryId">Category:</label>
+            <select
+                    class="form-control"
+                    id="categoryId"
+                    formControlName="categoryId"
+            >
+                <option *ngFor="let category of categories" [value]="category.id">
+                    {{ category.name }}
+                </option>
+            </select>
             <span class="validator">
-        @if(taskForm.get('categoryId')?.errors?.['required']){
-            Category ID cannot be null
-        }
-        @else if(taskForm.get('categoryId')?.errors?.['min']){
-            Category ID must be at least 1
-        }
-      </span>
+                @if(taskForm.get('categoryId')?.errors?.['required']) {
+                    Please select a category.
+                }
+            </span>
         </div>
 
-        <div class="form-group">
-            <label for="materialsId">Materials ID:</label>
-            <input type="number" class="form-control" id="materialsId" formControlName="materialsId" placeholder="Enter Materials ID" />
-            <span class="validator">
-        @if(taskForm.get('materialsId')?.errors?.['required']){
-            Materials ID cannot be null
-        }
-        @else if(taskForm.get('materialsId')?.errors?.['min']){
-            Materials ID must be at least 1
-        }
-      </span>
-        </div>
-
+        <!-- Title -->
         <div class="form-group">
             <label for="title">Title:</label>
-            <input type="text" class="form-control" id="title" formControlName="title" placeholder="Enter Title" />
+            <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    formControlName="title"
+                    placeholder="Enter Title"
+            />
             <span class="validator">
-        @if(taskForm.get('title')?.errors?.['required']){
-            Title cannot be null
-        }
-        @else if(taskForm.get('title')?.errors?.['minlength']){
-            Title must be at least {{ taskForm.get('title')?.errors?.['minlength']?.requiredLength }} characters
-        }
-      </span>
+                @if(taskForm.get('title')?.errors?.['required']) {
+                    Title cannot be null
+                }
+                @else if(taskForm.get('title')?.errors?.['minlength']) {
+                    Title must be at least {{ taskForm.get('title')?.errors?.['minlength']?.requiredLength }} characters
+                }
+            </span>
         </div>
 
+        <!-- Description -->
         <div class="form-group">
             <label for="description">Description:</label>
-            <textarea class="form-control" id="description" formControlName="description" rows="5" placeholder="Enter Description"></textarea>
+            <textarea
+                    class="form-control"
+                    id="description"
+                    formControlName="description"
+                    rows="5"
+                    placeholder="Enter Description"
+            ></textarea>
             <span class="validator">
-        @if(taskForm.get('description')?.errors?.['required']){
-            Description cannot be null
-        }
-        @else if(taskForm.get('description')?.errors?.['minlength']){
-            Description must be at least {{ taskForm.get('description')?.errors?.['minlength']?.requiredLength }} characters
-        }
-      </span>
+                @if(taskForm.get('description')?.errors?.['required']) {
+                    Description cannot be null
+                }
+                @else if(taskForm.get('description')?.errors?.['minlength']) {
+                    Description must be at least {{ taskForm.get('description')?.errors?.['minlength']?.requiredLength }} characters
+                }
+            </span>
+        </div>
+
+        <!-- Materials -->
+        <label>(Optional) Additional Materials:</label>
+        <div class="form-group">
+            <ng-container *ngIf="taskForm.get('materialsId')?.value; else noMaterials">
+                <div class="materialBox">
+                    <app-material-item
+                            [materialId]="taskForm.get('materialsId')?.value"
+                            [showRemoveFile]="true"
+                            [showDownloadFile]="true"
+                            [showAddingFile]="true"
+                    ></app-material-item>
+                </div>
+                <button
+                        type="button"
+                        class="btn btn-danger mt-2"
+                        (click)="removeMaterials()"
+                >
+                    Remove Materials
+                </button>
+            </ng-container>
+            <ng-template #noMaterials>
+                <app-material-item (materialCreated)="onMaterialCreated($event)"></app-material-item>
+            </ng-template>
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-success" [disabled]="taskForm.invalid">Submit Task</button>
+        <button type="submit" class="btn btn-success" [disabled]="taskForm.invalid">
+            Submit Task
+        </button>
     </form>
 
     <div #toast class="toast" aria-live="assertive" aria-atomic="true">
