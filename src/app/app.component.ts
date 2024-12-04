@@ -30,24 +30,25 @@ export class AppComponent {
       this.isAuthenticated = isAuthenticated;
 
       if (isAuthenticated) {
-        this.user = JSON.parse(localStorage.getItem('user') || '{}');
+        setTimeout(() => {
+          this.userService.getLoggedInUser().subscribe((user) => this.user = user);
+          if (this.user?.id) {
+            this.userService.getRole(this.user.id).subscribe((role) => {
+              this.isAdmin = role.toUpperCase() === "ADMIN";
+            });
+          }
+        }, 50)
+        console.log(this.user);
 
-        if (this.user?.id) {
-          this.userService.getRole(this.user.id).subscribe((role) => {
-            this.isAdmin = role.toUpperCase() === "ADMIN";
-          });
-        }
       } else {
-        this.user = undefined;
         this.isAdmin = undefined;
       }
     });
-    this.authService.checkLoginStatus();
   }
-
 
   logout(): void {
     this.isAuthenticated = false;
     localStorage.clear();
+    window.location.reload();
   }
 }
