@@ -1,16 +1,14 @@
 .container{
+    text-align: center;
     width: 500px;
 }
 
-.title{
-    text-align: center;
-}
 
 .form-select{
     margin: auto;
     max-width: 200px;
 }
 
-.menuBox{
-  text-align: center;
+.actionsBox{
+    margin: 20px;
 }

@@ -1,6 +1,6 @@
 <section class="container">
     <h2 class="faq-site-title">Frequently Asked Questions:</h2>
-    
+
     <section class="d-flex justify-content-center">
         <div class="input-group mb-3">
             <span class="input-group-text">Search :</span>
@@ -8,7 +8,7 @@
         </div>
     </section>
 
-    <section id="faq-list">
+    <section>
         @if(loading){
             <div class="loaderBox">
                 <span class="loader"></span>
@@ -33,10 +33,10 @@
                                 <button ngbAccordionButton><h5>{{$index+1}}. {{ faq.title }}</h5></button>
                             </h2>
                             <div ngbAccordionCollapse>
-                                <div ngbAccordionBody class="accordionBody">
+                                <div ngbAccordionBody>
                                     <ng-template>
                                         <p>{{faq.answer}}</p>
-                                        <div class="materialBox">
+                                        <div>
                                             @if (faq.materialsId){
                                                 <app-material-item 
                                                     [materialId]='faq.materialsId' 
@@ -54,12 +54,14 @@
             }
         }
     </section>
-    <section id="EditBox">
-        <button type="button" class="btn btn-primary" (click)="showAddFaq = !showAddFaq; showAddFaq ? scrollToBottom() : true;">{{showAddFaq ? 'Cancel Adding' : 'Add Faq'}}</button>
-        @if(showAddFaq){
-            <div>
-                <app-add-edit-faq (faqAdded)="faqAddedInChild($event)"></app-add-edit-faq>
-            </div>
-        }
-    </section>
+    @if(isAdmin){
+        <section id="EditBox">
+            <button type="button" class="btn btn-primary" (click)="showAddFaq = !showAddFaq; showAddFaq ? scrollToBottom() : true;">{{showAddFaq ? 'Cancel Adding' : 'Add Faq'}}</button>
+            @if(showAddFaq){
+                <div>
+                    <app-add-edit-faq (faqAdded)="faqAddedInChild($event)"></app-add-edit-faq>
+                </div>
+            }
+        </section>
+    }
 </section>

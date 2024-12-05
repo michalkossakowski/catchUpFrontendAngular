@@ -21,14 +21,50 @@ export class UserService {
         catchError(this.handleError<UserDto>('add'))
       );
   }
-  
+
+  getById(userId: string): Observable<UserDto> {
+    return this.http.get<UserDto>(`${this.url}GetById/${userId}`)
+      .pipe(
+          catchError(this.handleError<UserDto>('getById'))
+      );
+  }
+
+  getLoggedInUser(): Observable<UserDto | undefined>{ 
+    try {
+      const userString = localStorage.getItem('user');
+      if(userString){
+        const parsedUser = JSON.parse(userString);
+        const userDto = new UserDto(
+          parsedUser.id,
+          parsedUser.name,
+          parsedUser.surname,
+          parsedUser.email,
+          parsedUser.password,
+          parsedUser.type,
+          parsedUser.position
+        )
+        return of(userDto);
+      }
+    } catch (error) {
+      console.error('Error parsing user from localStorage', error);
+    }
+    return of(undefined)
+  }
+
+  getRole(userId: string): Observable<string> {
+    return this.http.get(`${this.url}GetRole/${userId}`, { responseType: 'text' })
+        .pipe(
+            catchError(this.handleError<string>('getRole'))
+        );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(operation + ' failed' + error);
-      if(error.status == 0){
+      console.error(`${operation} failed:`, error);
+      if (error.status === 0) {
         return throwError(() => new Error('API is not available'));
       }
-      return throwError(() => new Error(error.error.message));
+      return throwError(() => new Error(error.error?.message || 'Unknown error occurred'));
     };
   }
 }

@@ -6,33 +6,32 @@
             <div class="card-body">
                 <div>{{ faq.answer }}</div>
                 @if (faq.materialsId){
-                    <br/>
-                    <app-material-item 
-                        [materialId]='faq.materialsId' 
-                        [showDownloadFile]="true">
-                    </app-material-item>
+                    <div class="material" >
+                        <app-material-item
+                            [materialId]='faq.materialsId' 
+                            [showDownloadFile]="true">
+                        </app-material-item>
+                    </div>
                 }
             </div>
         </div>
 
         <div class="buttonBox">
             <button type="button" class="btn btn-primary" (click)="backToFaq()">Back</button>
-            @if(true){ 
+            @if(isAdmin){ 
                 <button type="button" class="btn btn-primary" (click)="showEditFaq = !showEditFaq; showEditFaq ? scrollToBottom() : true;">{{showEditFaq ? 'Cancel Editing' : 'Edit'}}</button>
                 <button type="button" class="btn btn-danger" (click)="deleteFaq()">Delete</button>
             }
         </div>
-        
-            
-        @if(true){ 
-            <section id="EditBox">
-                @if(showEditFaq){
-                    <div>
-                        <app-add-edit-faq [editedFaq]="faq" (faqEdited)="faqEditedInChild($event)"></app-add-edit-faq>
-                    </div>
-                }
-            </section>
-        }
+    
+        <section id="EditBox">
+            @if(showEditFaq){
+                <div>
+                    <app-add-edit-faq [editedFaq]="faq" (faqEdited)="faqEditedInChild($event)"></app-add-edit-faq>
+                </div>
+            }
+        </section>
+
     }
     @else{
         <div class="alert alert-danger" role="alert">

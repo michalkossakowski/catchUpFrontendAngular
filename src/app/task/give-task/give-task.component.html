@@ -1,0 +1,102 @@
+<section class="form-box">
+    <h3>Give Task</h3>
+    <form [formGroup]="taskForm" (ngSubmit)="giveTask()">
+
+        <!-- Category ID -->
+        <div class="form-group">
+            <label for="newbieId">Choose a newbie:</label>
+            <select
+                    class="form-control"
+                    id="newbieId"
+                    formControlName="newbieId">
+                <option *ngFor="let newbie of newbies" [value]="newbie.id">
+                    {{ newbie.name }} {{newbie.surname}}
+                </option>
+            </select>
+            <span class="validator">
+                @if(taskForm.get('newbieId')?.errors?.['required']) {
+                    Please select a newbie.
+                }
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="taskContentId">Choose a task:</label>
+            <select
+                    class="form-control"
+                    id="taskContentId"
+                    formControlName="taskContentId">
+                <option *ngFor="let task of tasks" [value]="task.id">
+                    {{ task.title }}
+                </option>
+            </select>
+            <span class="validator">
+                @if(taskForm.get('taskContentId')?.errors?.['required']) {
+                    Please select a task.
+                }
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <input type="text" class="form-control" id="status" formControlName="status" placeholder="Enter Task Status" />
+            <span class="validator">
+                @if(taskForm.get('status')?.errors?.['required']) {
+                    Status cannot be null
+                }
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="deadline">Deadline:</label>
+            <input type="number" class="form-control" id="deadline" formControlName="deadline" placeholder="Enter Deadline" />
+            <span class="validator">
+                @if(taskForm.get('deadline')?.errors?.['required']) {
+                    Deadline cannot be null
+                }
+                @else if(taskForm.get('deadline')?.errors?.['min']) {
+                    Deadline must be a positive number
+                }
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="priority">Priority:</label>
+            <input type="number" class="form-control" id="priority" formControlName="priority" placeholder="Enter Priority" />
+            <span class="validator">
+                @if(taskForm.get('priority')?.errors?.['required']) {
+                    Priority cannot be null
+                }
+                @else if(taskForm.get('priority')?.errors?.['min']) {
+                    Priority must be at least 0
+                }
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="state">State:</label>
+            <input type="number" class="form-control" id="state" formControlName="state" placeholder="Enter State" />
+            <span class="validator">
+                @if(taskForm.get('state')?.errors?.['required']) {
+                    State cannot be null
+                }
+                @else if(taskForm.get('state')?.errors?.['min']) {
+                    State must be at least 0
+                }
+            </span>
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="taskForm.invalid">Submit Task</button>
+    </form>
+
+    <div #toast class="toast" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Task Status</strong>
+            <small>Just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Task given successfully!
+        </div>
+    </div>
+</section>

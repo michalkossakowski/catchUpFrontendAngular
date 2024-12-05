@@ -1,0 +1,97 @@
+<div class="m-3">
+    <app-edit-schooling #editSchooling (schoolingChanged)="changeInFullSchoolings($event)"></app-edit-schooling>
+    @if (error) {
+    <div class="error col">{{ error }}</div>
+    } @else {
+    <div class="filters">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Search :</span>
+            <input [formControl]="filterControl" type="text" class="form-control"
+                placeholder="Enter searching question...">
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="minPriority" class="form-label">Minimum Priority:</label>
+                <input [(ngModel)]="minPriority" id="minPriority" type="number" class="form-control" min="0"
+                    placeholder="Enter minimum priority">
+            </div>
+            <div class="col-md-6">
+                <label for="categoryFilter" class="form-label">Category:</label>
+                <select [(ngModel)]="selectedCategory" id="categoryFilter" class="form-select">
+                    <option value="">All Categories</option>
+                    <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <h1>List of Schoolings</h1>
+    @for (fullschooling of fullschoolings 
+    | schoolingFilter:filterValue 
+    | priorityFilter:minPriority
+    | categoryFilter:selectedCategory ; 
+        track fullschooling.schooling.id) {
+    <div id="schooling-{{ fullschooling.schooling.id }}" class="card mt-3 shadow bg-body-tertiary rounded">
+        <div class="card-body">
+            <h2 class="card-title fw-bold">{{ fullschooling.schooling.title }}</h2>
+            <hr />
+            <p class="card-text">{{ fullschooling.schooling.description }}</p>
+            <p><strong>Category:</strong> {{ fullschooling.category?.name }}</p>
+            <p class="fs-5"><span class="badge rounded-pill text-bg-secondary">Priority {{
+                    fullschooling.schooling.priority }}</span></p>
+            <hr />
+            <h3 class="fw-bolder mb-3 fw-bolder">Etapy:</h3>
+            <!-- <ul class="list-group">
+                @for (part of fullschooling.parts; track part.id) {
+                <li class="list-group-item bg-body-secondary ">
+                    <h4 class="w-semibold">{{ part.name }}</h4>
+                    <p>{{ part.content }}</p>
+                    <ul>
+                        @for (material of part.materials; track material.id) {
+                        <li>
+                            <p class="fw-medium">{{ material.name }}</p>
+                            <ul>
+                                @for (file of material.files; track file.id) {
+                                <li>
+                                    <p>{{ file.name }}
+                                        <a class="p-1 downloadIcon hoverIcon bi bi-file-earmark-arrow-down" (click)="downloadFile(file.id)">
+                                    
+                                        </a>
+                                    </p>
+                                </li>
+                                }
+                            </ul>
+                        </li>
+                        }
+                    </ul>
+                </li>
+                }
+            </ul> -->
+            <div class="row mt-3 text-center">
+                <div class="col-3 d-grid">
+                    <button class="btn btn-danger btn-lg" (click)="archiveSchooling(fullschooling.schooling.id)">Delete</button>
+                </div>
+                <div class="col-3 d-grid">
+                    <button class="btn btn-primary btn-lg" (click)="openEditModal(fullschooling.schooling.id)">Edit</button>
+                </div>
+                <div class="col-6">
+                    @if (isUserChoosen)
+                    {
+                        @if( isSchoolingChosen(fullschooling.schooling.id) )
+                        {
+                        <i class="mt-2 bi text-danger bi-x-square fs-3" role="button"
+                            (click)="unassignSchooling(fullschooling.schooling.id)"> Unassign</i>
+                        }
+                        @else
+                        {
+                        <i class="mt-2 bi bi-plus-square fs-3 text-success" role="button"
+                            (click)="assignSchooling(fullschooling.schooling.id)"> Assign</i>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    }
+</div>

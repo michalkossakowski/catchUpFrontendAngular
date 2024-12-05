@@ -7,6 +7,8 @@ import { FormControl, FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { FilterFaqPipe } from './faqFilter.pipe';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialItemComponent } from "../material/material-item/material-item.component";
+import { UserService } from '../services/user.service';
+import { UserDto } from '../Dtos/user.dto';
 
 @Component({
   selector: 'app-faq',
@@ -20,20 +22,32 @@ import { MaterialItemComponent } from "../material/material-item/material-item.c
 export class FaqComponent implements OnInit {
   faqList: FaqDto[] = [];
   selectedFaq!: FaqDto;
-  emptyFaq: FaqDto = new FaqDto('','')
+  emptyFaq: FaqDto = new FaqDto()
   loading: boolean = true;
   errorMessage!: string;
   showError: boolean = false;
   showAddFaq: boolean = false;
   filterValue!: string;
   filterControl: FormControl = new FormControl();
+  user: UserDto | undefined;
+  isAdmin: boolean | undefined;
 
-  constructor(private faqService: FaqService,private router: Router)
+  constructor(private faqService: FaqService,private router: Router, private userService: UserService)
   {
     this.filterControl.valueChanges.subscribe({
       next: val => { this.filterValue = val; },
       error: error => console.error(error)
     });
+
+    this.userService.getLoggedInUser().subscribe((user) => {
+      this.user = user;
+    });
+
+    if (this.user?.id) {
+      this.userService.getRole(this.user.id).subscribe((role) => {
+        this.isAdmin = role.toUpperCase() === "ADMIN";
+      });
+    }
   }
   
   toggleFaq(faq: FaqDto): void {
@@ -51,6 +65,7 @@ export class FaqComponent implements OnInit {
         this.faqList = faqList
         this.showError = false;
         this.loading = false
+
       },
       (error) => {
         this.showError = true
@@ -58,21 +73,26 @@ export class FaqComponent implements OnInit {
         this.loading = false
       }
     );
+   
   }
 
   faqAddedInChild(newFaq: FaqDto) {
-    this.faqService.add(newFaq).subscribe(
-      () => {
-        this.showAddFaq = false;
-        this.getFaqs();
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    if (confirm("Do you want to save changes?")) {
+      this.faqService.add(newFaq).subscribe(
+        (response: { message: string; faq: FaqDto }) => {
+          this.showAddFaq = false;
+            this.faqList.push(response.faq)
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+      this.scrollToBottom()
+    }
   }
 
   openDetailsFaq(){
+    console.log( this.selectedFaq.id)
     this.router.navigate(['/faq/details', this.selectedFaq.id]);
   }
 
@@ -83,7 +103,7 @@ export class FaqComponent implements OnInit {
         top: scrollHeight,
         behavior: 'smooth'
       });
-    },0);
+    },50);
   }
   
 }

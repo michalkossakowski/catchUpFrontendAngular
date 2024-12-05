@@ -1,0 +1,72 @@
+<div class="m-3">
+    @if (error) {
+    <div class="error col">{{ error }}</div>
+    } @else {
+        <div class="filters">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Search :</span>
+                <input [formControl]="filterControl" type="text" class="form-control" placeholder="Enter searching question...">
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="minPriority" class="form-label">Minimum Priority:</label>
+                    <input [(ngModel)]="minPriority" id="minPriority" type="number" class="form-control" min="0" placeholder="Enter minimum priority">
+                </div>
+                <div class="col-md-6">
+                    <label for="categoryFilter" class="form-label">Category:</label>
+                    <select [(ngModel)]="selectedCategory" id="categoryFilter" class="form-select">
+                        <option value="">All Categories</option>
+                        <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    <h1>List of Schoolings</h1>
+    @for (fullschooling of fullschoolings | schoolingFilter:filterValue | priorityFilter:minPriority | categoryFilter:selectedCategory ; track fullschooling.schooling.id) {
+    <div class="card shadow bg-body-tertiary rounded">
+        <div class="card-body">
+            <h2 class="card-title fw-bold">{{ fullschooling.schooling.title }}</h2>
+            <hr />
+            <p class="card-text">{{ fullschooling.schooling.description }}</p>
+            <p><strong>Category:</strong> {{ fullschooling.category?.name }}</p>
+            <p class="fs-5"><span class="badge rounded-pill text-bg-secondary">Priority {{
+                    fullschooling.schooling.priority }}</span></p>
+            <hr />
+            <h3 class="fw-bolder mb-3 fw-bolder">Etapy:</h3>
+            <ul class="list-group">
+                @for (part of fullschooling.parts; track part.id) {
+                <li class="list-group-item bg-body-secondary ">
+                    <h4 class="w-semibold">{{ part.name }}</h4>
+                    <p>{{ part.content }}</p>
+                    <ul>
+                        @for (material of part.materials; track material.id) {
+                        <li>
+                            <p class="fw-medium">{{ material.name }}</p>
+                            <ul>
+                                @for (file of material.files; track file.id) {
+                                <li>
+                                    <p>{{ file.name }}
+                                        <a class="p-1 downloadIcon hoverIcon" (click)="downloadFile(file.id)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293z" />
+                                                <path
+                                                    d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
+                                            </svg>
+                                        </a>
+                                    </p>
+                                </li>
+                                }
+                            </ul>
+                        </li>
+                        }
+                    </ul>
+                </li>
+                }
+            </ul>
+        </div>
+    </div>
+    }
+    }
+</div>

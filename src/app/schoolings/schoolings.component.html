@@ -1,8 +1,15 @@
-<app-material-item 
-    [materialId]="materialId" 
-    [showRemoveFile]="true"
-    [showDownloadFile]="true"
-    [showAddingFile]="true"
-    (materialCreated)="onMaterialCreated($event)" 
-    >
-</app-material-item>
+<div class="row">
+  @if (userRole === "Newbie")
+  {
+  <app-schooling-list class="col"></app-schooling-list>
+  }
+  @else if (userRole === "Mentor" || userRole === "Admin")
+  {
+  <app-schooling-list-mentor [addSchoolings]="schoolingData" [getUserSchoolings]="choosenUser" class="col"></app-schooling-list-mentor>
+  <div class="col">
+    <app-schooling-create (schoolingCreated)="onSchoolingCreated($event)"></app-schooling-create>
+    <h1 class="mb-3 mt-3">List of Newbies</h1>
+    <app-mentor-newbie (userChanged)="onEditSchoolings($event)"></app-mentor-newbie>
+  </div>
+  }
+</div>

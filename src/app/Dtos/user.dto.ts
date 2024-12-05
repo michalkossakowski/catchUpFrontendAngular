@@ -8,6 +8,7 @@ export class UserDto {
     position?: string;  
 
     constructor(
+        id?: string,
         name?: string, 
         surname?: string, 
         email?: string, 
@@ -15,6 +16,7 @@ export class UserDto {
         type?: string, 
         position?: string
     ) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
