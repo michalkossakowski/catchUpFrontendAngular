@@ -1,4 +1,5 @@
 <div class="m-3">
+    <app-edit-schooling #editSchooling (schoolingChanged)="changeInFullSchoolings($event)"></app-edit-schooling>
     @if (error) {
     <div class="error col">{{ error }}</div>
     } @else {
@@ -25,8 +26,11 @@
         </div>
     </div>
     <h1>List of Schoolings</h1>
-    @for (fullschooling of fullschoolings | schoolingFilter:filterValue | priorityFilter:minPriority |
-    categoryFilter:selectedCategory ; track fullschooling.schooling.id) {
+    @for (fullschooling of fullschoolings 
+    | schoolingFilter:filterValue 
+    | priorityFilter:minPriority
+    | categoryFilter:selectedCategory ; 
+        track fullschooling.schooling.id) {
     <div id="schooling-{{ fullschooling.schooling.id }}" class="card mt-3 shadow bg-body-tertiary rounded">
         <div class="card-body">
             <h2 class="card-title fw-bold">{{ fullschooling.schooling.title }}</h2>
@@ -74,7 +78,7 @@
                     <button class="btn btn-danger btn-lg" (click)="archiveSchooling(fullschooling.schooling.id)">Delete</button>
                 </div>
                 <div class="col-3 d-grid">
-                    <button class="btn btn-primary btn-lg" (click)="editSchooling(fullschooling.schooling.id)">Edit</button>
+                    <button class="btn btn-primary btn-lg" (click)="openEditModal(fullschooling.schooling.id)">Edit</button>
                 </div>
                 <div class="col-6">
                     @if (isUserChoosen)
@@ -91,7 +95,6 @@
                         }
                     }
                 </div>
-
             </div>
         </div>
     </div>

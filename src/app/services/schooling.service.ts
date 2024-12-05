@@ -32,12 +32,18 @@ export class SchoolingService {
   {
     return this.http.post<{ message: string}>(`${this.url}AddSchoolingToUser/${userId}/${schoolingId}`, null)
   }
+
   archiveUserSchooling(userId: string, schoolingId: number) : Observable<{ message: string}>
   {
     return this.http.post<{ message: string}>(`${this.url}ArchiveUserSchooling/${userId}/${schoolingId}`, null)
   }
+
   archiveSchooling(schoolingId: number) : Observable<{ message: string}>
   {
     return this.http.delete<{ message: string}>(`${this.url}ArchiveSchooling/${schoolingId}`)
+  }
+
+  editSchooling(schoolingDto: SchoolingDto) : Observable<{ message: string}>{
+    return this.http.put<{ message: string}>(`${this.url}EditSchooling`, schoolingDto);
   }
 }
