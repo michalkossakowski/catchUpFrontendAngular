@@ -77,16 +77,4 @@ export class SchoolingCreateComponent {
       console.warn('No logged user.');
     }
   }
-  // categories: CategoryDto[] = [];
-  // loading = false;
-  // successMessage: string | null = null;
-  // errorMessage: string | null = null;
-
-  // private fb = inject(FormBuilder);
-  // private schoolingService = inject(SchoolingService);
-
-  // ngOnInit(): void {
-
-  // }
-
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, output, Output  } from '@angular/core';
+import { Component, EventEmitter, Input, output, Output } from '@angular/core';
 import { FileService } from '../../services/file.service';
 import { FileDto } from '../../Dtos/file.dto';
 @Component({
@@ -12,9 +12,9 @@ import { FileDto } from '../../Dtos/file.dto';
 export class AddFileComponent {
   @Input() materialId: number = 0;
   @Output() fileUploaded = new EventEmitter<FileDto>();
-  isFileOver: boolean = false; 
+  isFileOver: boolean = false;
 
-  constructor(private fileService: FileService) {}
+  constructor(private fileService: FileService) { }
 
   onDragOver(event: DragEvent) {
     event.preventDefault();
@@ -42,18 +42,16 @@ export class AddFileComponent {
   private uploadFile(file: File) {
     if (this.materialId !== 0) {
       this.fileService.uploadFile(file, this.materialId).subscribe(
-        response => 
-          {
+        response => {
           this.fileUploaded.emit(response.fileDto);
-          },
+        },
         error => console.error('File upload failed:', error)
       );
     } else {
       this.fileService.uploadFile(file).subscribe(
-        response => 
-          {
+        response => {
           this.fileUploaded.emit(response.fileDto);
-          },
+        },
         error => console.error('File upload failed:', error)
       );
     }

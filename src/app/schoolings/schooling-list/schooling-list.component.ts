@@ -60,15 +60,15 @@ export class SchoolingsListComponent implements OnInit {
     this.userService.getLoggedInUser().subscribe((user) => {
       userId = user?.id
     })
-    if(userId)
-    this.schoolingService.getAllUserSchoolings(userId).subscribe(
-      (response) => {
-        this.fullschoolings = response.data;
-      },
-      (error) => {
-        this.error = 'Failed to load schoolings'
-      }
-    )
+    if (userId)
+      this.schoolingService.getAllUserSchoolings(userId).subscribe(
+        (response) => {
+          this.fullschoolings = response.data;
+        },
+        (error) => {
+          this.error = 'Failed to load schoolings'
+        }
+      )
   }
   downloadFile(fileId: number): void {
     this.fileService.downloadFile(fileId).subscribe(blob => {

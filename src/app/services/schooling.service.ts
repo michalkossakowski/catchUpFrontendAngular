@@ -35,7 +35,7 @@ export class SchoolingService {
 
   archiveUserSchooling(userId: string, schoolingId: number) : Observable<{ message: string}>
   {
-    return this.http.post<{ message: string}>(`${this.url}ArchiveUserSchooling/${userId}/${schoolingId}`, null)
+    return this.http.delete<{ message: string}>(`${this.url}ArchiveUserSchooling/${userId}/${schoolingId}`)
   }
 
   archiveSchooling(schoolingId: number) : Observable<{ message: string}>

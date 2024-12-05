@@ -1,19 +1,9 @@
-<!-- <app-material-item 
-    [materialId]="materialId" 
-    [showRemoveFile]="true"
-    [showDownloadFile]="true"
-    [showAddingFile]="true"
-    (materialCreated)="onMaterialCreated($event)" 
-    >
-</app-material-item> -->
-<!-- <app-schooling-list></app-schooling-list>
-<app-schooling-create></app-schooling-create> -->
 <div class="row">
   @if (userRole === "Newbie")
   {
   <app-schooling-list class="col"></app-schooling-list>
   }
-  @else if (userRole === "Mentor")
+  @else if (userRole === "Mentor" || userRole === "Admin")
   {
   <app-schooling-list-mentor [addSchoolings]="schoolingData" [getUserSchoolings]="choosenUser" class="col"></app-schooling-list-mentor>
   <div class="col">
