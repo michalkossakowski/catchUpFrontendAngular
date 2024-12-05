@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { SchoolingService } from '../../services/schooling.service';
 import { FullSchoolingDto } from '../../Dtos/fullSchooling.dto';
 import { FileService } from '../../services/file.service';
@@ -7,6 +7,7 @@ import { CategoryFilterPipe, FilterSchoolingPipe, PriorityFilterPipe } from '../
 import { CategoryService } from '../../services/category.service';
 import { CommonModule } from '@angular/common';
 import { CategoryDto } from '../../Dtos/category.dto';
+import { EditSchoolingComponent } from '../edit-schooling/edit-schooling.component';
 
 @Component({
   selector: 'app-schooling-list-mentor',
@@ -17,7 +18,8 @@ import { CategoryDto } from '../../Dtos/category.dto';
     FormsModule,
     PriorityFilterPipe,
     CategoryFilterPipe,
-    CommonModule
+    CommonModule,
+    EditSchoolingComponent
   ],
   templateUrl: './schooling-list-mentor.component.html',
   styleUrl: './schooling-list-mentor.component.css'
@@ -34,9 +36,17 @@ export class SchoolingListMentorComponent implements OnInit {
   isUserChoosen: boolean = false
   userId: string | null = null
 
+  @ViewChild('editSchooling') editSchooling!: EditSchoolingComponent;
+
   @Input() set addSchoolings(schooling: FullSchoolingDto | undefined) {
     if (schooling) {
       this.addToFullSchoolings(schooling)
+    }
+  }
+
+  @Input() set changeSchooling(schooling: FullSchoolingDto | undefined) {
+    if (schooling) {
+      this.changeInFullSchoolings(schooling)
     }
   }
 
@@ -54,7 +64,6 @@ export class SchoolingListMentorComponent implements OnInit {
       this.userSchoolingsId = []
     }
   }
-
 
   constructor(
     private schoolingService: SchoolingService,
@@ -99,7 +108,12 @@ export class SchoolingListMentorComponent implements OnInit {
       window.URL.revokeObjectURL(url)
     })
   }
-
+  public changeInFullSchoolings(schooling: FullSchoolingDto): void {
+    if (schooling) {
+      const index = this.fullschoolings.findIndex(existingSchooling => existingSchooling.schooling.id === schooling.schooling.id);
+      this.fullschoolings[index] = schooling;
+    }
+  }
   private addToFullSchoolings(schooling: FullSchoolingDto): void {
     if (schooling) {
       this.fullschoolings = [...this.fullschoolings, schooling]
@@ -132,5 +146,19 @@ export class SchoolingListMentorComponent implements OnInit {
     }
     else
       console.error("User not found")
+  }
+
+  public archiveSchooling(schoolingId: number) {
+    this.schoolingService.archiveSchooling(schoolingId).subscribe({
+      next: () => {
+        this.fullschoolings = this.fullschoolings.filter(fs => fs.schooling.id !== schoolingId)
+      }
+    })
+  }
+
+  public openEditModal(schoolingId: number): void {
+    var schooling = this.fullschoolings.find(schooling => schooling.schooling.id == schoolingId)
+    if (schooling)
+      this.editSchooling.openModal(schooling);
   }
 }

@@ -5,9 +5,7 @@ import { UserService } from '../services/user.service';
 import { SchoolingListMentorComponent } from "./schooling-list-mentor/schooling-list-mentor.component";
 import { FullSchoolingDto } from '../Dtos/fullSchooling.dto';
 import { MentorNewbieComponent } from '../mentor-newbie/mentor-newbie.component';
-import { UserDto } from '../Dtos/user.dto';
-// import { MaterialItemComponent } from "../material/material-item/material-item.component";
-// import { AddFileComponent } from "../file/add-file/add-file.component";
+
 @Component({
   selector: 'app-schoolings',
   standalone: true,

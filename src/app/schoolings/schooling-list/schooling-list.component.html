@@ -7,7 +7,6 @@
                 <span class="input-group-text">Search :</span>
                 <input [formControl]="filterControl" type="text" class="form-control" placeholder="Enter searching question...">
             </div>
-
             <div class="row g-3 mb-3">
                 <div class="col-md-6">
                     <label for="minPriority" class="form-label">Minimum Priority:</label>
@@ -24,7 +23,7 @@
         </div>
     <h1>List of Schoolings</h1>
     @for (fullschooling of fullschoolings | schoolingFilter:filterValue | priorityFilter:minPriority | categoryFilter:selectedCategory ; track fullschooling.schooling.id) {
-    <div class="card m-3 shadow bg-body-tertiary rounded">
+    <div class="card shadow bg-body-tertiary rounded">
         <div class="card-body">
             <h2 class="card-title fw-bold">{{ fullschooling.schooling.title }}</h2>
             <hr />

@@ -34,7 +34,7 @@
     </div>
     <div class="mb-3">
         <label class="form-label">Priority</label>
-        <input type="number" formControlName="priority" class="form-control" />
+        <input type="number" formControlName="priority" class="form-control" min="0" />
         <span class="text-danger">
             @if(priority?.errors?.['required']){
                 Priority is required
