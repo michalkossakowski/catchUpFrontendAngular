@@ -3,7 +3,7 @@ import { SchoolingService } from '../../services/schooling.service';
 import { FullSchoolingDto } from '../../Dtos/fullSchooling.dto';
 import { FileService } from '../../services/file.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CategoryFilterPipe, FilterSchoolingPipe, PriorityFilterPipe } from '../schoolingFilter.pipe';
+import { CategoryFilterPipe, FilterSchoolingPipe, PriorityFilterPipe, SortSchoolingsPipe } from '../schoolingFilter.pipe';
 import { CategoryDto } from '../../Dtos/category.dto';
 import { CategoryService } from '../../services/category.service';
 import { CommonModule } from '@angular/common';
@@ -18,7 +18,8 @@ import { UserService } from '../../services/user.service';
     FormsModule,
     PriorityFilterPipe,
     CategoryFilterPipe,
-    CommonModule
+    CommonModule,
+    SortSchoolingsPipe
   ],
   templateUrl: './schooling-list.component.html',
   styleUrl: './schooling-list.component.css'
@@ -72,6 +73,7 @@ export class SchoolingsListComponent implements OnInit {
         }
       )
   }
+
   downloadFile(fileId: number): void {
     this.fileService.downloadFile(fileId).subscribe(blob => {
       const url = window.URL.createObjectURL(blob)
@@ -82,27 +84,9 @@ export class SchoolingsListComponent implements OnInit {
       window.URL.revokeObjectURL(url)
     })
   }
-  public sortSchoolings(): void {
-    this.fullschoolings.sort((a, b) => {
-      let comparison = 0;
-  
-      if (this.sortBy === 'title') {
-        comparison = a.schooling.title.localeCompare(b.schooling.title);
-      } else if (this.sortBy === 'priority') {
-        comparison = a.schooling.priority - b.schooling.priority;
-      } else if (this.sortBy === 'category') {
-        const categoryA = a.category?.name || '';
-        const categoryB = b.category?.name || '';
-        comparison = categoryA.localeCompare(categoryB);
-      }
 
-      return this.sortDirection === 'asc' ? comparison : -comparison;
-    });
-  }
-  
   public sortSchoolingsDirection(): void {
     this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-    this.sortSchoolings();
   }
 }
 

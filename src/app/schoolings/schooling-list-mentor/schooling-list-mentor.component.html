@@ -18,7 +18,8 @@
                     <option value="category">Category</option>
                 </select>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"  (change)="sortSchoolingsDirection()">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                        (change)="sortSchoolingsDirection()">
                     <label class="form-check-label" for="flexSwitchCheckDefault">Up / Down</label>
                 </div>
             </div>
@@ -39,12 +40,13 @@
         </div>
     </div>
     <h1>List of Schoolings</h1>
-    @for (fullschooling of fullschoolings 
-    | schoolingFilter:filterValue 
+    @for (fullschooling of fullschoolings
+    | schoolingFilter:filterValue
     | priorityFilter:minPriority
     | categoryFilter:selectedCategory
-    | sortSchoolings:sortBy:sortDirection;    ; 
-        track fullschooling.schooling.id) {
+    | sortSchoolings:sortBy:sortDirection;
+    track fullschooling.schooling.id)
+    {
     <div id="schooling-{{ fullschooling.schooling.id }}" class="card mt-3 shadow bg-body-tertiary rounded">
         <div class="card-body">
             <h2 class="card-title fw-bold">{{ fullschooling.schooling.title }}</h2>
@@ -55,52 +57,28 @@
                     fullschooling.schooling.priority }}</span></p>
             <hr />
             <h3 class="fw-bolder mb-3 fw-bolder">Etapy:</h3>
-            <!-- <ul class="list-group">
-                @for (part of fullschooling.parts; track part.id) {
-                <li class="list-group-item bg-body-secondary ">
-                    <h4 class="w-semibold">{{ part.name }}</h4>
-                    <p>{{ part.content }}</p>
-                    <ul>
-                        @for (material of part.materials; track material.id) {
-                        <li>
-                            <p class="fw-medium">{{ material.name }}</p>
-                            <ul>
-                                @for (file of material.files; track file.id) {
-                                <li>
-                                    <p>{{ file.name }}
-                                        <a class="p-1 downloadIcon hoverIcon bi bi-file-earmark-arrow-down" (click)="downloadFile(file.id)">
-                                    
-                                        </a>
-                                    </p>
-                                </li>
-                                }
-                            </ul>
-                        </li>
-                        }
-                    </ul>
-                </li>
-                }
-            </ul> -->
             <div class="row mt-3 text-center">
                 <div class="col-3 d-grid">
-                    <button class="btn btn-danger btn-lg" (click)="archiveSchooling(fullschooling.schooling.id)">Delete</button>
+                    <button class="btn btn-danger btn-lg"
+                        (click)="archiveSchooling(fullschooling.schooling.id)">Delete</button>
                 </div>
                 <div class="col-3 d-grid">
-                    <button class="btn btn-primary btn-lg" (click)="openEditModal(fullschooling.schooling.id)">Edit</button>
+                    <button class="btn btn-primary btn-lg"
+                        (click)="openEditModal(fullschooling.schooling.id)">Edit</button>
                 </div>
                 <div class="col-6">
                     @if (isUserChoosen)
                     {
-                        @if( isSchoolingChosen(fullschooling.schooling.id) )
-                        {
-                        <i class="mt-2 bi text-danger bi-x-square fs-3" role="button"
-                            (click)="unassignSchooling(fullschooling.schooling.id)"> Unassign</i>
-                        }
-                        @else
-                        {
-                        <i class="mt-2 bi bi-plus-square fs-3 text-success" role="button"
-                            (click)="assignSchooling(fullschooling.schooling.id)"> Assign</i>
-                        }
+                    @if( isSchoolingChosen(fullschooling.schooling.id) )
+                    {
+                    <i class="mt-2 bi text-danger bi-x-square fs-3" role="button"
+                        (click)="unassignSchooling(fullschooling.schooling.id)"> Unassign</i>
+                    }
+                    @else
+                    {
+                    <i class="mt-2 bi bi-plus-square fs-3 text-success" role="button"
+                        (click)="assignSchooling(fullschooling.schooling.id)"> Assign</i>
+                    }
                     }
                 </div>
             </div>
