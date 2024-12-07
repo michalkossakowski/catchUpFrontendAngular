@@ -46,3 +46,34 @@ export class CategoryFilterPipe implements PipeTransform {
     return items.filter(item => item.category.id.toString() === selectedCategory);
   }
 }
+
+@Pipe({
+  standalone: true,
+  name: 'sortSchoolings'
+})
+
+export class SortSchoolingsPipe implements PipeTransform {
+  transform(
+    schoolings: any[],
+    sortBy: string,
+    sortDirection: string
+  ): any[] {
+    if (!schoolings || !sortBy) return schoolings;
+
+    return schoolings.sort((a, b) => {
+      let comparison = 0;
+
+      if (sortBy === 'title') {
+        comparison = a.schooling.title.localeCompare(b.schooling.title);
+      } else if (sortBy === 'priority') {
+        comparison = a.schooling.priority - b.schooling.priority;
+      } else if (sortBy === 'category') {
+        const categoryA = a.category?.name || '';
+        const categoryB = b.category?.name || '';
+        comparison = categoryA.localeCompare(categoryB);
+      }
+
+      return sortDirection === 'asc' ? comparison : -comparison;
+    });
+  }
+}

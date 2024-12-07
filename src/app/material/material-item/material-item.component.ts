@@ -30,15 +30,18 @@ export class MaterialItemComponent {
       materialName: ['', [Validators.required]],
     });
   }
+
   ngOnInit(): void {
     if (this.materialId != 0)
       this.getMaterial(this.materialId);
   }
+
   removeFile(fileId: number): void {
     this.materialService.removeFile(this.material.id, fileId).subscribe(() => {
       this.getMaterial(this.material.id)
     })
   }
+  
   downloadFile(fileId: number): void {
     this.fileService.downloadFile(fileId).subscribe(blob => {
       const url = window.URL.createObjectURL(blob);
@@ -49,9 +52,11 @@ export class MaterialItemComponent {
       window.URL.revokeObjectURL(url);
     })
   }
+
   onFileUploaded(file: FileDto): void {
     this.material.files?.push(file)
   }
+
   getMaterial(materialId: number) {
     this.materialService.getMaterialWithFiles(materialId).subscribe(m => this.material = m.materialDto)
   }
@@ -62,6 +67,7 @@ export class MaterialItemComponent {
     },
     );
   }
+
   createMaterial(): void {
     if (this.materialForm.valid) {
       const materialName = this.materialForm.get('materialName')?.value;

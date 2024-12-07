@@ -31,7 +31,9 @@ export class SchoolingsListComponent implements OnInit {
   selectedCategory!: string;
   minPriority!: number;
   categories: CategoryDto[] = [];
-
+  sortBy: string = 'title'; 
+  sortDirection: string = 'asc'; 
+  
   constructor(
     private schoolingService: SchoolingService,
     private fileService: FileService,
@@ -79,6 +81,28 @@ export class SchoolingsListComponent implements OnInit {
       a.click()
       window.URL.revokeObjectURL(url)
     })
+  }
+  public sortSchoolings(): void {
+    this.fullschoolings.sort((a, b) => {
+      let comparison = 0;
+  
+      if (this.sortBy === 'title') {
+        comparison = a.schooling.title.localeCompare(b.schooling.title);
+      } else if (this.sortBy === 'priority') {
+        comparison = a.schooling.priority - b.schooling.priority;
+      } else if (this.sortBy === 'category') {
+        const categoryA = a.category?.name || '';
+        const categoryB = b.category?.name || '';
+        comparison = categoryA.localeCompare(categoryB);
+      }
+
+      return this.sortDirection === 'asc' ? comparison : -comparison;
+    });
+  }
+  
+  public sortSchoolingsDirection(): void {
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    this.sortSchoolings();
   }
 }
 

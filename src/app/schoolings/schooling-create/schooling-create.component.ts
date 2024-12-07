@@ -53,6 +53,7 @@ export class SchoolingCreateComponent {
       this.categories = response;
     });
   }
+  
   public submitForm(): void {
     let userId: string | undefined
     this.userService.getLoggedInUser().subscribe((user) => {

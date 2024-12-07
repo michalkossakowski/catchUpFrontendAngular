@@ -12,7 +12,7 @@
         <div class="row g-3 mb-3">
             <div class="col-md-6">
                 <label for="sortBy" class="form-label">Sort By:</label>
-                <select [(ngModel)]="sortBy" id="sortBy" class="form-select" (change)="sortSchoolings()">
+                <select [(ngModel)]="sortBy" id="sortBy" class="form-select">
                     <option value="title">Title</option>
                     <option value="priority">Priority</option>
                     <option value="category">Category</option>
@@ -42,7 +42,8 @@
     @for (fullschooling of fullschoolings 
     | schoolingFilter:filterValue 
     | priorityFilter:minPriority
-    | categoryFilter:selectedCategory ; 
+    | categoryFilter:selectedCategory
+    | sortSchoolings:sortBy:sortDirection;    ; 
         track fullschooling.schooling.id) {
     <div id="schooling-{{ fullschooling.schooling.id }}" class="card mt-3 shadow bg-body-tertiary rounded">
         <div class="card-body">

@@ -3,7 +3,7 @@ import { SchoolingService } from '../../services/schooling.service';
 import { FullSchoolingDto } from '../../Dtos/fullSchooling.dto';
 import { FileService } from '../../services/file.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CategoryFilterPipe, FilterSchoolingPipe, PriorityFilterPipe } from '../schoolingFilter.pipe';
+import { CategoryFilterPipe, FilterSchoolingPipe, PriorityFilterPipe, SortSchoolingsPipe } from '../schoolingFilter.pipe';
 import { CategoryService } from '../../services/category.service';
 import { CommonModule } from '@angular/common';
 import { CategoryDto } from '../../Dtos/category.dto';
@@ -19,7 +19,8 @@ import { EditSchoolingComponent } from '../edit-schooling/edit-schooling.compone
     PriorityFilterPipe,
     CategoryFilterPipe,
     CommonModule,
-    EditSchoolingComponent
+    EditSchoolingComponent,
+    SortSchoolingsPipe
   ],
   templateUrl: './schooling-list-mentor.component.html',
   styleUrl: './schooling-list-mentor.component.css'
@@ -93,7 +94,6 @@ export class SchoolingListMentorComponent implements OnInit {
     this.schoolingService.getAllSchoolings().subscribe(
       (response) => {
         this.fullschoolings = response.data;
-        this.sortSchoolings();
       },
       (error) => {
         this.error = 'Failed to load schoolings';
@@ -115,13 +115,11 @@ export class SchoolingListMentorComponent implements OnInit {
     if (schooling) {
       const index = this.fullschoolings.findIndex(existingSchooling => existingSchooling.schooling.id === schooling.schooling.id);
       this.fullschoolings[index] = schooling;
-      this.sortSchoolings();
     }
   }
   private addToFullSchoolings(schooling: FullSchoolingDto): void {
     if (schooling) {
       this.fullschoolings = [...this.fullschoolings, schooling];
-      this.sortSchoolings();
     }
   }
 
@@ -166,28 +164,9 @@ export class SchoolingListMentorComponent implements OnInit {
     if (schooling)
       this.editSchooling.openModal(schooling);
   }
-
-  public sortSchoolings(): void {
-    this.fullschoolings.sort((a, b) => {
-      let comparison = 0;
-  
-      if (this.sortBy === 'title') {
-        comparison = a.schooling.title.localeCompare(b.schooling.title);
-      } else if (this.sortBy === 'priority') {
-        comparison = a.schooling.priority - b.schooling.priority;
-      } else if (this.sortBy === 'category') {
-        const categoryA = a.category?.name || '';
-        const categoryB = b.category?.name || '';
-        comparison = categoryA.localeCompare(categoryB);
-      }
-
-      return this.sortDirection === 'asc' ? comparison : -comparison;
-    });
-  }
   
   public sortSchoolingsDirection(): void {
     this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-    this.sortSchoolings();
   }
   
   
