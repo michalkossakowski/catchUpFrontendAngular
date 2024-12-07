@@ -35,6 +35,8 @@ export class SchoolingListMentorComponent implements OnInit {
   userSchoolingsId: number[] = []
   isUserChoosen: boolean = false
   userId: string | null = null
+  sortBy: string = 'title'; 
+  sortDirection: string = 'asc'; 
 
   @ViewChild('editSchooling') editSchooling!: EditSchoolingComponent;
 
@@ -91,11 +93,12 @@ export class SchoolingListMentorComponent implements OnInit {
     this.schoolingService.getAllSchoolings().subscribe(
       (response) => {
         this.fullschoolings = response.data;
+        this.sortSchoolings();
       },
       (error) => {
-        this.error = 'Failed to load schoolings'
+        this.error = 'Failed to load schoolings';
       }
-    )
+    );
   }
 
   public downloadFile(fileId: number): void {
@@ -112,11 +115,13 @@ export class SchoolingListMentorComponent implements OnInit {
     if (schooling) {
       const index = this.fullschoolings.findIndex(existingSchooling => existingSchooling.schooling.id === schooling.schooling.id);
       this.fullschoolings[index] = schooling;
+      this.sortSchoolings();
     }
   }
   private addToFullSchoolings(schooling: FullSchoolingDto): void {
     if (schooling) {
-      this.fullschoolings = [...this.fullschoolings, schooling]
+      this.fullschoolings = [...this.fullschoolings, schooling];
+      this.sortSchoolings();
     }
   }
 
@@ -161,4 +166,29 @@ export class SchoolingListMentorComponent implements OnInit {
     if (schooling)
       this.editSchooling.openModal(schooling);
   }
+
+  public sortSchoolings(): void {
+    this.fullschoolings.sort((a, b) => {
+      let comparison = 0;
+  
+      if (this.sortBy === 'title') {
+        comparison = a.schooling.title.localeCompare(b.schooling.title);
+      } else if (this.sortBy === 'priority') {
+        comparison = a.schooling.priority - b.schooling.priority;
+      } else if (this.sortBy === 'category') {
+        const categoryA = a.category?.name || '';
+        const categoryB = b.category?.name || '';
+        comparison = categoryA.localeCompare(categoryB);
+      }
+
+      return this.sortDirection === 'asc' ? comparison : -comparison;
+    });
+  }
+  
+  public sortSchoolingsDirection(): void {
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    this.sortSchoolings();
+  }
+  
+  
 }
