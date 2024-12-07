@@ -43,18 +43,17 @@
     | categoryFilter:selectedCategory
     | sortSchoolings:sortBy:sortDirection;
     track fullschooling.schooling.id)
-        {
-            <div class="card shadow bg-body-tertiary rounded mb-3">
-                <div class="card-body">
-                    <h2 class="card-title fw-bold">{{ fullschooling.schooling.title }}</h2>
-                    <hr />
-                    <p class="card-text">{{ fullschooling.schooling.description }}</p>
-                    <p><strong>Category:</strong> {{ fullschooling.category?.name }}</p>
-                    <p class="fs-5"><span class="badge rounded-pill text-bg-secondary">Priority {{
-                            fullschooling.schooling.priority }}</span></p>
-                    <hr />
-                </div>
-            </div>
-        }
+    {
+    <div class="card shadow bg-body-tertiary rounded mb-3">
+        <div class="card-body">
+            <h2 class="card-title fw-bold">{{ fullschooling.schooling.title }}</h2>
+            <hr />
+            <p class="card-text">{{ fullschooling.schooling.description }}</p>
+            <p><strong>Category:</strong> {{ fullschooling.category?.name }}</p>
+            <p class="fs-5"><span class="badge rounded-pill text-bg-secondary">Priority {{fullschooling.schooling.priority }}</span></p>
+            <hr />
+        </div>
+    </div>
+    }
     }
 </div>

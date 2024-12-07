@@ -7,7 +7,6 @@ import { FullSchoolingDto } from '../Dtos/fullSchooling.dto';
 })
 
 export class FilterSchoolingPipe implements PipeTransform {
-
   transform(items: FullSchoolingDto[], ...args: string[]): any {
     const filterValue = args[0];
     if (!filterValue) {
@@ -18,12 +17,13 @@ export class FilterSchoolingPipe implements PipeTransform {
     });
     return filteredSchoolings;
   }
-
 }
+
 @Pipe({
   standalone: true,
   name: 'priorityFilter'
 })
+
 export class PriorityFilterPipe implements PipeTransform {
   transform(items: any[], minPriority: number): any[] {
     if (!items || minPriority === undefined) {
@@ -37,12 +37,12 @@ export class PriorityFilterPipe implements PipeTransform {
   standalone: true,
   name: 'categoryFilter'
 })
+
 export class CategoryFilterPipe implements PipeTransform {
   transform(items: any[], selectedCategory: string): any[] {
     if (!items || !selectedCategory) {
       return items;
     }
-
     return items.filter(item => item.category.id.toString() === selectedCategory);
   }
 }
@@ -59,10 +59,8 @@ export class SortSchoolingsPipe implements PipeTransform {
     sortDirection: string
   ): any[] {
     if (!schoolings || !sortBy) return schoolings;
-
     return schoolings.sort((a, b) => {
       let comparison = 0;
-
       if (sortBy === 'title') {
         comparison = a.schooling.title.localeCompare(b.schooling.title);
       } else if (sortBy === 'priority') {
@@ -72,7 +70,6 @@ export class SortSchoolingsPipe implements PipeTransform {
         const categoryB = b.category?.name || '';
         comparison = categoryA.localeCompare(categoryB);
       }
-
       return sortDirection === 'asc' ? comparison : -comparison;
     });
   }
