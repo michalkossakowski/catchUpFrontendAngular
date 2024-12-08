@@ -1,39 +1,49 @@
 <section class="container">
-  <div class="m-5 row">
-    <button 
-      type="button" 
-      class="btn btn-primary btn-lg btn-success"
-      (click)="toggleAddFeedback()">
-      Add feedback
-    </button>
-  </div>
-
-  @if(showAddFeedback){
-    <app-add-feedback 
-      (feedbackAdded)="onFeedbackAdded($event)"
-      (cancel)="toggleAddFeedback()">
-    </app-add-feedback>
-  }
-
   <div class="row">
     <div class="m-3 col">
-      <h2>Received Feedbacks</h2>
+      <h2>Feedbacks</h2>
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Sender</th>
+            @if(userRole === 'Newbie'){
+              <th scope="col">To</th>
+            }@else if (userRole === 'Mentor' || userRole === 'Admin') {
+              <th scope="col">From</th>
+            }
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Origin</th>
+            <th scope="col">Details</th>
+            @if(userRole === 'Newbie'){
+              <th scope="col">Edit</th>
+            }
+            <th scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
-          @for(feedback of feedbackList; track feedback){
+          @for(feedback of feedbackList; track feedback.id){
             <tr>
-              <td>{{ feedback.senderId }}</td>
-              <td>{{ feedback.title }}</td>
-              <td>{{ feedback.description }}</td>
-              <td>{{ feedback.origin }}</td>
+              @if(userRole === 'Newbie'){
+                <td>{{ feedback.receiverName || 'Unknown' }} {{ feedback.receiverSurname || '' }}</td>
+              }@else if (userRole === 'Mentor' || userRole === 'Admin') {
+                <td>{{ feedback.senderName || 'Unknown' }} {{ feedback.senderSurname || '' }}</td>
+              }
+              <td>{{ feedback?.title | truncate:20 }}</td>
+              <td>{{ feedback?.description | truncate:20 }}</td>
+              <td>{{ feedback.schoolingTitle || 'Unknown Schooling' }}</td>
+              <td>
+                <button class="btn btn-info" (click)="openDetailsModal(feedback)">See Details</button>
+              </td>
+              @if(userRole === 'Newbie'){
+                <td>
+                  <button class="btn btn-warning" (click)="openEditModal(feedback)">Edit</button>
+                </td>
+              }
+              <td>
+                @if(feedback.id){
+                  <button class="btn btn-danger" (click)="deleteFeedback(feedback.id)">Delete</button>
+                }
+              </td>
             </tr>
           }
         </tbody>

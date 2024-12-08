@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <h5 class="modal-title">Dodaj Feedback</h5>
+    <button type="button" class="btn-close" (click)="activeModal.close()"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="feedbackAddForm" (ngSubmit)="submitFeedback()">
+      <div class="mb-3">
+        <label for="receiverId" class="form-label">Receiver</label>
+        <select class="form-control" id="receiverId" formControlName="receiverId" required>
+          <option value="" disabled>Select Mentor</option>
+          <option *ngFor="let mentor of mentors" [value]="mentor.id">
+            {{ mentor.name }} {{ mentor.surname }}
+          </option>
+        </select>
+        @if(receiverId?.errors?.['required']){
+          <div class="text-danger">
+            Please select a mentor.
+          </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" formControlName="title" required>
+        @if(title?.errors?.['required']){
+          <div class="text-danger">
+            Please type title.
+          </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" formControlName="description" required></textarea>
+        @if(description?.errors?.['required']){
+          <div class="text-danger">
+            Please type description.
+          </div>
+        }
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!feedbackAddForm.valid">
+        {{ isEditMode ? 'Update Feedback' : 'Send Feedback' }}
+      </button>
+    </form>
+  </div>
+  

@@ -1,72 +1,90 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { FeedbackDto } from '../Dtos/feedback.dto';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { SchoolingDto } from '../Dtos/schooling.dto';
+import { FullSchoolingDto } from '../Dtos/fullSchooling.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FeedbackService {
 
-  private fakeFeedbacks: FeedbackDto[] = [
-    new FeedbackDto('sender1', 'receiver1', 'Feedback 1', 'Description 1', 'http://localhost:4200/material/1'),
-    new FeedbackDto('sender2', 'receiver1', 'Feedback 2', 'Description 2', 'http://localhost:4200/task/1'),
-  ];
+  private url = 'https://localhost:7097/api/Feedback/';
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getBySender(senderId: string): Observable<FeedbackDto[]> {
-    const feedbacks = this.fakeFeedbacks;
-    return of(feedbacks);
+    return this.http.get<FeedbackDto[]>(`${this.url}GetBySenderId/${senderId}`)
+      .pipe(
+        catchError(this.handleError<FeedbackDto[]>('GetBySender', []))
+      );
   }
 
-  getByReciver(reciverId: string): Observable<FeedbackDto[]> {
-    const feedbacks = this.fakeFeedbacks;
-    return of(feedbacks);
+  getByReceiver(receiverId: string): Observable<FeedbackDto[]> {
+    return this.http.get<FeedbackDto[]>(`${this.url}GetByReceiverId/${receiverId}`)
+      .pipe(
+        catchError(this.handleError<FeedbackDto[]>('GetByReceiver', []))
+      );
+  }
+
+  getById(feedbackId: number): Observable<FeedbackDto> {
+    return this.http.get<FeedbackDto>(`${this.url}GetById/${feedbackId}`)
+      .pipe(
+        catchError(this.handleError<FeedbackDto>('GetById'))
+      );
+  }
+
+  getAll(): Observable<FeedbackDto[]> {
+    return this.http.get<FeedbackDto[]>(`${this.url}GetAll`)
+      .pipe(
+        catchError(this.handleError<FeedbackDto[]>('GetAll', []))
+      );
   }
 
   add(feedback: FeedbackDto): Observable<FeedbackDto> {
-    this.fakeFeedbacks.push(feedback);
-    return of(feedback);
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.post<FeedbackDto>(`${this.url}Add`, feedback, httpOptions)
+      .pipe(
+        catchError(this.handleError<FeedbackDto>('Add'))
+      );
   }
 
+  edit(feedbackId: number, feedback: FeedbackDto): Observable<FeedbackDto> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.put<FeedbackDto>(`${this.url}Edit/${feedbackId}`, feedback, httpOptions)
+      .pipe(
+        catchError(this.handleError<FeedbackDto>('Edit'))
+      );
+  }
 
-  // private url = 'https://localhost:7097/api/Feedback/';
+  delete(feedbackId: number): Observable<void> {
+    return this.http.delete<void>(`${this.url}Delete/${feedbackId}`)
+      .pipe(
+        catchError(this.handleError<void>('Delete'))
+      );
+  }
 
-  // constructor(private http: HttpClient) { }
+  getSchoolingById(resourceId: number): Observable<FullSchoolingDto> {
+    return this.http.get<{message: string, fullSchoolingDto: FullSchoolingDto}>
+        (`https://localhost:7097/api/Schooling/GetFull/${resourceId}`)
+        .pipe(
+            map(response => response.fullSchoolingDto)
+        );
+  }
 
-  // getBySender(senderId: string): Observable<FeedbackDto[]> {
-  //   return this.http.get<FeedbackDto[]>(this.url+"GetBySender/"+senderId)
-  //     .pipe(
-  //       catchError(this.handleError<FeedbackDto[]>('GetBySender', []))
-  //     );
-  // }
-
-  // getByReciver(reciverId: string): Observable<FeedbackDto[]> {
-  //   return this.http.get<FeedbackDto[]>(this.url+"GetByReciver/"+reciverId)
-  //     .pipe(
-  //       catchError(this.handleError<FeedbackDto[]>('GetByReciver', []))
-  //     );
-  // }
-
-  // add(feedback: FeedbackDto): Observable<FeedbackDto> {
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  //   };
-  //   return this.http.post<FeedbackDto>(this.url + "Add", feedback)
-  //     .pipe(
-  //       catchError(this.handleError<FeedbackDto>('add'))
-  //     );
-  // }
-
-  // private handleError<T>(operation = 'operation', result?: T) {
-  //   return (error: any): Observable<T> => {
-  //     console.error(operation + ' failed' + error);
-  //     if(error.status == 0){
-  //       return throwError(() => new Error('API is not available'));
-  //     }
-  //     return throwError(() => new Error(error.error.message));
-  //   };
-  // }
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      if (error.status === 0) {
+        return throwError(() => new Error('API is not available'));
+      }
+      return throwError(() => new Error(error.error?.message || 'Unknown error'));
+    };
+  }
 }
