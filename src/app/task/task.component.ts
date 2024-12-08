@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { AddTaskComponent } from './add-edit-task/add-task.component';
 import { EditTaskComponent } from './add-edit-task/edit-task.component';
-import { GiveTaskComponent } from "../task/give-task/give-task.component";
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../services/task.service';
-import { TaskContentService } from '../services/task-content.service'; // Import TaskContentService
+import { TaskContentService } from '../services/task-content.service';
 import { TaskDto } from '../Dtos/task.dto';
 import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [CommonModule, AddTaskComponent, EditTaskComponent, GiveTaskComponent],
+  imports: [CommonModule, EditTaskComponent],
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.css']
 })
@@ -23,6 +21,7 @@ export class TaskComponent implements OnInit {
   error: string | null = null;
   showEditTask = false;
   createdTaskContents: any[] = [];
+  selectedTask: any | null = null;
 
   constructor(
     private taskService: TaskService,
@@ -34,8 +33,13 @@ export class TaskComponent implements OnInit {
     this.initializeUserData();
   }
 
-  toggleEditTask(): void {
-    this.showEditTask = !this.showEditTask;
+  closeEdit(): void {
+    this.showEditTask = false;
+  }
+
+  editTask(task: any): void {
+    this.selectedTask = task;
+    this.showEditTask = true;
   }
 
   private initializeUserData(): void {

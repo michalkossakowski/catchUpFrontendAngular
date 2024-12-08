@@ -15,6 +15,7 @@ import { NgForOf, NgIf } from "@angular/common";
 })
 export class EditTaskComponent implements OnInit {
     @Input() id: number = 17; // Default to 17 if no ID is passed, just for testing
+    @Input() task: any;
     taskForm: FormGroup;
     user: UserDto | undefined;
     categories: { id: number; name: string }[] = [];
@@ -36,11 +37,15 @@ export class EditTaskComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.userService.getLoggedInUser().subscribe((user) => {
-            this.user = user;
-            this.taskForm.patchValue({ creatorId: this.user?.id });
-        });
-
+        console.log('Task received in EditTaskComponent:', this.task);
+        if (this.task) {
+            this.taskForm.patchValue(this.task);
+        }else{
+            this.userService.getLoggedInUser().subscribe((user) => {
+                this.user = user;
+                this.taskForm.patchValue({ creatorId: this.user?.id });
+            });
+        }
         this.loadCategories();
     }
 
@@ -79,6 +84,16 @@ export class EditTaskComponent implements OnInit {
             });
         }
     }
+
+    // saveTask(): void {
+    //     if (this.taskForm.valid) {
+    //       const updatedTask = { ...this.task, ...this.taskForm.value };
+    //       this.taskService.editTaskContent(this.task.id, updatedTask).subscribe({
+    //         next: () => this.showToast('Task edited successfully!'),
+    //         error: () => this.showToast('Error editing task')
+    //       });
+    //     }
+    // }
 
     showToast(message: string): void {
         const toastElement = this.toast?.nativeElement;

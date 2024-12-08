@@ -1,13 +1,17 @@
 <div class="container mt-4">
-    <!-- Tasks for Newbie -->
     <div *ngIf="userRole === 'Newbie'">
       <h2>List of tasks</h2>
       <div class="row">
         <div *ngFor="let task of tasks" class="col-md-4 mb-4">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">{{ task.title }}</h5>
-              <p class="card-text">{{ task.description }}</p>
+                <h5 class="card-title">{{ task.title }}</h5>
+                <label class="card-text">Description:</label>
+                <p class="card-text">{{ task.description }}</p>
+                <label class="card-text">Category:</label>
+                <p class="card-text">{{ task.categoryId }}</p>
+                <label class="card-text">Material number:</label>
+                <p class="card-text">{{ task.materialsId }}</p>
             </div>
           </div>
         </div>
@@ -20,28 +24,50 @@
         <div *ngFor="let task of assignedTasks" class="col-md-4 mb-4">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">{{ task.title }}</h5>
-              <p class="card-text">{{ task.description }}</p>
-              <button class="btn btn-warning" >Edit Task</button>
+                <h5 class="card-title">{{ task.title }}</h5>
+                <label class="card-text">Description:</label>
+                <p class="card-text">{{ task.description }}</p>
+                <label class="card-text">Assigned Newbie:</label>
+                <p class="card-text">{{ task.newbieId }}</p>
             </div>
           </div>
         </div>
       </div>
   
       <h2>Created Task Content</h2>
-      <div *ngIf="createdTaskContents.length > 0" class="row">
-        <div *ngFor="let content of createdTaskContents" class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">{{ content.title }}</h5>
-              <p class="card-text">{{ content.description }}</p>
-            </div>
-          </div>
+      @if(createdTaskContents.length > 0){
+        <div class="row">
+            @for(content of createdTaskContents; track content.id){
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ content.title }}</h5>
+                        <label class="card-text">Description:</label>
+                        <p class="card-text">{{ content.description }}</p>
+                        <label class="card-text">Category:</label>
+                        <p class="card-text">{{ content.categoryId }}</p>
+                        <label class="card-text">Material number:</label>
+                        <p class="card-text">{{ content.materialsId }}</p>
+                        <button (click)="editTask(content)">Edit</button>
+                      </div>
+                    </div>
+                </div>
+            }
         </div>
-      </div>
-      <div *ngIf="createdTaskContents.length === 0">
-        <p>No created task content available.</p>
-      </div>
+      }
+      @if(createdTaskContents.length === 0){
+        <div>
+            <p>No created task content available.</p>
+        </div>
+      }
+      @if(selectedTask && showEditTask){
+        <div>
+            <app-edit-task 
+                [id]="selectedTask.id" 
+                (ngSubmit)="closeEdit()">
+            </app-edit-task>
+            <button (click)="closeEdit()">Cancel</button>
+        </div>
+      }
     </div>
 </div>
-  
