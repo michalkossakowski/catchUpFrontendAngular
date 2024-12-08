@@ -93,13 +93,15 @@ export class TaskComponent implements OnInit {
   }
 
   loadCreatedTaskContent(): void {
-    this.taskContentService.getByCreatorId(this.userId).subscribe({
-      next: (content) => {
-        this.createdTaskContents = content;
-      },
-      error: (err) => {
-        console.error('Error loading created task content:', err);
-      },
-    });
+    if (this.userRole === 'Mentor' || this.userRole === 'Admin') {
+      this.taskContentService.getByCreatorId(this.userId).subscribe({
+        next: (content) => {
+          this.createdTaskContents = content;
+        },
+        error: (err) => {
+          console.error('Error loading created task content:', err);
+        },
+      });
+    }
   }
 }

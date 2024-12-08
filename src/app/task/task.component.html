@@ -6,12 +6,15 @@
           <div class="card">
             <div class="card-body">
                 <h5 class="card-title">{{ task.title }}</h5>
+                <hr>
                 <label class="card-text">Description:</label>
                 <p class="card-text">{{ task.description }}</p>
                 <label class="card-text">Category:</label>
                 <p class="card-text">{{ task.categoryId }}</p>
                 <label class="card-text">Material number:</label>
                 <p class="card-text">{{ task.materialsId }}</p>
+                <label class="card-text">Mentor:</label>
+                <p class="card-text">{{ task.priority }}</p>
             </div>
           </div>
         </div>
@@ -25,6 +28,7 @@
           <div class="card">
             <div class="card-body">
                 <h5 class="card-title">{{ task.title }}</h5>
+                <hr>
                 <label class="card-text">Description:</label>
                 <p class="card-text">{{ task.description }}</p>
                 <label class="card-text">Assigned Newbie:</label>
@@ -42,6 +46,7 @@
                     <div class="card">
                       <div class="card-body">
                         <h5 class="card-title">{{ content.title }}</h5>
+                        <hr>
                         <label class="card-text">Description:</label>
                         <p class="card-text">{{ content.description }}</p>
                         <label class="card-text">Category:</label>
@@ -62,8 +67,12 @@
       }
       @if(selectedTask && showEditTask){
         <div>
+            <script>
+                console.log(selectedTask)
+            </script>
             <app-edit-task 
-                [id]="selectedTask.id" 
+                [task]="selectedTask" 
+                [id]="selectedTask.id"
                 (ngSubmit)="closeEdit()">
             </app-edit-task>
             <button (click)="closeEdit()">Cancel</button>

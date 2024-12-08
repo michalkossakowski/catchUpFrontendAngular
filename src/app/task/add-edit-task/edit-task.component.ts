@@ -87,6 +87,22 @@ export class EditTaskComponent implements OnInit {
 
     // saveTask(): void {
     //     if (this.taskForm.valid) {
+    //         const updatedTask = this.taskForm.value;
+    //         this.taskService.editTaskContent(this.task.id, updatedTask).subscribe({
+    //             next: (response) => {
+    //                 console.log('Task updated successfully:', response);
+    //                 alert('Task updated successfully');
+    //             },
+    //             error: (err) => {
+    //                 console.error('Error updating task:', err);
+    //                 alert('Failed to update task');
+    //             },
+    //         });
+    //     }
+    // }
+
+    // saveTask(): void {
+    //     if (this.taskForm.valid) {
     //       const updatedTask = { ...this.task, ...this.taskForm.value };
     //       this.taskService.editTaskContent(this.task.id, updatedTask).subscribe({
     //         next: () => this.showToast('Task edited successfully!'),
