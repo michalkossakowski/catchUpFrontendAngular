@@ -1,7 +1,7 @@
-import {Component, ViewChild, ElementRef, OnInit} from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import {NgForOf} from "@angular/common";
+import { NgForOf } from "@angular/common";
+import { TaskService } from "../../services/task.service";
 
 @Component({
     selector: 'give-task',
@@ -17,7 +17,7 @@ export class GiveTaskComponent implements OnInit {
 
     @ViewChild('toast', { static: false }) toast: ElementRef | undefined;
 
-    constructor(private fb: FormBuilder, private http: HttpClient) {
+    constructor(private fb: FormBuilder, private taskService: TaskService) {
         this.taskForm = this.fb.group({
             newbieId: ['', [Validators.required]],
             taskContentId: ['', [Validators.required, Validators.min(1)]],
@@ -35,8 +35,7 @@ export class GiveTaskComponent implements OnInit {
 
     giveTask(): void {
         if (this.taskForm.valid) {
-            const endpoint = 'https://localhost:7097/api/Task/AddTaskToUser'; // New API endpoint
-            this.http.post(endpoint, this.taskForm.value).subscribe({
+            this.taskService.assignTaskToUser(this.taskForm.value).subscribe({
                 next: response => {
                     console.log('Task given successfully:', response);
                     this.showToast('Task given successfully!');
@@ -50,8 +49,7 @@ export class GiveTaskComponent implements OnInit {
     }
 
     loadNewbies(): void {
-        const endpoint = 'https://localhost:7097/api/NewbieMentor/GetAllNewbies';
-        this.http.get<{ id: string; name: string; surname: string; }[]>(endpoint).subscribe({
+        this.taskService.getAllNewbies().subscribe({
             next: (newbies) => {
                 this.newbies = newbies;
             },
@@ -62,8 +60,7 @@ export class GiveTaskComponent implements OnInit {
     }
 
     loadTasks(): void {
-        const endpoint = 'https://localhost:7097/api/TaskContent/GetAll';
-        this.http.get<{ id: number; title: string; }[]>(endpoint).subscribe({
+        this.taskService.getAllTaskContents().subscribe({
             next: (tasks) => {
                 this.tasks = tasks;
             },

@@ -105,7 +105,6 @@ export class AuthService {
     }
 
     refreshTokens(): Observable<any> {
-        // Prevent multiple refresh attempts at the same time
         if (this.isRefreshing) {
             return new Observable();
         }

@@ -59,13 +59,12 @@
         </div>
 
         <!-- Materials -->
-        <label>(Optional) Additional Materials:</label>
+        <label>Additional Materials:</label>
         <div class="form-group">
             <ng-container *ngIf="taskForm.get('materialsId')?.value; else noMaterials">
                 <div class="materialBox">
                     <app-material-item
                             [materialId]="taskForm.get('materialsId')?.value"
-                            [showRemoveFile]="true"
                             [showDownloadFile]="true"
                             [showAddingFile]="true"
                     ></app-material-item>
