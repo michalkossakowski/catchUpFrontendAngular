@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TaskDto } from '../Dtos/task.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
   private baseUrl = 'https://localhost:7097/api';
+  private apiUrl = 'https://localhost:7097/api/task';
 
   constructor(private http: HttpClient) { }
 
@@ -54,5 +56,17 @@ export class TaskService {
     state: number;
   }): Observable<any> {
     return this.http.post(`${this.baseUrl}/Task/AddTaskToUser`, taskAssignment);
+  }
+
+  getAllFullTasksByNewbieId(newbieId: string): Observable<TaskDto[]> {
+    return this.http.get<TaskDto[]>(`${this.apiUrl}/GetAllFullTasksByNewbieId/${newbieId}`);
+  }
+
+  getAllTasks(): Observable<TaskDto[]> {
+    return this.http.get<TaskDto[]>(`${this.apiUrl}/GetAllTasks`);
+  }
+
+  getAssignedTasks(userId: string): Observable<TaskDto[]> {
+    return this.http.get<TaskDto[]>(`${this.apiUrl}/GetAllFullTasksByCreatorId/${userId}`);
   }
 }
