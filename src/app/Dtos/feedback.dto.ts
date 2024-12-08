@@ -1,22 +1,40 @@
 export class FeedbackDto {
     id?: number;
     senderId?: string;
-    reciverId?: string;
+    receiverId?: string;
     title?: string;
     description?: string;
-    origin?: string;
+    resourceType?: number;
+    resourceId?: number;
+    schoolingTitle?: string
+    senderName?: string;
+    senderSurname?: string;
+    receiverName?: string;
+    receiverSurname?: string;
 
     constructor(
         senderId: string,
-        reciverId: string,
+        receiverId: string,
         title: string,
         description: string,
-        origin: string
+        resourceType?: number,
+        resourceId?: number,
+        schoolingTitle?: string,
+        senderName?: string,
+        senderSurname?: string,
+        receiverName?: string,
+        receiverSurname?: string
     ){
         this.senderId = senderId;
-        this.reciverId = reciverId;
+        this.receiverId = receiverId;
         this.title = title;
         this.description = description;
-        this.origin = origin;
+        this.resourceType = resourceType;
+        this.resourceId = resourceId;
+        this.schoolingTitle = schoolingTitle;
+        this.senderName = senderName;
+        this.senderSurname = senderSurname;
+        this.receiverName = receiverName;
+        this.receiverSurname = receiverSurname;
     }
 }

@@ -1,10 +1,10 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { TaskService } from '../../services/task.service';
 import { UserService } from '../../services/user.service';
 import { UserDto } from "../../Dtos/user.dto";
 import { CommonModule } from '@angular/common';
-import {MaterialItemComponent} from "../../material/material-item/material-item.component";
+import { MaterialItemComponent } from "../../material/material-item/material-item.component";
 
 @Component({
     selector: 'add-task',
@@ -17,10 +17,15 @@ export class AddTaskComponent implements OnInit {
     taskForm: FormGroup;
     user: UserDto | undefined;
     categories: { id: number; name: string }[] = [];
+    materialId: number | null = null;
 
     @ViewChild('toast', { static: false }) toast: ElementRef | undefined;
 
-    constructor(private fb: FormBuilder, private http: HttpClient, private userService: UserService) {
+    constructor(
+        private fb: FormBuilder,
+        private taskService: TaskService,
+        private userService: UserService
+    ) {
         this.taskForm = this.fb.group({
             creatorId: ['', [Validators.required]],
             categoryId: ['', [Validators.required]],
@@ -40,18 +45,19 @@ export class AddTaskComponent implements OnInit {
     }
 
     onMaterialCreated(materialId: number): void {
+        this.materialId = materialId;
         this.taskForm.patchValue({ materialsId: materialId });
     }
 
     removeMaterials(): void {
         if (confirm("Are you sure you want to remove the additional material?")) {
-            this.taskForm.patchValue({ materialsId: null }); // Reset materialsId in the form
+            this.materialId = null;
+            this.taskForm.patchValue({ materialsId: null });
         }
     }
 
     loadCategories(): void {
-        const endpoint = 'https://localhost:7097/api/Category/GetAll';
-        this.http.get<{ id: number; name: string }[]>(endpoint).subscribe({
+        this.taskService.getAllCategories().subscribe({
             next: (categories) => {
                 this.categories = categories;
             },
@@ -63,8 +69,9 @@ export class AddTaskComponent implements OnInit {
 
     saveTask(): void {
         if (this.taskForm.valid) {
-            const endpoint = 'https://localhost:7097/api/TaskContent/Add';
-            this.http.post(endpoint, this.taskForm.value).subscribe({
+            const taskData = {...this.taskForm.value};
+
+            this.taskService.addTaskContent(taskData).subscribe({
                 next: (response) => {
                     console.log('Task added successfully:', response);
                     this.showToast('Task added successfully!');

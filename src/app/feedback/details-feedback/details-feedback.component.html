@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h4 class="modal-title">Feedback Details</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p class="text-wrap text-break"><strong>Title:</strong> {{ feedback.title }}</p>
+    <p class="text-wrap text-break"><strong>Description:</strong> {{ feedback.description }}</p>
+    <p><strong>Sender:</strong> {{ feedback.senderName || 'Unknown' }} {{ feedback.senderSurname || '' }}</p>
+    <p><strong>Receiver:</strong> {{ feedback.receiverName || 'Unknown' }} {{ feedback.receiverSurname || '' }}</p>
+    <p><strong>Schooling:</strong> {{ feedback.schoolingTitle || 'Unknown' }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close()">Close</button>
+  </div>
+  
