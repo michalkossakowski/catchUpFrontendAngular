@@ -31,7 +31,7 @@ export class AddTaskComponent implements OnInit {
             categoryId: ['', [Validators.required]],
             title: ['', [Validators.required, Validators.minLength(3)]],
             description: ['', [Validators.required, Validators.minLength(5)]],
-            materialsId: [null] // Keep this as optional
+            materialsId: [null]
         });
     }
 
@@ -69,13 +69,7 @@ export class AddTaskComponent implements OnInit {
 
     saveTask(): void {
         if (this.taskForm.valid) {
-            // Create a copy of the form value to potentially modify
             const taskData = {...this.taskForm.value};
-
-            // Only include materialsId if it's not null
-            if (this.materialId === null) {
-                delete taskData.materialsId;
-            }
 
             this.taskService.addTaskContent(taskData).subscribe({
                 next: (response) => {
