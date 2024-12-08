@@ -1,10 +1,10 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import {UserDto} from "../../Dtos/user.dto";
-import {UserService} from "../../services/user.service";
-import {MaterialItemComponent} from "../../material/material-item/material-item.component";
-import {NgForOf, NgIf} from "@angular/common";
+import { UserDto } from "../../Dtos/user.dto";
+import { UserService } from "../../services/user.service";
+import { TaskService } from "../../services/task.service";
+import { MaterialItemComponent } from "../../material/material-item/material-item.component";
+import { NgForOf, NgIf } from "@angular/common";
 
 @Component({
     selector: 'app-edit-task',
@@ -21,7 +21,11 @@ export class EditTaskComponent implements OnInit {
 
     @ViewChild('toast', { static: false }) toast: ElementRef | undefined;
 
-    constructor(private fb: FormBuilder, private http: HttpClient, private userService: UserService) {
+    constructor(
+        private fb: FormBuilder,
+        private userService: UserService,
+        private taskService: TaskService
+    ) {
         this.taskForm = this.fb.group({
             creatorId: ['', [Validators.required]],
             categoryId: ['', [Validators.required]],
@@ -51,8 +55,7 @@ export class EditTaskComponent implements OnInit {
     }
 
     loadCategories(): void {
-        const endpoint = 'https://localhost:7097/api/Category/GetAll';
-        this.http.get<{ id: number; name: string }[]>(endpoint).subscribe({
+        this.taskService.getAllCategories().subscribe({
             next: (categories) => {
                 this.categories = categories;
             },
@@ -64,11 +67,15 @@ export class EditTaskComponent implements OnInit {
 
     saveTask(): void {
         if (this.taskForm.valid) {
-            const endpoint = `https://localhost:7097/api/TaskContent/Edit/${this.id}`;
-
-            this.http.put(endpoint, this.taskForm.value).subscribe({
-                next: response => console.log('Task edited successfully:', response),
-                error: err => console.error('Error editing task:', err)
+            this.taskService.editTaskContent(this.id, this.taskForm.value).subscribe({
+                next: response => {
+                    console.log('Task edited successfully:', response);
+                    this.showToast('Task edited successfully!');
+                },
+                error: err => {
+                    console.error('Error editing task:', err);
+                    this.showToast('Error editing task');
+                }
             });
         }
     }
