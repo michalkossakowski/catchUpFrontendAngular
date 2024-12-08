@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core'
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core'
 import { SchoolingService } from '../../services/schooling.service'
 import { CategoryService } from '../../services/category.service'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
@@ -63,7 +63,7 @@ export class EditSchoolingComponent {
     if (this.schoolingEditForm.valid && this.fullSchooling) {
       const values = this.schoolingEditForm.value
       const editedSchooling = new SchoolingDto(
-        values.categoryId,
+        parseInt(values.categoryId),
         this.fullSchooling.schooling.creatorId,
         values.title,
         values.description,

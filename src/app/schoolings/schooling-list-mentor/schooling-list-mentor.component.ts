@@ -47,19 +47,13 @@ export class SchoolingListMentorComponent implements OnInit {
     }
   }
 
-  @Input() set changeSchooling(schooling: FullSchoolingDto | undefined) {
-    if (schooling) {
-      this.changeInFullSchoolings(schooling)
-    }
-  }
-
   @Input() set getUserSchoolings(userId: string | undefined) {
     if (userId) {
       this.userId = userId
       this.schoolingService.getUserSchoolingsID(userId).subscribe((response) =>
         this.userSchoolingsId = response.data
       )
-      this.isUserChoosen = true
+      this.isUserChoosen = true;
     }
     else {
       this.userId = null
@@ -113,6 +107,7 @@ export class SchoolingListMentorComponent implements OnInit {
   }
   public changeInFullSchoolings(schooling: FullSchoolingDto): void {
     if (schooling) {
+      console.log(schooling)
       const index = this.fullschoolings.findIndex(existingSchooling => existingSchooling.schooling.id === schooling.schooling.id);
       this.fullschoolings[index] = schooling;
     }
