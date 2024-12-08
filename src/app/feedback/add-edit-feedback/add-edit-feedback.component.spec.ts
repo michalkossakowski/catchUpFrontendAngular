@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddFeedbackComponent } from './add-feedback.component';
+import { AddEditFeedbackComponent } from './add-edit-feedback.component';
 
-describe('AddFeedbackComponent', () => {
-  let component: AddFeedbackComponent;
-  let fixture: ComponentFixture<AddFeedbackComponent>;
+describe('AddEditFeedbackComponent', () => {
+  let component: AddEditFeedbackComponent;
+  let fixture: ComponentFixture<AddEditFeedbackComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddFeedbackComponent]
+      imports: [AddEditFeedbackComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddFeedbackComponent);
+    fixture = TestBed.createComponent(AddEditFeedbackComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -8,6 +8,8 @@ import { CategoryDto } from '../../Dtos/category.dto';
 import { CategoryService } from '../../services/category.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import { AddEditFeedbackComponent } from '../../feedback/add-edit-feedback/add-edit-feedback.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-schooling-list',
@@ -36,7 +38,8 @@ export class SchoolingsListComponent implements OnInit {
     private schoolingService: SchoolingService,
     private fileService: FileService,
     private categoryService: CategoryService,
-    private userService: UserService
+    private userService: UserService,
+    private modalService: NgbModal
   ) {
     this.loadCategories()
     this.filterControl.valueChanges.subscribe({
@@ -79,6 +82,11 @@ export class SchoolingsListComponent implements OnInit {
       a.click()
       window.URL.revokeObjectURL(url)
     })
+  }
+
+  openFeedbackModal(schoolingId: number): void {
+    const modalRef = this.modalService.open(AddEditFeedbackComponent);
+    modalRef.componentInstance.schoolingId = schoolingId;
   }
 }
 
