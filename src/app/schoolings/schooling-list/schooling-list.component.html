@@ -2,35 +2,55 @@
     @if (error) {
     <div class="error col">{{ error }}</div>
     } @else {
-        <div class="filters">
-            <div class="input-group mb-3">
-                <span class="input-group-text">Search :</span>
-                <input [formControl]="filterControl" type="text" class="form-control" placeholder="Enter searching question...">
+    <div class="filters">
+        <div class="input-group mb-3 w-50">
+            <span class="input-group-text">Search :</span>
+            <input [formControl]="filterControl" type="text" class="form-control"
+                placeholder="Enter searching question...">
+        </div>
+        <div class="row g-3 mb-3">
+            <div class="col-md-4">
+                <label for="sortBy" class="form-label">Sort By:</label>
+                <select [(ngModel)]="sortBy" id="sortBy" class="form-select">
+                    <option value="title">Title</option>
+                    <option value="priority">Priority</option>
+                    <option value="category">Category</option>
+                </select>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                        (change)="sortSchoolingsDirection()">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Up / Down</label>
+                </div>
             </div>
-            <div class="row g-3 mb-3">
-                <div class="col-md-6">
-                    <label for="minPriority" class="form-label">Minimum Priority:</label>
-                    <input [(ngModel)]="minPriority" id="minPriority" type="number" class="form-control" min="0" placeholder="Enter minimum priority">
-                </div>
-                <div class="col-md-6">
-                    <label for="categoryFilter" class="form-label">Category:</label>
-                    <select [(ngModel)]="selectedCategory" id="categoryFilter" class="form-select">
-                        <option value="">All Categories</option>
-                        <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
-                    </select>
-                </div>
+            <div class="col-md-4">
+                <label for="categoryFilter" class="form-label">Category:</label>
+                <select [(ngModel)]="selectedCategory" id="categoryFilter" class="form-select">
+                    <option value="">All Categories</option>
+                    <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="minPriority" class="form-label">Minimum Priority:</label>
+                <input [(ngModel)]="minPriority" id="minPriority" type="number" class="form-control" min="0"
+                    placeholder="Enter minimum priority">
             </div>
         </div>
+    </div>
     <h1>List of Schoolings</h1>
-    @for (fullschooling of fullschoolings | schoolingFilter:filterValue | priorityFilter:minPriority | categoryFilter:selectedCategory ; track fullschooling.schooling.id) {
-    <div class="card shadow bg-body-tertiary rounded">
+    @for (fullschooling of fullschoolings
+    | schoolingFilter:filterValue
+    | priorityFilter:minPriority
+    | categoryFilter:selectedCategory
+    | sortSchoolings:sortBy:sortDirection;
+    track fullschooling.schooling.id)
+    {
+    <div class="card shadow bg-body-tertiary rounded mb-3">
         <div class="card-body">
             <h2 class="card-title fw-bold">{{ fullschooling.schooling.title }}</h2>
             <hr />
             <p class="card-text">{{ fullschooling.schooling.description }}</p>
             <p><strong>Category:</strong> {{ fullschooling.category?.name }}</p>
-            <p class="fs-5"><span class="badge rounded-pill text-bg-secondary">Priority {{
-                    fullschooling.schooling.priority }}</span></p>
+            <p class="fs-5"><span class="badge rounded-pill text-bg-secondary">Priority {{fullschooling.schooling.priority }}</span></p>
             <hr />
             <h3 class="fw-bolder mb-3 fw-bolder">Etapy:</h3>
             <ul class="list-group">

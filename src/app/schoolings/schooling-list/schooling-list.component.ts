@@ -3,7 +3,7 @@ import { SchoolingService } from '../../services/schooling.service';
 import { FullSchoolingDto } from '../../Dtos/fullSchooling.dto';
 import { FileService } from '../../services/file.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CategoryFilterPipe, FilterSchoolingPipe, PriorityFilterPipe } from '../schoolingFilter.pipe';
+import { CategoryFilterPipe, FilterSchoolingPipe, PriorityFilterPipe, SortSchoolingsPipe } from '../schoolingFilter.pipe';
 import { CategoryDto } from '../../Dtos/category.dto';
 import { CategoryService } from '../../services/category.service';
 import { CommonModule } from '@angular/common';
@@ -20,7 +20,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     PriorityFilterPipe,
     CategoryFilterPipe,
-    CommonModule
+    CommonModule,
+    SortSchoolingsPipe
   ],
   templateUrl: './schooling-list.component.html',
   styleUrl: './schooling-list.component.css'
@@ -33,7 +34,9 @@ export class SchoolingsListComponent implements OnInit {
   selectedCategory!: string;
   minPriority!: number;
   categories: CategoryDto[] = [];
-
+  sortBy: string = 'title'; 
+  sortDirection: string = 'asc'; 
+  
   constructor(
     private schoolingService: SchoolingService,
     private fileService: FileService,
@@ -73,6 +76,7 @@ export class SchoolingsListComponent implements OnInit {
         }
       )
   }
+
   downloadFile(fileId: number): void {
     this.fileService.downloadFile(fileId).subscribe(blob => {
       const url = window.URL.createObjectURL(blob)
@@ -87,6 +91,10 @@ export class SchoolingsListComponent implements OnInit {
   openFeedbackModal(schoolingId: number): void {
     const modalRef = this.modalService.open(AddEditFeedbackComponent);
     modalRef.componentInstance.schoolingId = schoolingId;
+  }
+  public sortSchoolingsDirection(): void {
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+
   }
 }
 

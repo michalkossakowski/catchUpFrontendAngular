@@ -3,7 +3,7 @@ import { SchoolingService } from '../../services/schooling.service';
 import { FullSchoolingDto } from '../../Dtos/fullSchooling.dto';
 import { FileService } from '../../services/file.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CategoryFilterPipe, FilterSchoolingPipe, PriorityFilterPipe } from '../schoolingFilter.pipe';
+import { CategoryFilterPipe, FilterSchoolingPipe, PriorityFilterPipe, SortSchoolingsPipe } from '../schoolingFilter.pipe';
 import { CategoryService } from '../../services/category.service';
 import { CommonModule } from '@angular/common';
 import { CategoryDto } from '../../Dtos/category.dto';
@@ -19,7 +19,8 @@ import { EditSchoolingComponent } from '../edit-schooling/edit-schooling.compone
     PriorityFilterPipe,
     CategoryFilterPipe,
     CommonModule,
-    EditSchoolingComponent
+    EditSchoolingComponent,
+    SortSchoolingsPipe
   ],
   templateUrl: './schooling-list-mentor.component.html',
   styleUrl: './schooling-list-mentor.component.css'
@@ -35,6 +36,8 @@ export class SchoolingListMentorComponent implements OnInit {
   userSchoolingsId: number[] = []
   isUserChoosen: boolean = false
   userId: string | null = null
+  sortBy: string = 'title'; 
+  sortDirection: string = 'asc'; 
 
   @ViewChild('editSchooling') editSchooling!: EditSchoolingComponent;
 
@@ -93,9 +96,9 @@ export class SchoolingListMentorComponent implements OnInit {
         this.fullschoolings = response.data;
       },
       (error) => {
-        this.error = 'Failed to load schoolings'
+        this.error = 'Failed to load schoolings';
       }
-    )
+    );
   }
 
   public downloadFile(fileId: number): void {
@@ -116,7 +119,7 @@ export class SchoolingListMentorComponent implements OnInit {
   }
   private addToFullSchoolings(schooling: FullSchoolingDto): void {
     if (schooling) {
-      this.fullschoolings = [...this.fullschoolings, schooling]
+      this.fullschoolings = [...this.fullschoolings, schooling];
     }
   }
 
@@ -161,4 +164,10 @@ export class SchoolingListMentorComponent implements OnInit {
     if (schooling)
       this.editSchooling.openModal(schooling);
   }
+  
+  public sortSchoolingsDirection(): void {
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+  }
+  
+  
 }
