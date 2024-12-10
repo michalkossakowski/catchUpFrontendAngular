@@ -28,11 +28,6 @@ export class FeedbackComponent implements OnInit {
     private modalService: NgbModal
   ) {}
 
-  truncateText(text: string | undefined, maxLength: number): string {
-    if (!text) return '';
-    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-  }
-
   private generateRandomDate(): Date {
     const year = new Date().getFullYear();
     const month = Math.floor(Math.random() * 12);
