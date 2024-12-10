@@ -11,6 +11,7 @@ export class FeedbackDto {
     senderSurname?: string;
     receiverName?: string;
     receiverSurname?: string;
+    createdDate?: Date;
 
     constructor(
         senderId: string,

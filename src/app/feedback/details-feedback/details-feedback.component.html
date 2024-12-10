@@ -8,6 +8,7 @@
     <p><strong>Sender:</strong> {{ feedback.senderName || 'Unknown' }} {{ feedback.senderSurname || '' }}</p>
     <p><strong>Receiver:</strong> {{ feedback.receiverName || 'Unknown' }} {{ feedback.receiverSurname || '' }}</p>
     <p><strong>Schooling:</strong> {{ feedback.schoolingTitle || 'Unknown' }}</p>
+    <p><strong>Date:</strong> {{ feedback.createdDate | date:'MMM dd, yyyy' }}</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="activeModal.close()">Close</button>

@@ -7,11 +7,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditFeedbackComponent } from './add-edit-feedback/add-edit-feedback.component';
 import { DetailsFeedbackComponent } from './details-feedback/details-feedback.component';
 import { TruncatePipe } from './truncate.pipe';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-feedback',
   standalone: true,
-  imports: [TruncatePipe],
+  imports: [TruncatePipe, CommonModule],
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.css']
 })
@@ -30,6 +31,13 @@ export class FeedbackComponent implements OnInit {
   truncateText(text: string | undefined, maxLength: number): string {
     if (!text) return '';
     return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+  }
+
+  private generateRandomDate(): Date {
+    const year = new Date().getFullYear();
+    const month = Math.floor(Math.random() * 12);
+    const day = Math.floor(Math.random() * 28) + 1;
+    return new Date(year, month, day);
   }
 
   openDetailsModal(feedback: FeedbackDto): void {
@@ -115,7 +123,10 @@ export class FeedbackComponent implements OnInit {
     if (this.userRole === 'Newbie') {
       this.feedbackService.getBySender(userId).subscribe({
         next: (feedbacks) => {
-          this.feedbackList = feedbacks;
+          this.feedbackList = feedbacks.map(feedback => ({
+            ...feedback,
+            createdDate: this.generateRandomDate(),
+          }));
           this.loadSchoolingTitles(feedbacks);
           this.loadUserDetails(feedbacks);
         },
@@ -126,7 +137,10 @@ export class FeedbackComponent implements OnInit {
     } else if (this.userRole === 'Mentor' || this.userRole === 'Admin') {
       this.feedbackService.getByReceiver(userId).subscribe({
         next: (feedbacks) => {
-          this.feedbackList = feedbacks;
+          this.feedbackList = feedbacks.map(feedback => ({
+            ...feedback,
+            createdDate: this.generateRandomDate(),
+          }));
           this.loadSchoolingTitles(feedbacks);
           this.loadUserDetails(feedbacks);
         },
@@ -136,6 +150,7 @@ export class FeedbackComponent implements OnInit {
       });
     }
   }
+  
 
   private loadSchoolingTitles(feedbacks: FeedbackDto[]): void {
     feedbacks.forEach(feedback => {
