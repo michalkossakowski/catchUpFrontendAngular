@@ -9,6 +9,8 @@ export class TaskDto {
     priority?: number;
     creatorId?: string;
     rate?: number;
+    newbieName?: string;
+    newbieSurname?: string;
 
     constructor(
         id?: number,

@@ -3,18 +3,25 @@
       <h2>List of tasks</h2>
       <div class="row">
         <div *ngFor="let task of tasks" class="col-md-4 mb-4">
-          <div class="card">
+          <div class="card shadow bg-body-tertiary rounded">
             <div class="card-body">
                 <h5 class="card-title">{{ task.title }}</h5>
                 <hr>
-                <label class="card-text">Description:</label>
+                <label class="card-text"><strong>Description:</strong></label>
                 <p class="card-text">{{ task.description }}</p>
-                <label class="card-text">Category:</label>
-                <p class="card-text">{{ task.categoryId }}</p>
-                <label class="card-text">Material number:</label>
-                <p class="card-text">{{ task.materialsId }}</p>
-                <label class="card-text">Mentor:</label>
+                <label class="card-text"><strong>Category:</strong></label>
+                <p class="card-text">{{ task.categoryName || task.categoryId }}</p>
+                <label class="card-text"><strong>Priority:</strong></label>
                 <p class="card-text">{{ task.priority }}</p>
+                <label class="card-text"><strong>Materials:</strong></label>
+                <div class="card-text" class="materialBox">
+                  <app-material-item
+                          [materialId]="task.materialsId"
+                          [showRemoveFile]="false"
+                          [showDownloadFile]="false"
+                          [showAddingFile]="false"
+                  ></app-material-item>
+                </div>
             </div>
           </div>
         </div>
@@ -25,35 +32,46 @@
       <h2>Assigned Tasks</h2>
       <div class="row">
         <div *ngFor="let task of assignedTasks" class="col-md-4 mb-4">
-          <div class="card">
+          <div class="card shadow bg-body-tertiary rounded">
             <div class="card-body">
                 <h5 class="card-title">{{ task.title }}</h5>
                 <hr>
-                <label class="card-text">Description:</label>
+                <label class="card-text"><strong>Description:</strong></label>
                 <p class="card-text">{{ task.description }}</p>
-                <label class="card-text">Assigned Newbie:</label>
-                <p class="card-text">{{ task.newbieId }}</p>
+                <label class="card-text"><strong>Assigned Newbie:</strong></label>
+                <p class="card-text">{{ task.newbieName }} {{ task.newbieSurname }}</p>
+                <label class="card-text"><strong>Status:</strong></label>
+                <p class="card-text">{{ task.status }}</p>
+                <label class="card-text"><strong>Priority:</strong></label>
+                <p class="card-text">{{ task.priority }}</p>
             </div>
           </div>
         </div>
       </div>
-  
+
       <h2>Created Task Content</h2>
       @if(createdTaskContents.length > 0){
         <div class="row">
             @for(content of createdTaskContents; track content.id){
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card shadow bg-body-tertiary rounded">
                       <div class="card-body">
                         <h5 class="card-title">{{ content.title }}</h5>
                         <hr>
-                        <label class="card-text">Description:</label>
+                        <label class="card-text"><strong>Description:</strong></label>
                         <p class="card-text">{{ content.description }}</p>
-                        <label class="card-text">Category:</label>
-                        <p class="card-text">{{ content.categoryId }}</p>
-                        <label class="card-text">Material number:</label>
-                        <p class="card-text">{{ content.materialsId }}</p>
-                        <button (click)="editTask(content)">Edit</button>
+                        <label class="card-text"><strong>Category:</strong></label>
+                        <p class="card-text">{{ content.categoryName || content.categoryId }}</p>
+                        <label><strong>Materials:</strong></label>
+                          <div class="materialBox">
+                              <app-material-item
+                                      [materialId]="content.materialsId"
+                                      [showRemoveFile]="false"
+                                      [showDownloadFile]="false"
+                                      [showAddingFile]="false"
+                              ></app-material-item>
+                          </div>
+                        <button class="btn btn-warning mt-3" (click)="editTask(content)">Edit</button>
                       </div>
                     </div>
                 </div>
@@ -71,9 +89,9 @@
                 console.log(selectedTask)
             </script>
             <app-edit-task 
-                [task]="selectedTask" 
                 [id]="selectedTask.id"
-                (ngSubmit)="closeEdit()">
+                [initialTask]="selectedTask" 
+                (taskEdited)="onTaskEdited()">
             </app-edit-task>
             <button (click)="closeEdit()">Cancel</button>
         </div>
