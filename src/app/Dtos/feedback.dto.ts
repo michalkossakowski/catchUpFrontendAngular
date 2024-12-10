@@ -24,7 +24,8 @@ export class FeedbackDto {
         senderName?: string,
         senderSurname?: string,
         receiverName?: string,
-        receiverSurname?: string
+        receiverSurname?: string,
+        createdDate?: Date
     ){
         this.senderId = senderId;
         this.receiverId = receiverId;
@@ -37,5 +38,6 @@ export class FeedbackDto {
         this.senderSurname = senderSurname;
         this.receiverName = receiverName;
         this.receiverSurname = receiverSurname;
+        this.createdDate = createdDate;
     }
 }

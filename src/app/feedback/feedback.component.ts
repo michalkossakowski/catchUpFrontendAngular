@@ -7,12 +7,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditFeedbackComponent } from './add-edit-feedback/add-edit-feedback.component';
 import { DetailsFeedbackComponent } from './details-feedback/details-feedback.component';
 import { TruncatePipe } from './truncate.pipe';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'app-feedback',
   standalone: true,
-  imports: [TruncatePipe, CommonModule],
+  imports: [CommonModule, TruncatePipe],
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.css']
 })
@@ -120,37 +120,41 @@ export class FeedbackComponent implements OnInit {
   }
 
   private loadFeedbacks(userId: string): void {
-    if (this.userRole === 'Newbie') {
-      this.feedbackService.getBySender(userId).subscribe({
-        next: (feedbacks) => {
-          this.feedbackList = feedbacks.map(feedback => ({
-            ...feedback,
-            createdDate: this.generateRandomDate(),
-          }));
-          this.loadSchoolingTitles(feedbacks);
-          this.loadUserDetails(feedbacks);
-        },
-        error: () => {
-          this.error = 'Failed to load feedbacks sent by user';
-        }
-      });
-    } else if (this.userRole === 'Mentor' || this.userRole === 'Admin') {
-      this.feedbackService.getByReceiver(userId).subscribe({
-        next: (feedbacks) => {
-          this.feedbackList = feedbacks.map(feedback => ({
-            ...feedback,
-            createdDate: this.generateRandomDate(),
-          }));
-          this.loadSchoolingTitles(feedbacks);
-          this.loadUserDetails(feedbacks);
-        },
-        error: () => {
-          this.error = 'Failed to load feedbacks received by user';
-        }
-      });
-    }
-  }
+  if (this.userRole === 'Newbie') {
+    this.feedbackService.getBySender(userId).subscribe({
+      next: (feedbacks) => {
+        const updatedFeedbacks = feedbacks.map(feedback => ({
+          ...feedback,
+          createdDate: this.generateRandomDate(),
+        }));
   
+        this.feedbackList = updatedFeedbacks;
+        this.loadSchoolingTitles(this.feedbackList);
+        this.loadUserDetails(this.feedbackList);
+      },
+      error: () => {
+        this.error = 'Failed to load feedbacks sent by user';
+      }
+    });
+  } else if (this.userRole === 'Mentor' || this.userRole === 'Admin') {
+    this.feedbackService.getByReceiver(userId).subscribe({
+      next: (feedbacks) => {
+        const updatedFeedbacks = feedbacks.map(feedback => ({
+          ...feedback,
+          createdDate: this.generateRandomDate(),
+        }));
+  
+        this.feedbackList = updatedFeedbacks;
+        this.loadSchoolingTitles(this.feedbackList);
+        this.loadUserDetails(this.feedbackList);
+      },
+      error: () => {
+        this.error = 'Failed to load feedbacks received by user';
+      }
+    });
+  }
+}
+
 
   private loadSchoolingTitles(feedbacks: FeedbackDto[]): void {
     feedbacks.forEach(feedback => {
