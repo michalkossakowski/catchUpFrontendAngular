@@ -1,11 +1,13 @@
 .validator {
-    color: #dc3545;
+    color: red;
     font-size: 16px;
     margin-top: 3px;
+    text-align: left;
 }
 
 .form-group{
     margin-top: 18px;
+    text-align: left;
 }
 
 .toast {
