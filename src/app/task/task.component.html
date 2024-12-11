@@ -66,7 +66,8 @@
                         <p class="card-text">{{ content.description }}</p>
                         <label class="card-text"><strong>Category:</strong></label>
                         <p class="card-text">{{ content.categoryName || content.categoryId }}</p>
-                        <label><strong>Materials:</strong></label>
+                        @if(content.materialsId !== undefined){
+                          <label><strong>Materials:</strong></label>
                           <div class="materialBox">
                               <app-material-item
                                 [materialId]="content.materialsId"
@@ -75,6 +76,7 @@
                                 [showAddingFile]="false"
                               ></app-material-item>
                           </div>
+                        }
                         <button class="btn btn-warning mt-3" (click)="editTask(content)">Edit</button>
                       </div>
                     </div>
