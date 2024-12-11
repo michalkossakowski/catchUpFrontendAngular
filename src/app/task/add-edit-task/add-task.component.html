@@ -58,8 +58,8 @@
         </div>
 
         <!-- Materials -->
-        <label>Additional Materials:</label>
         <div class="form-group">
+            <label>Additional Materials:</label>
             <ng-container *ngIf="taskForm.get('materialsId')?.value; else noMaterials">
                 <div class="materialBox">
                     <app-material-item
