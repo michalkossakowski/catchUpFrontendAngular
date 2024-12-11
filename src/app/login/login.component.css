@@ -4,7 +4,10 @@
     align-items: center;
     height: 100vh;
 }
-.error { color: red; }
+.error {
+    color: red;
+    margin-left: 8px;
+}
 
 .form-control {
     margin: 6px;
