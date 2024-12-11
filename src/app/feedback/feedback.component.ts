@@ -28,13 +28,6 @@ export class FeedbackComponent implements OnInit {
     private modalService: NgbModal
   ) {}
 
-  private generateRandomDate(): Date {
-    const year = new Date().getFullYear();
-    const month = Math.floor(Math.random() * 12);
-    const day = Math.floor(Math.random() * 28) + 1;
-    return new Date(year, month, day);
-  }
-
   openDetailsModal(feedback: FeedbackDto): void {
     const modalRef = this.modalService.open(DetailsFeedbackComponent);
     modalRef.componentInstance.feedback = feedback;
@@ -120,7 +113,6 @@ export class FeedbackComponent implements OnInit {
       next: (feedbacks) => {
         const updatedFeedbacks = feedbacks.map(feedback => ({
           ...feedback,
-          createdDate: this.generateRandomDate(),
         }));
   
         this.feedbackList = updatedFeedbacks;
@@ -136,7 +128,6 @@ export class FeedbackComponent implements OnInit {
       next: (feedbacks) => {
         const updatedFeedbacks = feedbacks.map(feedback => ({
           ...feedback,
-          createdDate: this.generateRandomDate(),
         }));
   
         this.feedbackList = updatedFeedbacks;
