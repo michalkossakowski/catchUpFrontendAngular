@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FeedbackDto } from '../../Dtos/feedback.dto';
 import { FeedbackService } from '../../services/feedback.service';
 import { UserService } from '../../services/user.service';
@@ -19,6 +19,8 @@ export class AddEditFeedbackComponent {
   @Input() feedbackToEdit: FeedbackDto | undefined = undefined;
   @Output() feedbackCreated = new EventEmitter<FeedbackDto>();
   @Output() feedbackUpdated = new EventEmitter<FeedbackDto>();
+
+  @ViewChild('toast', { static: false }) toast: ElementRef | undefined;
 
   public feedbackAddForm: FormGroup;
   public mentors: { id: string, name: string, surname: string }[] = [];
@@ -108,8 +110,10 @@ export class AddEditFeedbackComponent {
       } else {
         this.feedbackService.add(feedbackDto).subscribe({
           next: (response) => {
-            this.feedbackCreated.emit(response);
-            this.activeModal.close();
+            this.showToastAndEmit(() => {
+              this.feedbackCreated.emit(response);
+              this.activeModal.close();
+            }, 'Feedback added successfully!');
           },
           error: (error) => {
             console.error('Failed to create feedback', error);
@@ -129,5 +133,21 @@ export class AddEditFeedbackComponent {
 
   get receiverId() {
     return this.feedbackAddForm.get('receiverId');
+  }
+
+  private showToastAndEmit(emitCallback: () => void, message: string): void {
+    const toastElement = this.toast?.nativeElement;
+    const toastBody = toastElement.querySelector('.toast-body');
+    toastBody.textContent = message;
+  
+    toastElement.classList.add('show');
+  
+    setTimeout(() => {
+      toastElement.classList.remove('show');
+  
+      setTimeout(() => {
+        emitCallback();
+      }, 300);
+    }, 3000);
   }
 }
