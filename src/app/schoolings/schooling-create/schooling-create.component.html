@@ -5,18 +5,18 @@
         <input type="text" formControlName="title" class="form-control" />
         <span class="text-danger">
             @if(title?.errors?.['required']){
-                Title cannot be null
-              }
-        </span >
+            Title cannot be null
+            }
+        </span>
     </div>
     <div class="mb-3 form-floating">
-        <textarea formControlName="description"  class="form-control" style="height: 100px;"></textarea>
+        <textarea formControlName="description" class="form-control" style="height: 100px;"></textarea>
         <label class="form-label mb-3" for="description">Description</label>
         <span class="text-danger">
             @if(description?.errors?.['required']){
-                Description cannot be null
-              }
-        </span >
+            Description cannot be null
+            }
+        </span>
     </div>
     <div class="mb-3">
         <label class="form-label">Category</label>
@@ -28,31 +28,30 @@
         </select>
         <span class="text-danger">
             @if(categoryId?.errors?.['required']){
-                Category is required
-              }
-        </span >
+            Category is required
+            }
+        </span>
     </div>
     <div class="mb-3">
         <label class="form-label">Priority</label>
         <input type="number" formControlName="priority" class="form-control" min="0" />
         <span class="text-danger">
             @if(priority?.errors?.['required']){
-                Priority is required
+            Priority is required
             }
-        </span >
+        </span>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-
-    <div #toast class="toast" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto">schooling Status</strong>
-            <small>Just now</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        <div #toast class="toast" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">schooling Status</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Schooling added successfully!
+            </div>
         </div>
-        <div class="toast-body">
-            Schooling added successfully!
-        </div>
-    </div>
     </div>
 </form>
