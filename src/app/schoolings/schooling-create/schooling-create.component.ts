@@ -67,11 +67,18 @@ export class SchoolingCreateComponent {
         title: values.title,
         description: values.description,
         priority: values.priority
+        
       }
 
       if (this.schoolingCreateForm.valid) {
         this.schoolingService.createSchooling(schoolingDto).subscribe((response) => {
           this.schoolingCreated.emit(response.data);
+          this.schoolingCreateForm.reset({
+            title: '',
+            description: '',
+            categoryId: null,
+            priority: 0,
+          });
         });
       }
     } else {
