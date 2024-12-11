@@ -5,3 +5,20 @@
     height: 100vh;
 }
 .error { color: red; }
+
+.form-control {
+    margin: 6px;
+    justify-content: center;
+    display: flex;
+}
+
+.header{
+    justify-content: center;
+    display: flex;
+}
+
+.button{
+    justify-content: center;
+    display: flex;
+    margin: auto;
+}
