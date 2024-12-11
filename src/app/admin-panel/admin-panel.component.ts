@@ -6,12 +6,11 @@ import { UserDto } from '../Dtos/user.dto';
 import { UserService } from '../services/user.service';
 import {AddTaskComponent} from "../task/add-edit-task/add-task.component";
 import {GiveTaskComponent} from "../task/give-task/give-task.component";
-import {FeedbackComponent} from "../feedback/feedback.component";
 
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-    imports: [AddUserComponent, FormsModule, NgbDropdownModule, AddTaskComponent, GiveTaskComponent, FeedbackComponent],
+    imports: [AddUserComponent, FormsModule, NgbDropdownModule, AddTaskComponent, GiveTaskComponent],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.css'
 })
