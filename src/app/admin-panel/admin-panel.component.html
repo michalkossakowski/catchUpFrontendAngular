@@ -21,9 +21,6 @@
             @case("add-user"){
                 <app-add-user/>
             }
-            @case("feedbacks"){
-                <app-feedback/>
-            }
             @case("add-task"){
                 <add-task/>
             }
@@ -31,7 +28,7 @@
                 <give-task/>
             }
             @default {
-                <h2>Welcome {{user?.name}} {{user?.surname}}
+                <h2>Welcome in Admin Panel: {{user?.name}} {{user?.surname}}
                 </h2>
             }
         }

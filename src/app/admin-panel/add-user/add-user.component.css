@@ -3,6 +3,13 @@
     margin: 10px;
 }
 
+.sbm{
+    text-align: center;
+}
+h3{
+    text-align: center;
+}
+
 .validator{
     color: red;
     display: inline-block;
