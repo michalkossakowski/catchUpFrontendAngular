@@ -1,7 +1,104 @@
-<!-- task.component.html -->
-<p>task works!</p>
-<button (click)="toggleEditTask()">Edit Task</button>
+<div class="container mt-4">
+    @if(userRole === 'Newbie'){
+      <h2>List of tasks</h2>
+      <div class="row">
+        @for(task of tasks; track task.id){
+          <div class="col-md-4 mb-4">
+            <div class="card shadow bg-body-tertiary rounded">
+              <div class="card-body">
+                  <h5 class="card-title">{{ task.title }}</h5>
+                  <hr>
+                  <label class="card-text"><strong>Description:</strong></label>
+                  <p class="card-text">{{ task.description }}</p>
+                  <label class="card-text"><strong>Category:</strong></label>
+                  <p class="card-text">{{ task.categoryName || task.categoryId }}</p>
+                  <label class="card-text"><strong>Priority:</strong></label>
+                  <p class="card-text">{{ task.priority }}</p>
+                  <label class="card-text"><strong>Materials:</strong></label>
+                  <div class="card-text" class="materialBox">
+                    <app-material-item
+                      [materialId]="task.materialsId"
+                      [showRemoveFile]="false"
+                      [showDownloadFile]="false"
+                      [showAddingFile]="false"
+                    ></app-material-item>
+                  </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  
+    @if(userRole === 'Mentor' || userRole === 'Admin'){
+      <h2>Assigned Tasks</h2>
+      <div class="row">
+        @for(task of assignedTasks; track task.id){
+          <div class="col-md-4 mb-4">
+            <div class="card shadow bg-body-tertiary rounded">
+              <div class="card-body">
+                  <h5 class="card-title">{{ task.title }}</h5>
+                  <hr>
+                  <label class="card-text"><strong>Description:</strong></label>
+                  <p class="card-text">{{ task.description }}</p>
+                  <label class="card-text"><strong>Assigned Newbie:</strong></label>
+                  <p class="card-text">{{ task.newbieName }} {{ task.newbieSurname }}</p>
+                  <label class="card-text"><strong>Status:</strong></label>
+                  <p class="card-text">{{ task.status }}</p>
+                  <label class="card-text"><strong>Priority:</strong></label>
+                  <p class="card-text">{{ task.priority }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
 
-<div *ngIf="showEditTask">
-    <app-edit-task [id]="17"></app-edit-task>
+      <h2>Created Task Content</h2>
+      @if(createdTaskContents.length > 0){
+        <div class="row">
+            @for(content of createdTaskContents; track content.id){
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow bg-body-tertiary rounded">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ content.title }}</h5>
+                        <hr>
+                        <label class="card-text"><strong>Description:</strong></label>
+                        <p class="card-text">{{ content.description }}</p>
+                        <label class="card-text"><strong>Category:</strong></label>
+                        <p class="card-text">{{ content.categoryName || content.categoryId }}</p>
+                        <label><strong>Materials:</strong></label>
+                          <div class="materialBox">
+                              <app-material-item
+                                [materialId]="content.materialsId"
+                                [showRemoveFile]="false"
+                                [showDownloadFile]="false"
+                                [showAddingFile]="false"
+                              ></app-material-item>
+                          </div>
+                        <button class="btn btn-warning mt-3" (click)="editTask(content)">Edit</button>
+                      </div>
+                    </div>
+                </div>
+            }
+        </div>
+      }
+      @if(createdTaskContents.length === 0){
+        <div>
+            <p>No created task content available.</p>
+        </div>
+      }
+      @if(selectedTask && showEditTask){
+        <div>
+            <script>
+                console.log(selectedTask)
+            </script>
+            <app-edit-task 
+                [id]="selectedTask.id"
+                [initialTask]="selectedTask" 
+                (taskEdited)="onTaskEdited()">
+            </app-edit-task>
+            <button (click)="closeEdit()">Cancel</button>
+        </div>
+      }
+    }
 </div>

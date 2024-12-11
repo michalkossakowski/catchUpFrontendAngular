@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, Output, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UserDto } from "../../Dtos/user.dto";
 import { UserService } from "../../services/user.service";
@@ -15,6 +15,8 @@ import { NgForOf, NgIf } from "@angular/common";
 })
 export class EditTaskComponent implements OnInit {
     @Input() id: number = 17; // Default to 17 if no ID is passed, just for testing
+    @Input() initialTask: any;
+    @Output() taskEdited = new EventEmitter<void>();
     taskForm: FormGroup;
     user: UserDto | undefined;
     categories: { id: number; name: string }[] = [];
@@ -37,12 +39,22 @@ export class EditTaskComponent implements OnInit {
 
     ngOnInit(): void {
         this.userService.getLoggedInUser().subscribe((user) => {
-            this.user = user;
-            this.taskForm.patchValue({ creatorId: this.user?.id });
+          this.user = user;
+          this.taskForm.patchValue({ creatorId: this.user?.id });
+      
+          // If an initial task is passed, populate the form
+          if (this.initialTask) {
+            this.taskForm.patchValue({
+              categoryId: this.initialTask.categoryId,
+              title: this.initialTask.title,
+              description: this.initialTask.description,
+              materialsId: this.initialTask.materialsId
+            });
+          }
         });
-
+      
         this.loadCategories();
-    }
+      }
 
     onMaterialCreated(materialId: number): void {
         this.taskForm.patchValue({ materialsId: materialId });
@@ -71,6 +83,7 @@ export class EditTaskComponent implements OnInit {
                 next: response => {
                     console.log('Task edited successfully:', response);
                     this.showToast('Task edited successfully!');
+                    this.taskEdited.emit();
                 },
                 error: err => {
                     console.error('Error editing task:', err);

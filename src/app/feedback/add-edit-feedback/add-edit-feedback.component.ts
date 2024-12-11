@@ -40,8 +40,6 @@ export class AddEditFeedbackComponent {
 
   ngOnInit(): void {
     this.loadMentors();
-    
-    // Check if we're in edit mode
     if (this.feedbackToEdit) {
       this.isEditMode = true;
       this.initializeEditForm();
