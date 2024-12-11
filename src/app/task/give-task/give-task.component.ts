@@ -24,7 +24,7 @@ export class GiveTaskComponent implements OnInit {
             status: ['', [Validators.required]],
             deadline: ['', [Validators.required, Validators.min(0)]],
             priority: ['', [Validators.required, Validators.min(0)]],
-            state: ['', [Validators.required, Validators.min(0)]]
+            state: [0, [Validators.required, Validators.min(0)]]
         });
     }
 

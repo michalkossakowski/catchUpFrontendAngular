@@ -68,7 +68,6 @@
                             [showAddingFile]="true"
                     ></app-material-item>
                 </div>
-                <button type="button" class="btn btn-danger mt-2" (click)="removeMaterials()">Remove Materials</button>
             </ng-container>
             <ng-template #noMaterials>
                 <app-material-item (materialCreated)="onMaterialCreated($event)"></app-material-item>

@@ -60,12 +60,6 @@ export class EditTaskComponent implements OnInit {
         this.taskForm.patchValue({ materialsId: materialId });
     }
 
-    removeMaterials(): void {
-        if (confirm("Are you sure you want to remove the additional material?")) {
-            this.taskForm.patchValue({ materialsId: null }); // Reset materialsId in the form
-        }
-    }
-
     loadCategories(): void {
         this.taskService.getAllCategories().subscribe({
             next: (categories) => {

@@ -49,13 +49,6 @@ export class AddTaskComponent implements OnInit {
         this.taskForm.patchValue({ materialsId: materialId });
     }
 
-    removeMaterials(): void {
-        if (confirm("Are you sure you want to remove the additional material?")) {
-            this.materialId = null;
-            this.taskForm.patchValue({ materialsId: null });
-        }
-    }
-
     loadCategories(): void {
         this.taskService.getAllCategories().subscribe({
             next: (categories) => {
