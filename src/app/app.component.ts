@@ -38,8 +38,6 @@ export class AppComponent {
             });
           }
         }, 50)
-        console.log(this.user);
-
       } else {
         this.isAdmin = undefined;
       }

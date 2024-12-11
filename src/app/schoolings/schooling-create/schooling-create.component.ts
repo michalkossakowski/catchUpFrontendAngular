@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CategoryDto } from '../../Dtos/category.dto';
@@ -17,8 +17,9 @@ import { FullSchoolingDto } from '../../Dtos/fullSchooling.dto';
 })
 export class SchoolingCreateComponent {
   public schoolingCreateForm: FormGroup;
-  public categories: CategoryDto[] = [];
+  public categories: CategoryDto[] = []; 
   @Output() schoolingCreated = new EventEmitter<FullSchoolingDto>();
+  @ViewChild('toast', { static: false }) toast: ElementRef | undefined;
 
   constructor(
     private fb: FormBuilder,
@@ -79,10 +80,25 @@ export class SchoolingCreateComponent {
             categoryId: null,
             priority: 0,
           });
+          if(response.data.schooling.id)
+            this.showToast("Added schooling")
+          else
+            this.showToast("Error in adding schooling")
         });
       }
     } else {
-      console.warn('No logged user.');
+      this.showToast("User not logged")
     }
   }
+  showToast(message: string): void {
+    const toastElement = this.toast?.nativeElement;
+    const toastBody = toastElement.querySelector('.toast-body');
+    toastBody.textContent = message;
+
+    toastElement.classList.add('show');
+
+    setTimeout(() => {
+        toastElement.classList.remove('show');
+    }, 3000);
+}
 }
